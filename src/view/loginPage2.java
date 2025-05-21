@@ -44,17 +44,17 @@ public class loginPage2 extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(122, 106, 106));
 
-        jLabel1.setFont(new java.awt.Font("Gabriola", 1, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setText("Login Page");
 
-        jLabel2.setFont(new java.awt.Font("Javanese Text", 1, 14)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setText("Username");
 
-        jLabel3.setFont(new java.awt.Font("Javanese Text", 1, 14)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel3.setText("Password");
 
         loginbutton.setBackground(new java.awt.Color(144, 139, 135));
-        loginbutton.setFont(new java.awt.Font("Papyrus", 1, 14)); // NOI18N
+        loginbutton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         loginbutton.setText("Login");
         loginbutton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -63,7 +63,7 @@ public class loginPage2 extends javax.swing.JFrame {
         });
 
         cancelbutton.setBackground(new java.awt.Color(144, 139, 135));
-        cancelbutton.setFont(new java.awt.Font("Papyrus", 1, 14)); // NOI18N
+        cancelbutton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         cancelbutton.setText("Cancel");
         cancelbutton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -71,7 +71,7 @@ public class loginPage2 extends javax.swing.JFrame {
             }
         });
 
-        showpassword.setFont(new java.awt.Font("Papyrus", 1, 12)); // NOI18N
+        showpassword.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         showpassword.setText("Show password");
         showpassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -80,11 +80,11 @@ public class loginPage2 extends javax.swing.JFrame {
         });
 
         jButton1.setBackground(new java.awt.Color(255, 218, 214));
-        jButton1.setFont(new java.awt.Font("Papyrus", 1, 12)); // NOI18N
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton1.setText("Forgot password");
 
         jButton2.setBackground(new java.awt.Color(255, 218, 214));
-        jButton2.setFont(new java.awt.Font("Papyrus", 1, 12)); // NOI18N
+        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton2.setText("Change password");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -143,7 +143,7 @@ public class loginPage2 extends javax.swing.JFrame {
                             .addComponent(passwordkotext, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(showpassword)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
