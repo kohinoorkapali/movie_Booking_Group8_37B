@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseManager {
-    private static final String URL = "jdbc:mysql://localhost:3306/movie_db?useSSL=false&serverTimezone=UTC";
+    private static final String URL = "jdbc:mysql://localhost:3306/movie_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
     private static final String USER = "root";
     private static final String PASSWORD = "N9neplusone";
 
