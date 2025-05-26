@@ -12,7 +12,7 @@ import java.sql.*;
 public interface Database {
     Connection openConnection();
     void closeConnection(Connection conn);
-    ResultSet runQuesry(Connection conn,String query);
+    ResultSet runQuery(Connection conn,String query);
     int executeUpdate(Connection conn,String query);
 }
 

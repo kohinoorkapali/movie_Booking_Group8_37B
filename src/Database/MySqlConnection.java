@@ -53,7 +53,7 @@ public class MySqlConnection implements Database{
     }
 
     @Override
-    public ResultSet runQuesry(Connection conn, String query) {
+    public ResultSet runQuery(Connection conn, String query) {
     try{
         Statement stmp =conn.createStatement();
         ResultSet result =stmp.executeQuery(query);
