@@ -25,11 +25,11 @@ public class MySqlConnection implements Database{
            System.out.println("open connection called");
            System.out.println(connection);
            if(connection == null){
-               System.out.println("Database connection fail");
+               System.out.println("Database connection fail.");
                
            }
            else{
-               System.out.println("Databse connection success");
+               System.out.println("Databse connection success.");
            }
            return connection;
        }catch(Exception e){
