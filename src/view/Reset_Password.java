@@ -4,6 +4,8 @@
  */
 package view;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Kohinoor
@@ -54,13 +56,18 @@ public class Reset_Password extends javax.swing.JFrame {
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("New Email");
+        jLabel4.setText("New Password");
 
         new_password.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         new_password.setText("Enter new password");
         new_password.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 new_passwordFocusGained(evt);
+            }
+        });
+        new_password.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                new_passwordActionPerformed(evt);
             }
         });
 
@@ -127,8 +134,17 @@ if (new_password.getText().equals("Enter new password")){
     }//GEN-LAST:event_new_passwordFocusGained
 
     private void Confirm_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Confirm_btnActionPerformed
-        // TODO add your handling code here:
+  if (new_password.getText().isEmpty() || new_password.getText().equals("Enter new password")) {
+        JOptionPane.showMessageDialog(this, "Please enter your email.");
+        return;
+}
+ JOptionPane.showMessageDialog(this, "New password made successfully.");      // TODO add your handling code here:
     }//GEN-LAST:event_Confirm_btnActionPerformed
+
+    private void new_passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_new_passwordActionPerformed
+
+// TODO add your handling code here:
+    }//GEN-LAST:event_new_passwordActionPerformed
 
     /**
      * @param args the command line arguments

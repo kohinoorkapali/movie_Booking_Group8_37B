@@ -1,0 +1,78 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package Database;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.DriverManager;
+import java.sql.*;
+/**
+ *
+ * @author Kohinoor
+ */
+public class MySqlConnection implements Database{
+    
+    @Override
+    public Connection openConnection() {
+       try{
+           String username ="root";
+           String password="Nijisawa123%";
+           String database ="movie_practice";
+           Connection connection;
+           connection = DriverManager.getConnection(
+           "jdbc:mysql://127.0.0.1:3306/"+database,username,password);
+           System.out.println("open connection called");
+           System.out.println(connection);
+           if(connection == null){
+               System.out.println("Database connection fail");
+               
+           }
+           else{
+               System.out.println("Databse connection success");
+           }
+           return connection;
+       }catch(Exception e){
+           System.out.println(e);
+           return null;
+       }
+    }
+
+    
+    @Override
+    public void closeConnection(Connection conn) {
+     try{
+         if (conn != null&& !conn.isClosed()){
+             conn.close();
+             System.out.println("Connection close");
+         }
+     }   
+     catch(Exception e){
+         System.out.println(e);
+     }
+    }
+
+    @Override
+    public ResultSet runQuesry(Connection conn, String query) {
+    try{
+        Statement stmp =conn.createStatement();
+        ResultSet result =stmp.executeQuery(query);
+        return result;
+    }catch(Exception e){
+        System.out.println(e);
+        return null;
+    }
+    }
+
+    @Override
+    public int executeUpdate(Connection conn, String query) {
+        try{
+        Statement stmp =conn.createStatement();
+        int result =stmp.executeUpdate(query);
+        return result;
+    }catch(Exception e){
+        System.out.println(e);
+        return -1;
+    }
+    }
+}
