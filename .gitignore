@@ -1,7 +1,12 @@
+/build/
+/dist/
+/nbproject/
+/nbproject/private/
+/.properties*
+
 /JavaApplication2/nbproject/private/
 /Model/nbproject/private/
 /MyProfile/src/com/ishan/moviebooking/model/nbproject/private/
-
 /MyProfile/src/com/ishan/moviebooking/view/Frontend/nbproject/private/
 /MyProfile/src/com/ishan/moviebooking/view/Frontend/build/
 /MyProfile/src/com/ishan/moviebooking/controller/MovieController/nbproject/private/
