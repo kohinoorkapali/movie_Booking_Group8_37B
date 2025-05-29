@@ -5,12 +5,15 @@
 package view;
 import javax.swing.JOptionPane;
 
+import Controller.ForgotPass_controller;
+
 /**
  *
  * @author Kohinoor
  */
 public class Forgot_password extends javax.swing.JFrame {
 
+    
     /**
      * Creates new form Forgot_password
      */
@@ -113,19 +116,23 @@ public class Forgot_password extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void Confirm_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Confirm_btnActionPerformed
- String email = Email.getText();
-    // Check if the email exists in the database
-    if (!isEmailValid(email)) {
-        JOptionPane.showMessageDialog(this, "Email not found. Please try again.");
-        return;
-    }
-    if (Email.getText().isEmpty() || Email.getText().equals("Enter your email")) {
-        JOptionPane.showMessageDialog(this, "Please enter your email.");
-        return;
-    }
-this.dispose();
-Security_Questions obj =new Security_Questions();
-   obj.setVisible(true);          // TODO add your handling code here:
+String email = Email.getText().trim().toLowerCase();
+        
+        // Check if the email is valid
+        if (email.isEmpty() || email.equals("Enter your email")) {
+            JOptionPane.showMessageDialog(this, "Please enter your email.");
+            return;
+        }
+        // Check if the email exists in the database
+        if (!isEmailValid(email)) {
+            JOptionPane.showMessageDialog(this, "Email not found. Please try again.");
+            return;
+        }
+        // Proceed to the Security Questions page
+        this.dispose();
+        Security_Questions obj = new Security_Questions(email); // Pass the email to the constructor
+        obj.setVisible(true);
+                                  // TODO add your handling code here:
     }//GEN-LAST:event_Confirm_btnActionPerformed
 
     private void EmailFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_EmailFocusGained
@@ -135,14 +142,16 @@ if (Email.getText().equals("Enter your email")){
     }//GEN-LAST:event_EmailFocusGained
 
     private void EmailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_EmailFocusLost
-if     (Email.getText().isEmpty()){
-    Email.setText("Enter your email");     
-}        // TODO add your handling code here:
+        if (Email.getText().equals("Enter your email")) {
+            Email.setText("");     
+        }
     }//GEN-LAST:event_EmailFocusLost
 
     
     private boolean isEmailValid(String email){
-        return true;
+         ForgotPass_controller controller = new ForgotPass_controller();
+        return controller.checkEmailExists(email.trim().toLowerCase());
+        
     }
     /**
      * @param args the command line arguments
@@ -187,3 +196,4 @@ if     (Email.getText().isEmpty()){
     private javax.swing.JPanel jPanel3;
     // End of variables declaration//GEN-END:variables
 }
+

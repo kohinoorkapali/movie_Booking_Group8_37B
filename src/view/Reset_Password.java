@@ -12,9 +12,15 @@ import javax.swing.JOptionPane;
  */
 public class Reset_Password extends javax.swing.JFrame {
 
+    private String userEmail;
     /**
      * Creates new form Reset_Password
      */
+    public Reset_Password(String email) {
+    this.userEmail = email;
+    initComponents();
+}
+
     public Reset_Password() {
         initComponents();
     }
@@ -133,12 +139,19 @@ if (new_password.getText().equals("Enter new password")){
 }        // TODO add your handling code here:
     }//GEN-LAST:event_new_passwordFocusGained
 
-    private void Confirm_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Confirm_btnActionPerformed
-  if (new_password.getText().isEmpty() || new_password.getText().equals("Enter new password")) {
-        JOptionPane.showMessageDialog(this, "Please enter your email.");
+    private void Confirm_btnActionPerformed(java.awt.event.ActionEvent evt) {
+         String newPassword = new_password.getText().trim();
+    if (newPassword.isEmpty() || newPassword.equals("Enter new password")) {
+        JOptionPane.showMessageDialog(this, "Please enter a new password.");
         return;
-}
- JOptionPane.showMessageDialog(this, "New password made successfully.");      // TODO add your handling code here:
+    }
+
+    // TODO: Update password for userEmail in the database
+    // Example (pseudocode): updatePassword(userEmail, newPassword);
+
+    JOptionPane.showMessageDialog(this, "New password set successfully for: " + userEmail);
+    this.dispose(); // Close current frame
+// TODO add your handling code here:
     }//GEN-LAST:event_Confirm_btnActionPerformed
 
     private void new_passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_new_passwordActionPerformed
