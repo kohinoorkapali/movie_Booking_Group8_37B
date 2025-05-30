@@ -64,20 +64,21 @@ public class UserDao {
 
     public boolean resetPassword(String email, String newPassword) {
         Connection conn = db.openConnection();
-        if (conn == null) return false;
+    if (conn == null) return false;
 
-        String query = "UPDATE users SET password = ? WHERE email = ?";
-        try (PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setString(1, newPassword);
-            stmt.setString(2, email);
-            int rows = stmt.executeUpdate();
-            return rows > 0;
-        } catch (Exception e) {
-            System.out.println("Error resetting password: " + e.getMessage());
-            return false;
-        } finally {
-            db.closeConnection(conn);
-        }
+    String query = "UPDATE users SET passwoord = ? WHERE LOWER(email) = ?";
+    try (PreparedStatement stmt = conn.prepareStatement(query)) {
+        stmt.setString(1, newPassword);
+        stmt.setString(2, email.trim().toLowerCase());  // normalize email here
+        int rows = stmt.executeUpdate();
+        System.out.println("Rows updated: " + rows);  // for debugging
+        return rows > 0;
+    } catch (Exception e) {
+        System.out.println("Error resetting password: " + e.getMessage());
+        return false;
+    } finally {
+        db.closeConnection(conn);
+    }
     }
 
 

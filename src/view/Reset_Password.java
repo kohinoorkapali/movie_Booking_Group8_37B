@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package view;
-
+import Controller.ForgotPass_controller; 
 import javax.swing.JOptionPane;
 
 /**
@@ -12,17 +12,19 @@ import javax.swing.JOptionPane;
  */
 public class Reset_Password extends javax.swing.JFrame {
 
-    private String userEmail;
+    private String email;
+    private ForgotPass_controller forgotPassController; 
     /**
      * Creates new form Reset_Password
      */
     public Reset_Password(String email) {
-    this.userEmail = email;
-    initComponents();
+    this.email = email;
+        forgotPassController = new ForgotPass_controller(); // Initialize controller
+        initComponents();
 }
 
     public Reset_Password() {
-        initComponents();
+         throw new IllegalStateException("Email must be provided to reset password.");
     }
 
     /**
@@ -146,13 +148,20 @@ if (new_password.getText().equals("Enter new password")){
         return;
     }
 
-    // TODO: Update password for userEmail in the database
-    // Example (pseudocode): updatePassword(userEmail, newPassword);
 
-    JOptionPane.showMessageDialog(this, "New password set successfully for: " + userEmail);
-    this.dispose(); // Close current frame
-// TODO add your handling code here:
-    }//GEN-LAST:event_Confirm_btnActionPerformed
+
+    if (email == null || email.isEmpty()) {
+    JOptionPane.showMessageDialog(this, "Email is missing. Cannot reset password.");
+    return;
+}
+boolean success = forgotPassController.resetPassword(email, newPassword);
+    if(success) {
+        JOptionPane.showMessageDialog(this, "New password set successfully for: " + email);
+        this.dispose(); 
+    } else {
+        JOptionPane.showMessageDialog(this, "Failed to set new password. Please try again.");
+    }
+    }
 
     private void new_passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_new_passwordActionPerformed
 
