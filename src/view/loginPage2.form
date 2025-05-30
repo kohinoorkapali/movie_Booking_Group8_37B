@@ -158,6 +158,11 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="Usernamekotext">
+          <Events>
+            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="UsernamekotextFocusGained"/>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="UsernamekotextFocusLost"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="UsernamekotextActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="loginbutton">
           <Properties>
@@ -188,6 +193,11 @@
           </Events>
         </Component>
         <Component class="javax.swing.JPasswordField" name="passwordkotext">
+          <Events>
+            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="passwordkotextFocusGained"/>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="passwordkotextFocusLost"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="passwordkotextActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JCheckBox" name="showpassword">
           <Properties>

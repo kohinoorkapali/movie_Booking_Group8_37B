@@ -54,6 +54,20 @@ public class loginPage2 extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel3.setText("Password");
 
+        Usernamekotext.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                UsernamekotextFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                UsernamekotextFocusLost(evt);
+            }
+        });
+        Usernamekotext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                UsernamekotextActionPerformed(evt);
+            }
+        });
+
         loginbutton.setBackground(new java.awt.Color(144, 139, 135));
         loginbutton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         loginbutton.setText("Login");
@@ -69,6 +83,20 @@ public class loginPage2 extends javax.swing.JFrame {
         cancelbutton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancelbuttonActionPerformed(evt);
+            }
+        });
+
+        passwordkotext.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                passwordkotextFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                passwordkotextFocusLost(evt);
+            }
+        });
+        passwordkotext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passwordkotextActionPerformed(evt);
             }
         });
 
@@ -173,15 +201,6 @@ public class loginPage2 extends javax.swing.JFrame {
 
     private void loginbuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginbuttonActionPerformed
         // TODO add your handling code here:
-        if(Usernamekotext.getText().equals("")){
-            JOptionPane.showMessageDialog(null, "Please fillout the username.");
-        }
-        else if(passwordkotext.getText().equals("")){
-            JOptionPane.showMessageDialog(null, "Please fillout the password.");
-        }
-        else{
-            JOptionPane.showMessageDialog(null, "Wrong Username or password!!","Message",JOptionPane.ERROR_MESSAGE);
-        }
     }//GEN-LAST:event_loginbuttonActionPerformed
 
     private void showpasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showpasswordActionPerformed
@@ -198,6 +217,42 @@ public class loginPage2 extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_cancelbuttonActionPerformed
+
+    private void UsernamekotextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UsernamekotextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_UsernamekotextActionPerformed
+
+    private void passwordkotextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordkotextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_passwordkotextActionPerformed
+
+    private void UsernamekotextFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_UsernamekotextFocusGained
+        // TODO add your handling code here:
+        if(Usernamekotext.getText().equals("username")){
+            Usernamekotext.setText("");
+        }
+    }//GEN-LAST:event_UsernamekotextFocusGained
+
+    private void UsernamekotextFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_UsernamekotextFocusLost
+        // TODO add your handling code here:
+        if(Usernamekotext.getText().equals("")){
+            Usernamekotext.setText("username");
+        }
+    }//GEN-LAST:event_UsernamekotextFocusLost
+
+    private void passwordkotextFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passwordkotextFocusGained
+        // TODO add your handling code here:
+        if(new String(passwordkotext.getPassword()).equals("")){
+            passwordkotext.setText("password");
+        }
+    }//GEN-LAST:event_passwordkotextFocusGained
+
+    private void passwordkotextFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passwordkotextFocusLost
+        // TODO add your handling code here:
+        if(new String(passwordkotext.getPassword()).equals("")){
+            passwordkotext.setText("password");
+        }
+    }//GEN-LAST:event_passwordkotextFocusLost
 
     /**
      * @param args the command line arguments
