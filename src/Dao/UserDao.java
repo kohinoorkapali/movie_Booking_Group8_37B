@@ -44,11 +44,12 @@ public class UserDao {
         Connection conn = db.openConnection();
         if (conn == null) return false;
 
-        String query = "SELECT * FROM users WHERE email = ? AND answer1 = ? AND answer2 = ?";
+        String query = "SELECT * FROM security_questions WHERE LOWER(email) = ? AND LOWER(TRIM(answer1)) = ? AND LOWER(TRIM(answer2)) = ?";
         try (PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setString(1, email);
-            stmt.setString(2, ans1);
-            stmt.setString(3, ans2);
+            stmt.setString(1, email.trim().toLowerCase());
+            stmt.setString(2, ans1.trim().toLowerCase());
+            stmt.setString(3, ans2.trim().toLowerCase());
+
             ResultSet rs = stmt.executeQuery();
             boolean valid = rs.next();
             rs.close();

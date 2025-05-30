@@ -18,15 +18,15 @@ public class Security_Questions extends javax.swing.JFrame {
     /**
      * Creates new form ForgotPassword_sendCode
      */
-    private final String userEmail; // Store the user's email
+    private final String email; // Store the user's email
     // Constructor now accepts the email directly
     public Security_Questions(String email) {
-        this.userEmail = email; // Initialize the email
+        this.email = email; // Initialize the email
         initComponents();
     }
     public Security_Questions() {
-    this.userEmail = ""; // or throw new IllegalStateException("Email required");
-    initComponents();
+    throw new IllegalStateException("Email is required to access this form.");// or throw new IllegalStateException("Email required");
+
 }
 
     /**
@@ -145,22 +145,27 @@ public class Security_Questions extends javax.swing.JFrame {
     }
 
     private void handleSecurityQuestions() {
-        String answer1 = Ans1.getText();
-        String answer2 = Ans2.getText();
-        // Check if the answers are correct
-        if (checkAnswers(answer1, answer2)) {
-            // If valid, allow the user to reset their password
-            this.dispose();
-            Reset_Password resetPasswordFrame = new Reset_Password(userEmail); // Pass the email to Reset_Password
-            resetPasswordFrame.setVisible(true);
-        } else {
-            JOptionPane.showMessageDialog(this, "Incorrect answers. Please try again.");
-        }
+    String answer1 = Ans1.getText().trim().toLowerCase();
+    String answer2 = Ans2.getText().trim().toLowerCase();
+
+    if (answer1.isEmpty() || answer2.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Please answer both questions.");
+        return;
     }
+
+    if (checkAnswers(answer1, answer2)) {
+        this.dispose();
+        Reset_Password resetPasswordFrame = new Reset_Password(email);
+        resetPasswordFrame.setVisible(true);
+    } else {
+        JOptionPane.showMessageDialog(this, "Incorrect answers. Please try again.");
+    }
+}
+
     
   private boolean checkAnswers(String answer1, String answer2) {
         ForgotPass_controller controller = new ForgotPass_controller();
-        return controller.verifySecurityAnswers(userEmail, answer1, answer2); // Use the stored email
+        return controller.verifySecurityAnswers(email, answer1, answer2); // Use the stored email
     }
     /**
      * @param args the command line arguments
