@@ -60,6 +60,14 @@ public class SIgnUP extends javax.swing.JFrame {
 
         username.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         username.setText("username");
+        username.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                usernameFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                usernameFocusLost(evt);
+            }
+        });
         username.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 usernameActionPerformed(evt);
@@ -80,15 +88,44 @@ public class SIgnUP extends javax.swing.JFrame {
 
         email.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         email.setText("Enter your email");
+        email.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                emailFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                emailFocusLost(evt);
+            }
+        });
         email.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 emailActionPerformed(evt);
             }
         });
 
-        password.setText("jPasswordField1");
+        password.setText("password");
+        password.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                passwordFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                passwordFocusLost(evt);
+            }
+        });
 
-        cPassword.setText("jPasswordField1");
+        cPassword.setText("password");
+        cPassword.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                cPasswordFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                cPasswordFocusLost(evt);
+            }
+        });
+        cPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cPasswordActionPerformed(evt);
+            }
+        });
 
         jButton1.setBackground(new java.awt.Color(118, 86, 74));
         jButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -252,6 +289,73 @@ public class SIgnUP extends javax.swing.JFrame {
        }
 }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void usernameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_usernameFocusGained
+        // TODO add your handling code here:
+        if (username.getText().equals("username")) {
+            username.setText("");
+        }
+    }//GEN-LAST:event_usernameFocusGained
+
+    private void usernameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_usernameFocusLost
+        // TODO add your handling code here:
+        if(username.getText ().isEmpty()){
+            username.setText("username");
+        }
+    }//GEN-LAST:event_usernameFocusLost
+
+    private void emailFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_emailFocusGained
+        // TODO add your handling code here:
+        if (email.getText().equals("Enter your email")) {
+            email.setText("");
+        }
+        
+    }//GEN-LAST:event_emailFocusGained
+
+    private void emailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_emailFocusLost
+        // TODO add your handling code here:
+        if(email.getText ().isEmpty()){
+            email.setText("Enter your email");
+        }
+    }//GEN-LAST:event_emailFocusLost
+
+    private void passwordFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passwordFocusGained
+        // TODO add your handling code here:
+        String prw = new String(password.getPassword());
+        if (prw.equals("password")){
+            password.setText("");
+        }
+        
+    }//GEN-LAST:event_passwordFocusGained
+
+    private void passwordFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passwordFocusLost
+        // TODO add your handling code here:
+         String prw = new String(password.getPassword());
+        if (prw.isEmpty()){
+            password.setText("password");
+        }
+        
+    }//GEN-LAST:event_passwordFocusLost
+
+    private void cPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cPasswordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cPasswordActionPerformed
+
+    private void cPasswordFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cPasswordFocusGained
+        // TODO add your handling code here:
+         String prw = new String(cPassword.getPassword());
+        if (prw.equals("password")){
+            cPassword.setText("");
+        }
+    }//GEN-LAST:event_cPasswordFocusGained
+
+    private void cPasswordFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cPasswordFocusLost
+        // TODO add your handling code here:
+          String prw = new String(cPassword.getPassword());
+        if (prw.isEmpty()){
+            cPassword.setText("password");
+        }
+    }//GEN-LAST:event_cPasswordFocusLost
 
     /**
      * @param args the command line arguments
