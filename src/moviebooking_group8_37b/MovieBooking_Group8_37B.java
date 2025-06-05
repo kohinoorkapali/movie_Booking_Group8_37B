@@ -8,7 +8,7 @@ import Database.*;
 import Database.MySqlConnection;
 
 import Dao.loginpagedao;
-import controller.loginpageController;
+import Controller.loginpageController;
 import view.loginPage2;
 /**
  *
