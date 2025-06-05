@@ -41,6 +41,7 @@ public class loginPage2 extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(122, 106, 106));
 
@@ -52,6 +53,20 @@ public class loginPage2 extends javax.swing.JFrame {
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel3.setText("Password");
+
+        Usernamekotext.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                UsernamekotextFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                UsernamekotextFocusLost(evt);
+            }
+        });
+        Usernamekotext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                UsernamekotextActionPerformed(evt);
+            }
+        });
 
         loginbutton.setBackground(new java.awt.Color(144, 139, 135));
         loginbutton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -68,6 +83,20 @@ public class loginPage2 extends javax.swing.JFrame {
         cancelbutton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancelbuttonActionPerformed(evt);
+            }
+        });
+
+        passwordkotext.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                passwordkotextFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                passwordkotextFocusLost(evt);
+            }
+        });
+        passwordkotext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passwordkotextActionPerformed(evt);
             }
         });
 
@@ -104,15 +133,15 @@ public class loginPage2 extends javax.swing.JFrame {
                                     .addComponent(jLabel2)
                                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(26, 26, 26)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(Usernamekotext)
-                                    .addComponent(passwordkotext, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)))))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(passwordkotext, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(Usernamekotext, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jButton1)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(90, Short.MAX_VALUE)
+                .addContainerGap(88, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton2)
@@ -131,25 +160,24 @@ public class loginPage2 extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
+                .addGap(30, 30, 30)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Usernamekotext, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(passwordkotext, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(showpassword)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Usernamekotext, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(28, 28, 28)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(passwordkotext, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(showpassword)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(98, 98, 98))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(cancelbutton)
                             .addComponent(loginbutton))
@@ -168,22 +196,11 @@ public class loginPage2 extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void loginbuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginbuttonActionPerformed
         // TODO add your handling code here:
-        if(Usernamekotext.getText().equals("")){
-            JOptionPane.showMessageDialog(null, "Please fillout the username.");
-        }
-        else if(passwordkotext.getText().equals("")){
-            JOptionPane.showMessageDialog(null, "Please fillout the password.");
-        }
-        else if(Usernamekotext.getText().contains("Nitant")&& passwordkotext.getText().contains("Nitant123")){
-            JOptionPane.showMessageDialog(null, "Login Successful!!");
-        }
-        else{
-            JOptionPane.showMessageDialog(null, "Wrong Username or password!!","Message",JOptionPane.ERROR_MESSAGE);
-        }
     }//GEN-LAST:event_loginbuttonActionPerformed
 
     private void showpasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showpasswordActionPerformed
@@ -200,6 +217,42 @@ public class loginPage2 extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_cancelbuttonActionPerformed
+
+    private void UsernamekotextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UsernamekotextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_UsernamekotextActionPerformed
+
+    private void passwordkotextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordkotextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_passwordkotextActionPerformed
+
+    private void UsernamekotextFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_UsernamekotextFocusGained
+        // TODO add your handling code here:
+        if(Usernamekotext.getText().equals("username")){
+            Usernamekotext.setText("");
+        }
+    }//GEN-LAST:event_UsernamekotextFocusGained
+
+    private void UsernamekotextFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_UsernamekotextFocusLost
+        // TODO add your handling code here:
+        if(Usernamekotext.getText().equals("")){
+            Usernamekotext.setText("username");
+        }
+    }//GEN-LAST:event_UsernamekotextFocusLost
+
+    private void passwordkotextFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passwordkotextFocusGained
+        // TODO add your handling code here:
+        if(new String(passwordkotext.getPassword()).equals("password")){
+            passwordkotext.setText("");
+        }
+    }//GEN-LAST:event_passwordkotextFocusGained
+
+    private void passwordkotextFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passwordkotextFocusLost
+        // TODO add your handling code here:
+        if(new String(passwordkotext.getPassword()).equals("")){
+            passwordkotext.setText("password");
+        }
+    }//GEN-LAST:event_passwordkotextFocusLost
 
     /**
      * @param args the command line arguments
@@ -249,4 +302,18 @@ public class loginPage2 extends javax.swing.JFrame {
     private javax.swing.JPasswordField passwordkotext;
     private javax.swing.JCheckBox showpassword;
     // End of variables declaration//GEN-END:variables
+public javax.swing.JTextField getUsernameField() {
+    return Usernamekotext;
+}
+
+public javax.swing.JPasswordField getPasswordField() {
+    return passwordkotext;
+}   
+
+    
+public javax.swing.JButton getLoginButton() {
+    return loginbutton; 
+}
+
+    
 }
