@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package view;
-
+import Controller.ForgotPass_controller; 
 import javax.swing.JOptionPane;
 
 /**
@@ -12,11 +12,19 @@ import javax.swing.JOptionPane;
  */
 public class Reset_Password extends javax.swing.JFrame {
 
+    private String email;
+    private ForgotPass_controller forgotPassController; 
     /**
      * Creates new form Reset_Password
      */
-    public Reset_Password() {
+    public Reset_Password(String email) {
+    this.email = email;
+        forgotPassController = new ForgotPass_controller(); // Initialize controller
         initComponents();
+}
+
+    public Reset_Password() {
+         throw new IllegalStateException("Email must be provided to reset password.");
     }
 
     /**
@@ -133,13 +141,27 @@ if (new_password.getText().equals("Enter new password")){
 }        // TODO add your handling code here:
     }//GEN-LAST:event_new_passwordFocusGained
 
-    private void Confirm_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Confirm_btnActionPerformed
-  if (new_password.getText().isEmpty() || new_password.getText().equals("Enter new password")) {
-        JOptionPane.showMessageDialog(this, "Please enter your email.");
+    private void Confirm_btnActionPerformed(java.awt.event.ActionEvent evt) {
+         String newPassword = new_password.getText().trim();
+    if (newPassword.isEmpty() || newPassword.equals("Enter new password")) {
+        JOptionPane.showMessageDialog(this, "Please enter a new password.");
         return;
+    }
+
+
+
+    if (email == null || email.isEmpty()) {
+    JOptionPane.showMessageDialog(this, "Email is missing. Cannot reset password.");
+    return;
 }
- JOptionPane.showMessageDialog(this, "New password made successfully.");      // TODO add your handling code here:
-    }//GEN-LAST:event_Confirm_btnActionPerformed
+boolean success = forgotPassController.resetPassword(email, newPassword);
+    if(success) {
+        JOptionPane.showMessageDialog(this, "New password set successfully for: " + email);
+        this.dispose(); 
+    } else {
+        JOptionPane.showMessageDialog(this, "Failed to set new password. Please try again.");
+    }
+    }
 
     private void new_passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_new_passwordActionPerformed
 

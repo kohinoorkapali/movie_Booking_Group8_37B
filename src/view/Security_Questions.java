@@ -5,6 +5,8 @@
 package view;
 import javax.swing.JOptionPane;
 
+import Controller.ForgotPass_controller;
+
 
 
 /**
@@ -16,9 +18,16 @@ public class Security_Questions extends javax.swing.JFrame {
     /**
      * Creates new form ForgotPassword_sendCode
      */
-    public Security_Questions() {
+    private final String email; // Store the user's email
+    // Constructor now accepts the email directly
+    public Security_Questions(String email) {
+        this.email = email; // Initialize the email
         initComponents();
     }
+    public Security_Questions() {
+    throw new IllegalStateException("Email is required to access this form.");// or throw new IllegalStateException("Email required");
+
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -131,30 +140,32 @@ public class Security_Questions extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void Confirm_BTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Confirm_BTNActionPerformed
-handleSecurityQuestions();
-        this.dispose();
- Reset_Password obj =new Reset_Password();
-   obj.setVisible(true);           // TODO add your handling code here:
-    }//GEN-LAST:event_Confirm_BTNActionPerformed
+    private void Confirm_BTNActionPerformed(java.awt.event.ActionEvent evt) {
+            handleSecurityQuestions();// TODO add your handling code here:
+    }
 
     private void handleSecurityQuestions() {
-        String answer1 = Ans1.getText();
-        String answer2 = Ans2.getText();
-        // Check if the answers are correct
-        if (checkAnswers(answer1, answer2)) {
-            // If valid, allow the user to reset their password
-            this.dispose();
-            Reset_Password resetPasswordFrame = new Reset_Password();
-            resetPasswordFrame.setVisible(true);
-        } else {
-            JOptionPane.showMessageDialog(this, "Incorrect answers. Please try again.");
-        }
+    String answer1 = Ans1.getText().trim().toLowerCase();
+    String answer2 = Ans2.getText().trim().toLowerCase();
+
+    if (answer1.isEmpty() || answer2.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Please answer both questions.");
+        return;
     }
+
+    if (checkAnswers(answer1, answer2)) {
+        this.dispose();
+        Reset_Password resetPasswordFrame = new Reset_Password(email);
+        resetPasswordFrame.setVisible(true);
+    } else {
+        JOptionPane.showMessageDialog(this, "Incorrect answers. Please try again.");
+    }
+}
+
     
-    private boolean checkAnswers(String answer1, String answer2) {
-        // Implement your logic to check the answers against the database
-        return true; // Placeholder
+  private boolean checkAnswers(String answer1, String answer2) {
+        ForgotPass_controller controller = new ForgotPass_controller();
+        return controller.verifySecurityAnswers(email, answer1, answer2); // Use the stored email
     }
     /**
      * @param args the command line arguments
