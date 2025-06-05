@@ -4,10 +4,9 @@
  */
 package view;
 
-import javax.swing.JButton;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
-
+import Dao.UserDa;
+import Model.SignUp1;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -48,14 +47,15 @@ public class SIgnUP extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         email = new javax.swing.JTextField();
         password = new javax.swing.JPasswordField();
-        confirmPassword = new javax.swing.JPasswordField();
-        signUpBtn = new javax.swing.JButton();
+        cPassword = new javax.swing.JPasswordField();
+        jButton1 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 51, 51));
+        setResizable(false);
 
         jPanel2.setBackground(new java.awt.Color(122, 106, 106));
 
@@ -68,6 +68,14 @@ public class SIgnUP extends javax.swing.JFrame {
 
         username.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         username.setText("username");
+        username.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                usernameFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                usernameFocusLost(evt);
+            }
+        });
         username.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 usernameActionPerformed(evt);
@@ -88,15 +96,44 @@ public class SIgnUP extends javax.swing.JFrame {
 
         email.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         email.setText("Enter your email");
+        email.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                emailFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                emailFocusLost(evt);
+            }
+        });
         email.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 emailActionPerformed(evt);
             }
         });
 
-        password.setText("jPasswordField1");
+        password.setText("password");
+        password.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                passwordFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                passwordFocusLost(evt);
+            }
+        });
 
-        confirmPassword.setText("jPasswordField1");
+        cPassword.setText("password");
+        cPassword.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                cPasswordFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                cPasswordFocusLost(evt);
+            }
+        });
+        cPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cPasswordActionPerformed(evt);
+            }
+        });
 
         signUpBtn.setBackground(new java.awt.Color(118, 86, 74));
         signUpBtn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -105,6 +142,11 @@ public class SIgnUP extends javax.swing.JFrame {
         signUpBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 signUpBtnMouseClicked(evt);
+            }
+        });
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -139,7 +181,7 @@ public class SIgnUP extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(confirmPassword))
+                                .addComponent(cPassword))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -183,7 +225,7 @@ public class SIgnUP extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(confirmPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29)
                 .addComponent(signUpBtn)
                 .addGap(18, 18, 18)
@@ -211,14 +253,21 @@ public class SIgnUP extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    public SIgnUP(Security securityPage) {
-        initComponents();
-        // assign current instance to signUp
-        this.securityPage = securityPage; // Proper assignment here
-        //AddUserListener listener = new AddUserListener(this, this.securityPage);
-        //signUpBtn.addActionListener(listener);
+    private void usernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_usernameActionPerformed
+
+    private void emailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_emailActionPerformed
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        // TODO add your handling code here:
+        new Security().setVisible(true);
+        this.dispose();
         
     }
      public JTextField getEmailField() {
@@ -237,25 +286,100 @@ public class SIgnUP extends javax.swing.JFrame {
         return signUpBtn;
     }
 
-
-
-
-    private void usernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_usernameActionPerformed
-
-    private void emailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_emailActionPerformed
-
-    private void signUpBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_signUpBtnMouseClicked
-        // TODO add your handling code here:DE
+        UserDa dao = new UserDa();
         
-      securityPage.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_signUpBtnMouseClicked
+        
+        String emailText = email.getText();
+        String nameText = username.getText();
+        String passwordText = new String(password.getPassword());
+        String retypeText = new String(cPassword.getPassword());
 
-    
+        if (emailText.isEmpty() || nameText.isEmpty() ||passwordText.isEmpty() || retypeText.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Please fill all the fields");
+        } else if (!passwordText.equals(retypeText)) {
+            JOptionPane.showMessageDialog(null, "Passwords do not match");
+        } else if (dao.emailExists(emailText)) {
+            JOptionPane.showMessageDialog(null, "This email is already registered.");
+        } else {
+            SignUp1 newUser = new SignUp1(emailText, nameText, passwordText);
+            boolean success = dao.signUp(newUser);
+            if (success) {
+                JOptionPane.showMessageDialog(null, "Account created successfully");
+            } else {
+                JOptionPane.showMessageDialog(null, "Failed to create account. Please try again.");
+       }
+}
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void usernameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_usernameFocusGained
+        // TODO add your handling code here:
+        if (username.getText().equals("username")) {
+            username.setText("");
+        }
+    }//GEN-LAST:event_usernameFocusGained
+
+    private void usernameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_usernameFocusLost
+        // TODO add your handling code here:
+        if(username.getText ().isEmpty()){
+            username.setText("username");
+        }
+    }//GEN-LAST:event_usernameFocusLost
+
+    private void emailFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_emailFocusGained
+        // TODO add your handling code here:
+        if (email.getText().equals("Enter your email")) {
+            email.setText("");
+        }
+        
+    }//GEN-LAST:event_emailFocusGained
+
+    private void emailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_emailFocusLost
+        // TODO add your handling code here:
+        if(email.getText ().isEmpty()){
+            email.setText("Enter your email");
+        }
+    }//GEN-LAST:event_emailFocusLost
+
+    private void passwordFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passwordFocusGained
+        // TODO add your handling code here:
+        String prw = new String(password.getPassword());
+        if (prw.equals("password")){
+            password.setText("");
+        }
+        
+    }//GEN-LAST:event_passwordFocusGained
+
+    private void passwordFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passwordFocusLost
+        // TODO add your handling code here:
+         String prw = new String(password.getPassword());
+        if (prw.isEmpty()){
+            password.setText("password");
+        }
+        
+    }//GEN-LAST:event_passwordFocusLost
+
+    private void cPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cPasswordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cPasswordActionPerformed
+
+    private void cPasswordFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cPasswordFocusGained
+        // TODO add your handling code here:
+         String prw = new String(cPassword.getPassword());
+        if (prw.equals("password")){
+            cPassword.setText("");
+        }
+    }//GEN-LAST:event_cPasswordFocusGained
+
+    private void cPasswordFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cPasswordFocusLost
+        // TODO add your handling code here:
+          String prw = new String(cPassword.getPassword());
+        if (prw.isEmpty()){
+            cPassword.setText("password");
+        }
+    }//GEN-LAST:event_cPasswordFocusLost
+
     /**
      * @param args the command line arguments
      */
@@ -293,8 +417,9 @@ public class SIgnUP extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPasswordField confirmPassword;
+    private javax.swing.JPasswordField cPassword;
     private javax.swing.JTextField email;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -305,7 +430,6 @@ public class SIgnUP extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPasswordField password;
-    private javax.swing.JButton signUpBtn;
     private javax.swing.JTextField username;
     // End of variables declaration//GEN-END:variables
 }
