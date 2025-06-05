@@ -14,20 +14,12 @@ import javax.swing.JOptionPane;
  */
 public class SIgnUP extends javax.swing.JFrame {
 
-    private Security securityPage;
-   
     /**
      * Creates new form SIgnUP
      */
     public SIgnUP() {
         initComponents();
-        // assign current instance to signUp
-        
     }
-
-    // In SIgnUP.java (your GUI view class)
-
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -135,13 +127,13 @@ public class SIgnUP extends javax.swing.JFrame {
             }
         });
 
-        signUpBtn.setBackground(new java.awt.Color(118, 86, 74));
-        signUpBtn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        signUpBtn.setForeground(new java.awt.Color(255, 255, 255));
-        signUpBtn.setText("Sign up");
-        signUpBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+        jButton1.setBackground(new java.awt.Color(118, 86, 74));
+        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setText("Sign up");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                signUpBtnMouseClicked(evt);
+                jButton1MouseClicked(evt);
             }
         });
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -194,7 +186,7 @@ public class SIgnUP extends javax.swing.JFrame {
                         .addGap(255, 255, 255)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(signUpBtn)))
+                            .addComponent(jButton1)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(214, 214, 214)
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -227,7 +219,7 @@ public class SIgnUP extends javax.swing.JFrame {
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29)
-                .addComponent(signUpBtn)
+                .addComponent(jButton1)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel6)
                 .addGap(15, 15, 15)
@@ -269,22 +261,7 @@ public class SIgnUP extends javax.swing.JFrame {
         new Security().setVisible(true);
         this.dispose();
         
-    }
-     public JTextField getEmailField() {
-        return email;
-    }
-    public JTextField getUsernameField() {
-        return username;
-    }
-    public JPasswordField getPasswordField() {
-        return password;
-    }
-    public JPasswordField getConfirmPasswordField() {
-        return confirmPassword;
-    }
-    public JButton getSignUpButton() {
-        return signUpBtn;
-    }
+    }//GEN-LAST:event_jButton1MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
