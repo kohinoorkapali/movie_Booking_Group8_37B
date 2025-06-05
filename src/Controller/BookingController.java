@@ -8,6 +8,7 @@ package Controller;
  *
  * @author LOQ
  */
-public class PaymentMethod {
+public class BookingController {
+  
     
 }
