@@ -3,3 +3,6 @@
 /nbproject/
 /nbproject/private/
 .properties*
+
+/nbproject/*
+/nbproject/project.properties
