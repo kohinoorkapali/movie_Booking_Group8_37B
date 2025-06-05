@@ -24,7 +24,7 @@ public class MySqlConnection implements Database {
            String database = "user";
            Connection connection;
            connection =DriverManager.getConnection(
-                "jdbc:mysql://127.0.0.1:3306/" + database,username,password
+                "jdbc:mysql://127.0.0.1:3306/?user=root" + database,username,password
            );
            if(connection == null){
                System.out.println("Database connection fail");

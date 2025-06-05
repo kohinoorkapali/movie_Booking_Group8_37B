@@ -18,13 +18,12 @@ public class MovieBooking_Group8_37B {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        Database db = new MySqlConnection();
-        if (db.openConnection() != null){
-            System.out.println("Database connected successfully");
-        
-        }else{
-            System.out.println("Failed to connect to database");
-        }
+       Database db = new MySqlConnection();
+       if (db.openConnection() != null){
+           System.out.println("connected ");
+       }else{
+           System.out.println("not connected ");
+       }
     }
     
 }
