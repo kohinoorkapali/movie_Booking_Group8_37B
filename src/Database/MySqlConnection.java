@@ -13,8 +13,8 @@ public class MySqlConnection implements Database{
         try {
             String username = "root";
             String password = "nitantghimire";
-            String db = "project";
-            Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/?user=root"+db,username,password);
+            String db = "moviebookingproject";
+            Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/"+db,username,password);
             if (connection == null) {
                 System.out.println("Database connection fail");
             } else {

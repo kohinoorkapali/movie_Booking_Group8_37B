@@ -3,27 +3,35 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
 package moviebooking_group8_37b;
+import Dao.loginpagedao;
 import Database.*;
+import controller.loginpageController;
+import view.loginPage2;
 /**
  *
  * @author Kohinoor
  */
 public class MovieBooking_Group8_37B {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-        // TODO code application logic here
+        // Open DB connection
         Database db = new MySqlConnection();
-        
-        if(db.openConnection() != null) {
+
+        if (db.openConnection() != null) {
             System.out.println("Database connected successfully");
-            
-        } 
-        else {
+
+            // ✅ Move everything inside here
+            loginPage2 loginView = new loginPage2();
+            loginpagedao loginDao = new loginpagedao();
+            loginpageController logController = new loginpageController(loginView, loginDao);
+
+            // If you have a method in controller called open(), call it here
+            // But if not, show the view directly
+            loginView.setVisible(true); // OR logController.open();
+        } else {
             System.out.println("Database connection failed");
         }
     }
-    
 }
+
+

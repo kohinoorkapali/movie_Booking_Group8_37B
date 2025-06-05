@@ -242,8 +242,8 @@ public class loginPage2 extends javax.swing.JFrame {
 
     private void passwordkotextFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passwordkotextFocusGained
         // TODO add your handling code here:
-        if(new String(passwordkotext.getPassword()).equals("")){
-            passwordkotext.setText("password");
+        if(new String(passwordkotext.getPassword()).equals("password")){
+            passwordkotext.setText("");
         }
     }//GEN-LAST:event_passwordkotextFocusGained
 
@@ -302,4 +302,18 @@ public class loginPage2 extends javax.swing.JFrame {
     private javax.swing.JPasswordField passwordkotext;
     private javax.swing.JCheckBox showpassword;
     // End of variables declaration//GEN-END:variables
+public javax.swing.JTextField getUsernameField() {
+    return Usernamekotext;
+}
+
+public javax.swing.JPasswordField getPasswordField() {
+    return passwordkotext;
+}   
+
+    
+public javax.swing.JButton getLoginButton() {
+    return loginbutton; 
+}
+
+    
 }

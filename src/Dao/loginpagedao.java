@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package DAO;
+package Dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,35 +15,33 @@ public class loginpagedao {
     
     MySqlConnection connection = new MySqlConnection();
 
-    public int login(loginpage user) {
-        int userId = -1;
-        
-        Connection conn = connection.openConnection();
-
-        try {
 
 
-            String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, user.getUsername());
-            stmt.setString(2, user.getPassword());
+   public boolean login(loginpage user) {
+    boolean isValid = false;
+    Connection conn = connection.openConnection();
 
-            ResultSet rs = stmt.executeQuery();
+    String sql = "SELECT * FROM usertable WHERE username = ? AND user_password = ?";
 
-            if (rs.next()) {
-                userId = rs.getInt("id"); // If you have an ID column in your table
-                // If you don't have an ID column, you can return 1 instead
-                // userId = 1;
-            }
+    try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+        stmt.setString(1, user.getUsername());
+        stmt.setString(2, user.getPassword());
 
-            rs.close();
-            stmt.close();
-            conn.close();
+        ResultSet rs = stmt.executeQuery();
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        // Check if a record exists
+        if (rs.next()) {
+            isValid = true;
         }
 
-        return userId;
+        rs.close();
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+
+    return isValid;
 }
+
+}
+
+   
