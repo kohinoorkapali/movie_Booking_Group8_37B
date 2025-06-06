@@ -4,6 +4,8 @@
  */
 package moviebooking_group8_37b;
 
+import Database.*;
+
 /**
  *
  * @author Kohinoor
@@ -15,6 +17,12 @@ public class MovieBooking_Group8_37B {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        
+        Database db = new MySqlConnection();
+       if (db.openConnection() != null){
+           System.out.println("connected ");
+       }else{
+           System.out.println("not connected ");
     }
-    
+    }
 }
