@@ -3,9 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
 package moviebooking_group8_37b;
+import Controller.loginpageController;
 import Dao.loginpagedao;
 import Database.*;
-import controller.loginpageController;
 import view.loginPage2;
 /**
  *
