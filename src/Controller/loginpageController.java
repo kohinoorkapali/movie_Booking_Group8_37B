@@ -22,13 +22,13 @@ public class loginpageController {
         this.Dao = dao;
 
         // Add action listener to login button
-        this.view.getLoginButton().addActionListener(new LoginButtonListener());
+        view.addLoginListener(new LoginListener());
     }
     public void open() {
         this.view.setVisible(true);
     }
 
-   class LoginButtonListener implements ActionListener {
+   class LoginListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         String username = view.getUsernameField().getText();
         String password = new String(view.getPasswordField().getPassword());

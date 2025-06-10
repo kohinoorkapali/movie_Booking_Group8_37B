@@ -66,7 +66,7 @@ public class UserDao {
         Connection conn = db.openConnection();
     if (conn == null) return false;
 
-    String query = "UPDATE users SET passwoord = ? WHERE LOWER(email) = ?";
+    String query = "UPDATE users SET password = ? WHERE LOWER(email) = ?";
     try (PreparedStatement stmt = conn.prepareStatement(query)) {
         stmt.setString(1, newPassword);
         stmt.setString(2, email.trim().toLowerCase());  // normalize email here

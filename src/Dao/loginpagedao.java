@@ -21,7 +21,7 @@ public class loginpagedao {
     boolean isValid = false;
     Connection conn = connection.openConnection();
 
-    String sql = "SELECT * FROM usertable WHERE username = ? AND user_password = ?";
+    String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
 
     try (PreparedStatement stmt = conn.prepareStatement(sql)) {
         stmt.setString(1, user.getUsername());
