@@ -221,7 +221,7 @@ public class Admin extends javax.swing.JFrame {
                         .addComponent(deletebutton)
                         .addGap(32, 32, 32)
                         .addComponent(updatebutton)
-                        .addContainerGap(160, Short.MAX_VALUE))
+                        .addContainerGap(145, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(59, 59, 59)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
