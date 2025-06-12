@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Controller;
-
+import view.Dashboard;
 import Model.loginpage;
 import Dao.loginpagedao;
 import view.loginPage2;
@@ -38,6 +38,8 @@ public class loginpageController {
         if (Dao.login(user)) {
             JOptionPane.showMessageDialog(view, "Login Successful!");
             // Add transition to dashboard here
+            new Dashboard().setVisible(true);
+            view.dispose();
         } else {
             JOptionPane.showMessageDialog(view, "Invalid username or password.");
         }

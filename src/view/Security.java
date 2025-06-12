@@ -158,6 +158,8 @@ public JButton getContinueButton() {
         boolean saved = userDao.saveSecurityAnswersByEmail(email, answer1, answer2);  // use email here
         if (saved) {
             JOptionPane.showMessageDialog(null, "Saved Successfully");
+             new loginPage2().setVisible(true);  // Replace 'Login' with your actual Login JFrame class name
+            this.dispose();
             // next step
         } else {
             JOptionPane.showMessageDialog(null, "Failed to save security answers");

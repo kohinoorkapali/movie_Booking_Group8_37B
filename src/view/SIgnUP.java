@@ -283,7 +283,7 @@ public class SIgnUP extends javax.swing.JFrame {
     } else if (dao.emailExists(emailText)) {
         JOptionPane.showMessageDialog(null, "This email is already registered.");
     } else {
-        SignUp1 newUser = new SignUp1(emailText, nameText, passwordText);
+        SignUp1 newUser = new SignUp1(nameText, emailText, passwordText);
         boolean success = dao.signUp(newUser);
         if (success) {
             JOptionPane.showMessageDialog(null, "Account created successfully");
