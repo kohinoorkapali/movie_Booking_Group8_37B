@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Controller;
-
+import view.Dashboard;
 import Model.loginpage;
 import Dao.loginpagedao;
 import view.loginPage2;
@@ -22,13 +22,13 @@ public class loginpageController {
         this.Dao = dao;
 
         // Add action listener to login button
-        this.view.getLoginButton().addActionListener(new LoginButtonListener());
+        view.addLoginListener(new LoginListener());
     }
     public void open() {
         this.view.setVisible(true);
     }
 
-   class LoginButtonListener implements ActionListener {
+   class LoginListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         String username = view.getUsernameField().getText();
         String password = new String(view.getPasswordField().getPassword());
@@ -38,6 +38,8 @@ public class loginpageController {
         if (Dao.login(user)) {
             JOptionPane.showMessageDialog(view, "Login Successful!");
             // Add transition to dashboard here
+            new Dashboard().setVisible(true);
+            view.dispose();
         } else {
             JOptionPane.showMessageDialog(view, "Invalid username or password.");
         }
