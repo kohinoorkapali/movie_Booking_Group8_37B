@@ -4,6 +4,8 @@
  */
 package view;
 
+import javax.swing.JFrame;
+
 /**
  *
  * @author nitan
@@ -78,6 +80,11 @@ public class moviebookingadmin extends javax.swing.JFrame {
         jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/1828479.png"))); // NOI18N
         jButton7.setText("Log out");
         jButton7.setBorderPainted(false);
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/admin.png"))); // NOI18N
         jLabel8.setText("jLabel8");
@@ -270,6 +277,26 @@ public class moviebookingadmin extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+       // TODO add your handling code here:
+        int response = javax.swing.JOptionPane.showConfirmDialog(
+        this,
+                "Are you sure you want to log out out?",
+                "Confirm Logout",
+                javax.swing.JOptionPane.YES_NO_OPTION,
+                javax.swing.JOptionPane.QUESTION_MESSAGE
+        );
+       
+        if (response == javax.swing.JOptionPane.YES_OPTION){
+            loginPage2 l = new loginPage2();
+            l.setVisible(true);
+            l.pack();
+            l.setLocationRelativeTo(null);
+            l.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            this.dispose();
+        }
+    }//GEN-LAST:event_jButton7ActionPerformed
 
     /**
      * @param args the command line arguments

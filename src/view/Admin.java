@@ -55,7 +55,6 @@ public class Admin extends javax.swing.JFrame {
         importbutton = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         choosedate = new javax.swing.JTextField();
-        datechooser = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -213,12 +212,6 @@ public class Admin extends javax.swing.JFrame {
             }
         });
 
-        datechooser.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                datechooserPropertyChange(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -268,17 +261,12 @@ public class Admin extends javax.swing.JFrame {
                                                 .addGap(4, 4, 4)
                                                 .addComponent(moviesynopsis, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE))
                                             .addComponent(choosedate, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGap(86, 86, 86)
-                                                .addComponent(addbutton)
-                                                .addGap(34, 34, 34)
-                                                .addComponent(deletebutton)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(updatebutton))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGap(13, 13, 13)
-                                                .addComponent(datechooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGap(86, 86, 86)
+                                        .addComponent(addbutton)
+                                        .addGap(34, 34, 34)
+                                        .addComponent(deletebutton)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(updatebutton)
                                         .addGap(78, 160, Short.MAX_VALUE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(duration, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -319,11 +307,9 @@ public class Admin extends javax.swing.JFrame {
                         .addGap(17, 17, 17))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(22, 22, 22)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel7)
-                                .addComponent(choosedate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(datechooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(choosedate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(64, 64, 64)
                         .addComponent(jLabel8)
                         .addGap(64, 64, 64)
@@ -395,7 +381,6 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JButton addbutton;
     private javax.swing.JButton addmoviesbutton;
     private javax.swing.JTextField choosedate;
-    private com.toedter.calendar.JDateChooser datechooser;
     private javax.swing.JButton deletebutton;
     private javax.swing.JTextField duration;
     private javax.swing.JTextField genre;

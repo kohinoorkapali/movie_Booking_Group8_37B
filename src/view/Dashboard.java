@@ -4,6 +4,8 @@
  */
 package view;
 
+import javax.swing.JFrame;
+
 /**
  *
  * @author nitan
@@ -91,24 +93,14 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\nitan\\OneDrive\\Pictures\\Screenshots\\glad2_poster.jpg")); // NOI18N
-
         jButton6.setBackground(new java.awt.Color(122, 114, 132));
         jButton6.setBorderPainted(false);
         jButton6.setContentAreaFilled(false);
         jButton6.setFocusPainted(false);
 
-        jLabel3.setIcon(new javax.swing.ImageIcon("C:\\Users\\nitan\\OneDrive\\Pictures\\Screenshots\\sonic-the-hedgehog-3-one-sheet_u-L-FAGBZK0.jpg")); // NOI18N
-
-        jLabel4.setIcon(new javax.swing.ImageIcon("C:\\Users\\nitan\\OneDrive\\Pictures\\Screenshots\\the_thing_movie_poster_john_pearson.jpg")); // NOI18N
-
-        jLabel5.setIcon(new javax.swing.ImageIcon("C:\\Users\\nitan\\OneDrive\\Pictures\\Screenshots\\e36f2f5b33312398eafcfeb01bf5a002.jpg")); // NOI18N
-
-        jLabel6.setIcon(new javax.swing.ImageIcon("C:\\Users\\nitan\\OneDrive\\Pictures\\Screenshots\\a2e1055788ae76c46b34a87da8d2bc09.jpg")); // NOI18N
         jLabel6.setText("jLabel6");
         jLabel6.setPreferredSize(new java.awt.Dimension(263, 180));
 
-        jLabel7.setIcon(new javax.swing.ImageIcon("C:\\Users\\nitan\\OneDrive\\Pictures\\Screenshots\\Screenshot 2025-04-29 120902.png")); // NOI18N
         jLabel7.setText("jLabel7");
         jLabel7.setPreferredSize(new java.awt.Dimension(128, 113));
 
@@ -128,6 +120,11 @@ public class Dashboard extends javax.swing.JFrame {
         jButton10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/1828479.png"))); // NOI18N
         jButton10.setText("Log out");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -262,6 +259,26 @@ public class Dashboard extends javax.swing.JFrame {
     private void categoriescomboboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoriescomboboxActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_categoriescomboboxActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        // TODO add your handling code here:
+                int response = javax.swing.JOptionPane.showConfirmDialog(
+        this,
+                "Are you sure you want to log out out?",
+                "Confirm Logout",
+                javax.swing.JOptionPane.YES_NO_OPTION,
+                javax.swing.JOptionPane.QUESTION_MESSAGE
+        );
+       
+        if (response == javax.swing.JOptionPane.YES_OPTION){
+            loginPage2 l = new loginPage2();
+            l.setVisible(true);
+            l.pack();
+            l.setLocationRelativeTo(null);
+            l.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            this.dispose();
+        }
+    }//GEN-LAST:event_jButton10ActionPerformed
 
     /**
      * @param args the command line arguments
