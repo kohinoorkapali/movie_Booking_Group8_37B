@@ -17,11 +17,11 @@ public class MySqlConnection implements Database{
     public Connection openConnection() {
        try{
            String username ="root";
-           String password="Nijisawa123%";
+           String password="raj123doot";
            String database ="movie_practice";
            Connection connection;
            connection = DriverManager.getConnection(
-           "jdbc:mysql://127.0.0.1:3306/"+database,username,password);
+           "jdbc:mysql://127.0.0.1:3306/?user=root"+database,username,password);
            System.out.println("open connection called");
            System.out.println(connection);
            if(connection == null){
