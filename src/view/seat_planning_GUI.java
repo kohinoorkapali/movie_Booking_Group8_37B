@@ -4,7 +4,7 @@
  */
 package view;
 
-import Model.seat_model;
+import model.seat_model;
 public class seat_planning_GUI extends javax.swing.JFrame {
 
     /**
