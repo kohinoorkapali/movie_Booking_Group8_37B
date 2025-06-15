@@ -58,6 +58,7 @@ public class Admin extends javax.swing.JFrame {
         datechooser = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(122, 106, 106));
 
@@ -335,6 +336,7 @@ public class Admin extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void choosedateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_choosedateActionPerformed
