@@ -91,24 +91,14 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\nitan\\OneDrive\\Pictures\\Screenshots\\glad2_poster.jpg")); // NOI18N
-
         jButton6.setBackground(new java.awt.Color(122, 114, 132));
         jButton6.setBorderPainted(false);
         jButton6.setContentAreaFilled(false);
         jButton6.setFocusPainted(false);
 
-        jLabel3.setIcon(new javax.swing.ImageIcon("C:\\Users\\nitan\\OneDrive\\Pictures\\Screenshots\\sonic-the-hedgehog-3-one-sheet_u-L-FAGBZK0.jpg")); // NOI18N
-
-        jLabel4.setIcon(new javax.swing.ImageIcon("C:\\Users\\nitan\\OneDrive\\Pictures\\Screenshots\\the_thing_movie_poster_john_pearson.jpg")); // NOI18N
-
-        jLabel5.setIcon(new javax.swing.ImageIcon("C:\\Users\\nitan\\OneDrive\\Pictures\\Screenshots\\e36f2f5b33312398eafcfeb01bf5a002.jpg")); // NOI18N
-
-        jLabel6.setIcon(new javax.swing.ImageIcon("C:\\Users\\nitan\\OneDrive\\Pictures\\Screenshots\\a2e1055788ae76c46b34a87da8d2bc09.jpg")); // NOI18N
         jLabel6.setText("jLabel6");
         jLabel6.setPreferredSize(new java.awt.Dimension(263, 180));
 
-        jLabel7.setIcon(new javax.swing.ImageIcon("C:\\Users\\nitan\\OneDrive\\Pictures\\Screenshots\\Screenshot 2025-04-29 120902.png")); // NOI18N
         jLabel7.setText("jLabel7");
         jLabel7.setPreferredSize(new java.awt.Dimension(128, 113));
 

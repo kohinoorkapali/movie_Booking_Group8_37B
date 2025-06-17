@@ -4,6 +4,7 @@
  */
 package view;
 import Dao.UserDa;
+import Dao.loginpagedao;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -157,10 +158,13 @@ public JButton getContinueButton() {
     } else {
         boolean saved = userDao.saveSecurityAnswersByEmail(email, answer1, answer2);  // use email here
         if (saved) {
-            JOptionPane.showMessageDialog(null, "Saved Successfully");
-             new loginPage2().setVisible(true);  // Replace 'Login' with your actual Login JFrame class name
-            this.dispose();
-            // next step
+            // ✅ Fix: Use controller to open login page properly
+    loginPage2 loginView = new loginPage2();
+    loginpagedao loginDao = new loginpagedao();
+    Controller.loginpageController loginController = new Controller.loginpageController(loginView, loginDao);
+    loginController.open();
+
+    this.dispose();
         } else {
             JOptionPane.showMessageDialog(null, "Failed to save security answers");
         }
