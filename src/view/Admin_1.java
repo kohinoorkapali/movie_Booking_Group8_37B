@@ -3,14 +3,24 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package view;
+import Controller.movieController;
+import Dao.loginpagedao;
+import Model.Movie_add;
+
 import javax.swing.JSpinner;
 import javax.swing.JOptionPane;
 import javax.swing.SpinnerDateModel;
+import javax.swing.SwingUtilities;
+
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.awt.Image;
 import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+
+import java.sql.PreparedStatement;
 
 
 
@@ -21,7 +31,8 @@ import javax.swing.JFileChooser;
  */
 public class Admin_1 extends javax.swing.JFrame {
 
-     File selectedImageFile = null; 
+    private movieController movieController = new movieController();
+     private File selectedImageFile; 
     /**
      * Creates new form Admin_1
      */
@@ -29,14 +40,14 @@ public class Admin_1 extends javax.swing.JFrame {
          initComponents();
 
          //For date choosing
-        SpinnerDateModel dateModel = new SpinnerDateModel();
+    SpinnerDateModel dateModel = new SpinnerDateModel();
     DateSpinner.setModel(dateModel);
-
     JSpinner.DateEditor editor = new JSpinner.DateEditor(DateSpinner, "MMM dd, yyyy");
     DateSpinner.setEditor(editor);
-
     DateSpinner.setValue(new java.util.Date());  
-        
+
+    // Populate the table with movies
+    populateTable(); // Call to populate the table with movie data
     }
 
     /**
@@ -56,7 +67,7 @@ public class Admin_1 extends javax.swing.JFrame {
         LogutBtn = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        Movie_Table = new javax.swing.JTable();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -70,7 +81,6 @@ public class Admin_1 extends javax.swing.JFrame {
         btnImport = new javax.swing.JButton();
         Add = new javax.swing.JButton();
         Delete = new javax.swing.JButton();
-        Update = new javax.swing.JButton();
         DateSpinner = new javax.swing.JSpinner();
         Duration = new javax.swing.JTextField();
         imageLabel = new javax.swing.JLabel();
@@ -93,6 +103,11 @@ public class Admin_1 extends javax.swing.JFrame {
         LogutBtn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         LogutBtn.setForeground(new java.awt.Color(255, 255, 255));
         LogutBtn.setText("LOG OUT");
+        LogutBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LogutBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -128,7 +143,7 @@ public class Admin_1 extends javax.swing.JFrame {
 
         jSplitPane1.setLeftComponent(jPanel1);
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        Movie_Table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -176,8 +191,8 @@ public class Admin_1 extends javax.swing.JFrame {
                 "Movie ID ", "Movie Title", "Gerne", "Duration", "Show Date"
             }
         ));
-        jTable2.setShowGrid(true);
-        jScrollPane2.setViewportView(jTable2);
+        Movie_Table.setShowGrid(true);
+        jScrollPane2.setViewportView(Movie_Table);
 
         jLabel6.setText("Movie ID");
 
@@ -191,9 +206,6 @@ public class Admin_1 extends javax.swing.JFrame {
 
         jLabel11.setText("Movie Synopsic");
 
-        ID.setText("ID");
-
-        Movie_Title.setText("Title");
         Movie_Title.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 Movie_TitleFocusGained(evt);
@@ -215,7 +227,6 @@ public class Admin_1 extends javax.swing.JFrame {
             }
         });
 
-        Synopsis.setText("movie synopsis");
         Synopsis.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 SynopsisFocusGained(evt);
@@ -230,6 +241,7 @@ public class Admin_1 extends javax.swing.JFrame {
             }
         });
 
+        btnImport.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnImport.setText("IMPORT");
         btnImport.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -237,6 +249,7 @@ public class Admin_1 extends javax.swing.JFrame {
             }
         });
 
+        Add.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         Add.setText("Add");
         Add.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -244,16 +257,13 @@ public class Admin_1 extends javax.swing.JFrame {
             }
         });
 
+        Delete.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         Delete.setText("Delete");
         Delete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 DeleteActionPerformed(evt);
             }
         });
-
-        Update.setText("UPDATE");
-
-        Duration.setText("Duration");
 
         imageLabel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         imageLabel.setMaximumSize(new java.awt.Dimension(150, 150));
@@ -284,78 +294,72 @@ public class Admin_1 extends javax.swing.JFrame {
                         .addGap(20, 20, 20)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(DateSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(Duration, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(DateSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(Duration)
                                     .addComponent(ID, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(Movie_Title, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(Genre_ComboBox, javax.swing.GroupLayout.Alignment.LEADING, 0, 157, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                        .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(145, 145, 145))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(btnImport)
-                                        .addGap(181, 181, 181))))))
+                                        .addGap(175, 175, 175))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGap(57, 57, 57)
+                                        .addComponent(Delete)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 337, Short.MAX_VALUE)
+                                        .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(138, 138, 138))))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(8, 8, 8)
-                        .addComponent(Synopsis, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(101, 101, 101)
-                        .addComponent(Add)
-                        .addGap(66, 66, 66)
-                        .addComponent(Delete)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 243, Short.MAX_VALUE)
-                        .addComponent(Update)
-                        .addGap(98, 98, 98))))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Synopsis, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(8, 8, 8)
+                                .addComponent(Add)))
+                        .addContainerGap())))
             .addComponent(jScrollPane2)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(7, 7, 7)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(45, 45, 45)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
-                            .addComponent(ID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(106, 106, 106)
+                            .addComponent(ID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Delete))
+                        .addGap(48, 48, 48)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
-                            .addComponent(Movie_Title, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(Movie_Title, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(20, 20, 20)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(Genre_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8)))
                     .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Genre_ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8)
-                    .addComponent(btnImport))
                 .addGap(23, 23, 23)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(Duration, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
+                    .addComponent(Duration, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnImport))
+                .addGap(27, 27, 27)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(DateSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(Add)
-                            .addComponent(Delete)
-                            .addComponent(Update))
-                        .addGap(36, 36, 36))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(Synopsis, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel11))
-                        .addContainerGap(50, Short.MAX_VALUE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Synopsis, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11))
+                .addGap(34, 34, 34)
+                .addComponent(Add)
+                .addGap(21, 21, 21))
         );
 
         jSplitPane1.setRightComponent(jPanel2);
@@ -378,64 +382,82 @@ public class Admin_1 extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_SynopsisActionPerformed
 
-    private void AddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddActionPerformed
 
-//show duration part
-String input =Duration.getText().trim();
-if (!input.matches("^\\d{1,2}:\\d{2}:\\d{2}$")) {
-    JOptionPane.showMessageDialog(this, "Enter duration as HH:mm:ss");
-    return;
-}
-String[] parts = input.split(":");
-int h = Integer.parseInt(parts[0]);
-int m = Integer.parseInt(parts[1]);
-int s = Integer.parseInt(parts[2]);
-
-if (h < 0 || h > 23 || m < 0 || m > 59 || s < 0 || s > 59) {
-    JOptionPane.showMessageDialog(this, "Invalid duration values");
-    return;
-}
-System.out.println("Duration: " + String.format("%02d:%02d:%02d", h, m, s));
-
-
-// Show date part
-           java.util.Date selectedDate = (java.util.Date) DateSpinner.getValue();
+private void AddActionPerformed(java.awt.event.ActionEvent evt) {                                                                       
+    String input = Duration.getText().trim();
+    if (!input.matches("^\\d{1,2}:\\d{2}:\\d{2}$")) {
+        JOptionPane.showMessageDialog(this, "Enter duration as HH:mm:ss");
+        return;
+    }
+    
+    String[] parts = input.split(":");
+    int h = Integer.parseInt(parts[0]);
+    int m = Integer.parseInt(parts[1]);
+    int s = Integer.parseInt(parts[2]);
+    if (h < 0 || h > 23 || m < 0 || m > 59 || s < 0 || s > 59) {
+        JOptionPane.showMessageDialog(this, "Invalid duration values");
+        return;
+    }
+    
+    // Show date part
+    java.util.Date selectedDate = (java.util.Date) DateSpinner.getValue(); 
     SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy");
     String formattedDate = sdf.format(selectedDate);
-    System.out.println("Selected Date: " + formattedDate);
-       // TODO add your handling code here:
-    }//GEN-LAST:event_AddActionPerformed
+    
+    // Get other movie details
+    String title = Movie_Title.getText().trim();
+    String genre = Genre_ComboBox.getSelectedItem().toString();
+    
+    // Validate genre selection
+    if (genre.equals("Categories")) {
+        JOptionPane.showMessageDialog(this, "Please select a valid genre.");
+        return;
+    }
+    
+    String synopsis = Synopsis.getText().trim();
+    String duration = String.format("%02d:%02d:%02d", h, m, s);
+    String imagePath = selectedImageFile != null ? selectedImageFile.getAbsolutePath() : "";
+    
+    // Call the controller to save the movie
+    try {
+        movieController.addMovie(title, genre, synopsis, duration, formattedDate, imagePath);
+        JOptionPane.showMessageDialog(this, "Movie added successfully!");
+        clearFields(); // Clear fields after adding
+        populateTable(); // Refresh the table
+    } catch (RuntimeException e) {
+        JOptionPane.showMessageDialog(this, "Error saving movie: " + e.getMessage());
+    }
+}
+
+
+    
 
     private void btnImportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportActionPerformed
- JFileChooser fileChooser = new JFileChooser();
-    fileChooser.setDialogTitle("Select an Image");
-    fileChooser.setAcceptAllFileFilterUsed(false);
-    fileChooser.addChoosableFileFilter(
-        new javax.swing.filechooser.FileNameExtensionFilter("Image files", "jpg", "jpeg", "png", "gif"));
+        JFileChooser fileChooser = new JFileChooser();
+fileChooser.setDialogTitle("Select an Image");
+fileChooser.setAcceptAllFileFilterUsed(false);
+fileChooser.addChoosableFileFilter(
+    new javax.swing.filechooser.FileNameExtensionFilter("Image files", "jpg", "jpeg", "png", "gif"));
 
-    int result = fileChooser.showOpenDialog(this);
-    if (result == JFileChooser.APPROVE_OPTION) {
-        File selectedFile = fileChooser.getSelectedFile();
+int result = fileChooser.showOpenDialog(this);
+if (result == JFileChooser.APPROVE_OPTION) {
+    // Store the selected file in your class-level variable
+    selectedImageFile = fileChooser.getSelectedFile();
 
-        // Debug: print the selected image path
-        System.out.println("Selected image path: " + selectedFile.getAbsolutePath());
+    System.out.println("Selected image path: " + selectedImageFile.getAbsolutePath());
 
-        // Create ImageIcon from the file
-        ImageIcon icon = new ImageIcon(selectedFile.getAbsolutePath());
+    // Create ImageIcon from the file path
+    ImageIcon icon = new ImageIcon(selectedImageFile.getAbsolutePath());
 
-        // Get the image from the ImageIcon
-        Image img = icon.getImage();
+    // Get image and scale it smoothly to fit label (150x150)
+    Image img = icon.getImage();
+    Image scaledImg = img.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
 
-        // Scale the image smoothly to label size (150x150)
-        Image scaledImg = img.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+    // Set scaled image to label
+    imageLabel.setIcon(new ImageIcon(scaledImg));
+    imageLabel.repaint();
+}
 
-        // Set the scaled image back to ImageIcon
-        ImageIcon scaledIcon = new ImageIcon(scaledImg);
-
-        // Set icon to your JLabel
-        imageLabel.setIcon(scaledIcon);
-        imageLabel.repaint();
-    }
     }//GEN-LAST:event_btnImportActionPerformed
 
     private void Genre_ComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Genre_ComboBoxActionPerformed
@@ -454,9 +476,43 @@ if(Movie_Title.getText ().isEmpty()){
         }        // TODO add your handling code here:
     }//GEN-LAST:event_Movie_TitleFocusLost
 
+    private void clearFields() {
+    // Clear input fields
+    ID.setText("");                     // Clear the ID field
+    Movie_Title.setText("");            // Clear the Movie Title field
+    Duration.setText("");               // Clear the Duration field
+    Synopsis.setText("");               // Clear the Synopsis field
+    // Reset the Genre ComboBox to the default selection
+    Genre_ComboBox.setSelectedIndex(0); // Assuming the first item is a placeholder
+    // Clear the image label
+    imageLabel.setIcon(null);           // Remove any displayed image
+    // Reset the DateSpinner to the current date
+    DateSpinner.setValue(new java.util.Date()); // Reset to current date
+}
+
     private void DeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_DeleteActionPerformed
+        String id = ID.getText().trim();
+    
+    if (id.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Please enter a Movie ID to delete.");
+        return;
+    }
+    
+    try {
+        int movieId = Integer.parseInt(id);
+        movieController.deleteMovie(movieId); // Call the delete method
+        JOptionPane.showMessageDialog(this, "Movie deleted successfully!");
+        clearFields(); // Clear the fields after deletion
+        populateTable(); // Refresh the table
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Invalid Movie ID. Please enter a valid number.");
+    } catch (RuntimeException e) {
+        JOptionPane.showMessageDialog(this, e.getMessage()); // Show error message from deleteMovie
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error deleting movie: " + e.getMessage());
+    }
+}
+//GEN-LAST:event_DeleteActionPerformed
 
     private void Genre_ComboBoxFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_Genre_ComboBoxFocusGained
         // TODO add your handling code here:
@@ -474,6 +530,44 @@ if(Movie_Title.getText ().isEmpty()){
         }         // TODO add your handling code here:
     }//GEN-LAST:event_SynopsisFocusLost
 
+  private void LogutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogutBtnActionPerformed
+    int response = javax.swing.JOptionPane.showConfirmDialog(
+        this,
+        "Are you sure you want to log out?",
+        "Confirm Logout",
+        javax.swing.JOptionPane.YES_NO_OPTION,
+        javax.swing.JOptionPane.QUESTION_MESSAGE
+    );
+    if (response == javax.swing.JOptionPane.YES_OPTION) {
+        System.out.println("Logging out..."); // Debugging line
+        // Create a new instance of loginPage2
+        loginPage2 loginView = new loginPage2();
+        loginpagedao loginDao = new loginpagedao(); // Assuming you have a DAO for login
+        Controller.loginpageController loginController = new Controller.loginpageController(loginView, loginDao);
+        
+        // Open the login page using the controller
+        loginController.open();
+        // Dispose of the current Admin_1 window
+        this.dispose();
+    }
+}//GEN-LAST:event_LogutBtnActionPerformed
+
+
+    private void populateTable() {
+    List<Movie_add> movies = movieController.getAllMovies(); // Get all movies from the controller
+    javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) Movie_Table.getModel();
+    model.setRowCount(0); // Clear existing rows
+    for (Movie_add movie : movies) {
+        model.addRow(new Object[]{
+            movie.getId(),
+            movie.getTitle(),
+            movie.getGenre(),
+            movie.getDuration(),
+            movie.getShowDate()
+        });
+    }
+}
+    
     /**
      * @param args the command line arguments
      */
@@ -517,9 +611,9 @@ if(Movie_Title.getText ().isEmpty()){
     private javax.swing.JComboBox<String> Genre_ComboBox;
     private javax.swing.JTextField ID;
     private javax.swing.JButton LogutBtn;
+    private javax.swing.JTable Movie_Table;
     private javax.swing.JTextField Movie_Title;
     private javax.swing.JTextField Synopsis;
-    private javax.swing.JButton Update;
     private javax.swing.JButton btnImport;
     private javax.swing.JLabel imageLabel;
     private javax.swing.JLabel jLabel1;
@@ -535,6 +629,5 @@ if(Movie_Title.getText ().isEmpty()){
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSplitPane jSplitPane1;
-    private javax.swing.JTable jTable2;
     // End of variables declaration//GEN-END:variables
 }
