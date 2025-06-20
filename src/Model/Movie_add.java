@@ -8,16 +8,20 @@ public class Movie_add {
     private String duration;
     private String showDate;
     private String imagePath;
+    private double price;
+    
+    public Movie_add(String id, String title, String genre, String synopsis, String duration, String showDate, String imagePath, double price) {
+    this.id = id;
+    this.title = title;
+    this.genre = genre;
+    this.synopsis = synopsis;
+    this.duration = duration;
+    this.showDate = showDate;
+    this.imagePath = imagePath;
+    this.price = price;
+}
 
-    public Movie_add(String id, String title, String genre, String synopsis, String duration, String showDate, String imagePath) {
-        this.id = id;
-        this.title = title;
-        this.genre = genre;
-        this.synopsis = synopsis;
-        this.duration = duration;
-        this.showDate = showDate;
-        this.imagePath = imagePath;
-    }
+
 
     // Getters
     public String getId() {
@@ -76,4 +80,12 @@ public class Movie_add {
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
     }
+    
+    public double getPrice() {
+    return price;
+}
+
+public void setPrice(double price) {
+    this.price = price;
+}
 }

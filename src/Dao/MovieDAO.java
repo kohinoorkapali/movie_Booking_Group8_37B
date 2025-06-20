@@ -26,7 +26,9 @@ public class MovieDAO {
         mySqlConnection = new MySqlConnection();
     }
     public void addMovie(Movie_add movie) {
-        String query = "INSERT INTO movies (id, title, genre, synopsis, duration, show_date, image_path) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO movies (id, title, genre, synopsis, duration, show_date, image_path, price) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+
         Connection conn = null;
         try {
             conn = mySqlConnection.openConnection(); // Use your existing connection method
@@ -37,13 +39,16 @@ public class MovieDAO {
                     pstmt.setString(3, movie.getGenre());
                     pstmt.setString(4, movie.getSynopsis());
                     pstmt.setString(5, movie.getDuration());
+                    
                     // Convert showDate string to java.sql.Date
                     SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy");
                     java.util.Date utilDate = sdf.parse(movie.getShowDate());
                     java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
                     pstmt.setDate(6, sqlDate);
                     pstmt.setString(7, movie.getImagePath());
+                     pstmt.setDouble(8, movie.getPrice()); 
                     pstmt.executeUpdate();
+
                 }
             }
         } catch (SQLException | java.text.ParseException e) {
@@ -88,31 +93,39 @@ public void deleteMovie(int id) {
    
    
    public List<Movie_add> getAllMovies() {
-        List<Movie_add> movies = new ArrayList<>();
-        String query = "SELECT id, title, genre, duration, show_date FROM movies"; // Adjust the query as per your database schema
-        Connection conn = null;
-        try {
-            conn = mySqlConnection.openConnection(); // Use your existing connection method
-            if (conn != null) {
-                try (PreparedStatement pstmt = conn.prepareStatement(query);
-                     ResultSet rs = pstmt.executeQuery()) {
-                    while (rs.next()) {
-                        String id = rs.getString("id");
-                        String title = rs.getString("title");
-                        String genre = rs.getString("genre");
-                        String duration = rs.getString("duration");
-                        String showDate = rs.getString("show_date");
-                        // Create a new Movie_add object and add it to the list
-                        Movie_add movie = new Movie_add(id, title, genre, "", duration, showDate, "");
-                        movies.add(movie);
-                    }
+    List<Movie_add> movies = new ArrayList<>();
+    String query = "SELECT id, title, genre, synopsis, duration, show_date, image_path, price FROM movies";
+
+    Connection conn = null;
+    try {
+        conn = mySqlConnection.openConnection();
+        if (conn != null) {
+            try (PreparedStatement pstmt = conn.prepareStatement(query);
+                 ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    String id = rs.getString("id");
+                    String title = rs.getString("title");
+                    String genre = rs.getString("genre");
+                    String duration = rs.getString("duration");
+                    String showDate = rs.getString("show_date");
+                    String imagePath = rs.getString("image_path");
+                    String synopsis = rs.getString("synopsis");
+                     double price = rs.getDouble("price");
+                     Movie_add movie = new Movie_add(id, title, genre, synopsis, duration, showDate, imagePath, price);
+
+                   
+                    movies.add(movie);
                 }
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            mySqlConnection.closeConnection(conn); // Ensure the connection is closed
         }
-        return movies; // Return the list of movies
+    } catch (SQLException e) {
+        e.printStackTrace();
+    } finally {
+        mySqlConnection.closeConnection(conn);
     }
+    return movies;
+}
+
+
+    
 }

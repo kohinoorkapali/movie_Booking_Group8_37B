@@ -8,21 +8,20 @@ import Dao.loginpagedao;
 import Model.Movie_add;
 
 import javax.swing.JSpinner;
+import javax.swing.JTable;
 import javax.swing.JOptionPane;
 import javax.swing.SpinnerDateModel;
-import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
+import java.awt.Image; // Make sure this is imported at the top
 import java.text.SimpleDateFormat;
 import java.util.List;
-import java.awt.Image;
 import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-
-import java.sql.PreparedStatement;
-
-
+import javax.swing.JLabel;
+import java.awt.Component;
 
 
 /**
@@ -38,16 +37,16 @@ public class Admin_1 extends javax.swing.JFrame {
      */
     public Admin_1() {
          initComponents();
+SpinnerDateModel dateModel = new SpinnerDateModel();
+        DateSpinner.setModel(dateModel);
+        JSpinner.DateEditor editor = new JSpinner.DateEditor(DateSpinner, "MMM dd, yyyy");
+        DateSpinner.setEditor(editor);
+        DateSpinner.setValue(new java.util.Date());
+        // Populate the table with movies
+        populateTable(); // Call to populate the table with movie data
+        // Set the custom renderer for the image column (assuming it's the 6th column)
+        Movie_Table.getColumnModel().getColumn(5).setCellRenderer(new ImageRenderer());
 
-         //For date choosing
-    SpinnerDateModel dateModel = new SpinnerDateModel();
-    DateSpinner.setModel(dateModel);
-    JSpinner.DateEditor editor = new JSpinner.DateEditor(DateSpinner, "MMM dd, yyyy");
-    DateSpinner.setEditor(editor);
-    DateSpinner.setValue(new java.util.Date());  
-
-    // Populate the table with movies
-    populateTable(); // Call to populate the table with movie data
     }
 
     /**
@@ -77,13 +76,16 @@ public class Admin_1 extends javax.swing.JFrame {
         ID = new javax.swing.JTextField();
         Movie_Title = new javax.swing.JTextField();
         Genre_ComboBox = new javax.swing.JComboBox<>();
-        Synopsis = new javax.swing.JTextField();
         btnImport = new javax.swing.JButton();
         Add = new javax.swing.JButton();
         Delete = new javax.swing.JButton();
         DateSpinner = new javax.swing.JSpinner();
         Duration = new javax.swing.JTextField();
         imageLabel = new javax.swing.JLabel();
+        Price = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        SynopisScroll = new javax.swing.JScrollPane();
+        Synopsis = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -145,52 +147,53 @@ public class Admin_1 extends javax.swing.JFrame {
 
         Movie_Table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Movie ID ", "Movie Title", "Gerne", "Duration", "Show Date"
+                "Movie ID ", "Movie Title", "Gerne", "Duration", "Show Date", "Images", "Price"
             }
         ));
+        Movie_Table.setRowHeight(75);
         Movie_Table.setShowGrid(true);
         jScrollPane2.setViewportView(Movie_Table);
 
@@ -227,20 +230,6 @@ public class Admin_1 extends javax.swing.JFrame {
             }
         });
 
-        Synopsis.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                SynopsisFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                SynopsisFocusLost(evt);
-            }
-        });
-        Synopsis.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SynopsisActionPerformed(evt);
-            }
-        });
-
         btnImport.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnImport.setText("IMPORT");
         btnImport.addActionListener(new java.awt.event.ActionListener() {
@@ -270,6 +259,12 @@ public class Admin_1 extends javax.swing.JFrame {
         imageLabel.setMinimumSize(new java.awt.Dimension(150, 150));
         imageLabel.setPreferredSize(new java.awt.Dimension(150, 150));
 
+        jLabel4.setText("Price");
+
+        Synopsis.setColumns(20);
+        Synopsis.setRows(5);
+        SynopisScroll.setViewportView(Synopsis);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -279,12 +274,14 @@ public class Admin_1 extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(60, 60, 60)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel10)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel4)
+                                .addComponent(jLabel10)))
                         .addGap(25, 25, 25))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
@@ -293,9 +290,6 @@ public class Admin_1 extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(DateSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(Duration)
@@ -312,14 +306,20 @@ public class Admin_1 extends javax.swing.JFrame {
                                         .addComponent(Delete)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 337, Short.MAX_VALUE)
                                         .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(138, 138, 138))))))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(8, 8, 8)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Synopsis, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(138, 138, 138))))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(8, 8, 8)
-                                .addComponent(Add)))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(Price)
+                                    .addComponent(DateSpinner, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE))
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(16, 16, 16)
+                                .addComponent(Add))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(SynopisScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap())))
             .addComponent(jScrollPane2)
         );
@@ -353,11 +353,19 @@ public class Admin_1 extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(DateSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Synopsis, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel11))
-                .addGap(34, 34, 34)
+                    .addComponent(Price, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel11)
+                        .addGap(88, 88, 88))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addComponent(SynopisScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)))
                 .addComponent(Add)
                 .addGap(21, 21, 21))
         );
@@ -378,10 +386,6 @@ public class Admin_1 extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void SynopsisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SynopsisActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_SynopsisActionPerformed
-
 
 private void AddActionPerformed(java.awt.event.ActionEvent evt) {                                                                       
     String input = Duration.getText().trim();
@@ -399,65 +403,89 @@ private void AddActionPerformed(java.awt.event.ActionEvent evt) {
         return;
     }
     
-    // Show date part
     java.util.Date selectedDate = (java.util.Date) DateSpinner.getValue(); 
     SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy");
     String formattedDate = sdf.format(selectedDate);
     
-    // Get other movie details
     String title = Movie_Title.getText().trim();
     String genre = Genre_ComboBox.getSelectedItem().toString();
-    
-    // Validate genre selection
     if (genre.equals("Categories")) {
         JOptionPane.showMessageDialog(this, "Please select a valid genre.");
         return;
     }
-    
     String synopsis = Synopsis.getText().trim();
     String duration = String.format("%02d:%02d:%02d", h, m, s);
-    String imagePath = selectedImageFile != null ? selectedImageFile.getAbsolutePath() : "";
-    
-    // Call the controller to save the movie
-    try {
-        movieController.addMovie(title, genre, synopsis, duration, formattedDate, imagePath);
-        JOptionPane.showMessageDialog(this, "Movie added successfully!");
-        clearFields(); // Clear fields after adding
-        populateTable(); // Refresh the table
-    } catch (RuntimeException e) {
-        JOptionPane.showMessageDialog(this, "Error saving movie: " + e.getMessage());
+
+    String priceStr = Price.getText().trim();
+double price;
+try {
+    price = Double.parseDouble(priceStr);
+    if(price < 0) {
+        JOptionPane.showMessageDialog(this, "Price cannot be negative.");
+        return;
     }
+} catch (NumberFormatException e) {
+    JOptionPane.showMessageDialog(this, "Enter a valid price (number).");
+    return;
+}
+
+    String imagePath = "";
+    try {
+        if (selectedImageFile != null) {
+            File destDir = new File("src/images/");
+            if (!destDir.exists()) {
+                destDir.mkdirs();
+            }
+            File destFile = new File(destDir, selectedImageFile.getName());
+            java.nio.file.Files.copy(
+                selectedImageFile.toPath(),
+                destFile.toPath(),
+                java.nio.file.StandardCopyOption.REPLACE_EXISTING
+            );
+            imagePath = destFile.getName();
+        }
+
+        movieController.addMovie(title, genre, synopsis, duration, formattedDate, imagePath, price);
+        JOptionPane.showMessageDialog(this, "Movie added successfully!");
+
+        // Show saved image in label
+        if (!imagePath.isEmpty()) {
+            String fullPath = "src/images/" + imagePath;
+            ImageIcon icon = new ImageIcon(fullPath);
+            Image img = icon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+            imageLabel.setIcon(new ImageIcon(img));
+        }
+
+        clearFields();
+        selectedImageFile = null;
+        populateTable();
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error saving movie or image: " + e.getMessage());
+    }
+
 }
 
 
     
 
     private void btnImportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportActionPerformed
-        JFileChooser fileChooser = new JFileChooser();
-fileChooser.setDialogTitle("Select an Image");
-fileChooser.setAcceptAllFileFilterUsed(false);
-fileChooser.addChoosableFileFilter(
-    new javax.swing.filechooser.FileNameExtensionFilter("Image files", "jpg", "jpeg", "png", "gif"));
+    JFileChooser fileChooser = new JFileChooser();
+    fileChooser.setDialogTitle("Select an Image");
+    fileChooser.setAcceptAllFileFilterUsed(false);
+    fileChooser.addChoosableFileFilter(
+        new javax.swing.filechooser.FileNameExtensionFilter("Image files", "jpg", "jpeg", "png", "gif"));
 
-int result = fileChooser.showOpenDialog(this);
-if (result == JFileChooser.APPROVE_OPTION) {
-    // Store the selected file in your class-level variable
-    selectedImageFile = fileChooser.getSelectedFile();
+    int result = fileChooser.showOpenDialog(this);
+    if (result == JFileChooser.APPROVE_OPTION) {
+        File sourceFile = fileChooser.getSelectedFile();
+        selectedImageFile = sourceFile; // keep reference to original file
 
-    System.out.println("Selected image path: " + selectedImageFile.getAbsolutePath());
-
-    // Create ImageIcon from the file path
-    ImageIcon icon = new ImageIcon(selectedImageFile.getAbsolutePath());
-
-    // Get image and scale it smoothly to fit label (150x150)
-    Image img = icon.getImage();
-    Image scaledImg = img.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
-
-    // Set scaled image to label
-    imageLabel.setIcon(new ImageIcon(scaledImg));
-    imageLabel.repaint();
-}
-
+        // Show preview on imageLabel
+        ImageIcon icon = new ImageIcon(selectedImageFile.getAbsolutePath());
+        Image img = icon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        imageLabel.setIcon(new ImageIcon(img));
+    }
     }//GEN-LAST:event_btnImportActionPerformed
 
     private void Genre_ComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Genre_ComboBoxActionPerformed
@@ -518,18 +546,6 @@ if(Movie_Title.getText ().isEmpty()){
         // TODO add your handling code here:
     }//GEN-LAST:event_Genre_ComboBoxFocusGained
 
-    private void SynopsisFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_SynopsisFocusGained
- if (Movie_Title.getText().equals("movie synopsis")) {
-            Movie_Title.setText(""); 
- }         
-    }//GEN-LAST:event_SynopsisFocusGained
-
-    private void SynopsisFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_SynopsisFocusLost
-if(Movie_Title.getText ().isEmpty()){
-            Movie_Title.setText("movie synopsis");
-        }         // TODO add your handling code here:
-    }//GEN-LAST:event_SynopsisFocusLost
-
   private void LogutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogutBtnActionPerformed
     int response = javax.swing.JOptionPane.showConfirmDialog(
         this,
@@ -553,20 +569,75 @@ if(Movie_Title.getText ().isEmpty()){
 }//GEN-LAST:event_LogutBtnActionPerformed
 
 
+    
     private void populateTable() {
-    List<Movie_add> movies = movieController.getAllMovies(); // Get all movies from the controller
-    javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) Movie_Table.getModel();
-    model.setRowCount(0); // Clear existing rows
+   List<Movie_add> movies = movieController.getAllMovies(); 
+    DefaultTableModel model = (DefaultTableModel) Movie_Table.getModel();
+    model.setRowCount(0);
+
     for (Movie_add movie : movies) {
+        String imageFilename = movie.getImagePath();
+        ImageIcon icon = null;
+
+        if (imageFilename != null && !imageFilename.isEmpty()) {
+            String imagePath = "src/images/" + imageFilename;
+            File imgFile = new File(imagePath);
+            System.out.println("Checking image file: " + imgFile.getAbsolutePath());
+            if (imgFile.exists()) {
+                try {
+                    ImageIcon originalIcon = new ImageIcon(imagePath);
+                    Image img = originalIcon.getImage().getScaledInstance(50, 75, Image.SCALE_SMOOTH);
+                    icon = new ImageIcon(img);
+                    System.out.println("Image loaded successfully for movie: " + movie.getTitle());
+                } catch (Exception e) {
+                    System.err.println("Error loading image for " + movie.getTitle() + ": " + e.getMessage());
+                }
+            } else {
+                System.out.println("Image file NOT found: " + imgFile.getAbsolutePath());
+            }
+        } else {
+            System.out.println("No image path for movie: " + movie.getTitle());
+        }
+
         model.addRow(new Object[]{
             movie.getId(),
-            movie.getTitle(),
-            movie.getGenre(),
-            movie.getDuration(),
-            movie.getShowDate()
+    movie.getTitle(),
+    movie.getGenre(),
+    movie.getDuration(),
+    movie.getShowDate(),
+    icon,
+    movie.getPrice()
         });
     }
 }
+
+    
+
+public class ImageRenderer extends DefaultTableCellRenderer {
+    @Override
+    public Component getTableCellRendererComponent(JTable table, Object value, 
+        boolean isSelected, boolean hasFocus, int row, int column) {
+
+        if (value instanceof ImageIcon) {
+            JLabel label = new JLabel();
+            label.setIcon((ImageIcon) value);
+            label.setHorizontalAlignment(JLabel.CENTER);
+            if (isSelected) {
+                label.setBackground(table.getSelectionBackground());
+                label.setOpaque(true);
+            } else {
+                label.setOpaque(false);
+            }
+            return label;
+        }
+        return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+    }
+}
+
+
+
+
+
     
     /**
      * @param args the command line arguments
@@ -613,7 +684,9 @@ if(Movie_Title.getText ().isEmpty()){
     private javax.swing.JButton LogutBtn;
     private javax.swing.JTable Movie_Table;
     private javax.swing.JTextField Movie_Title;
-    private javax.swing.JTextField Synopsis;
+    private javax.swing.JTextField Price;
+    private javax.swing.JScrollPane SynopisScroll;
+    private javax.swing.JTextArea Synopsis;
     private javax.swing.JButton btnImport;
     private javax.swing.JLabel imageLabel;
     private javax.swing.JLabel jLabel1;
@@ -621,6 +694,7 @@ if(Movie_Title.getText ().isEmpty()){
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;

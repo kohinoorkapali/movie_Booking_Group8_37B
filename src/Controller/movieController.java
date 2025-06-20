@@ -18,11 +18,12 @@ public class movieController {
     public movieController() {
         this.movieDAO = new MovieDAO();
     }
-    public void addMovie(String title, String genre, String synopsis, String duration, String showDate, String imagePath) {
+    public void addMovie(String title, String genre, String synopsis, String duration, String showDate, String imagePath, double price) {
         // Generate a new ID automatically
         int id = movieDAO.getNextMovieId(); // Method to get the next available ID
-        Movie_add movie = new Movie_add(String.valueOf(id), title, genre, synopsis, duration, showDate, imagePath);
-        movieDAO.addMovie(movie);
+        Movie_add movie = new Movie_add(String.valueOf(id), title, genre, synopsis, duration, showDate, imagePath, price);
+movieDAO.addMovie(movie);
+
     }
     
     public void deleteMovie(int id) {
