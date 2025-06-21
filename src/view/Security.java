@@ -3,6 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package view;
+import Dao.UserDa;
+import Dao.loginpagedao;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -14,12 +16,17 @@ import javax.swing.JButton;
  */
 public class Security extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Security
-     */
-    public Security() {
-        initComponents();
-    }
+    private UserDa userDao;
+    private String email;  // user email to link answers
+
+    public Security(String email) {
+    initComponents();
+    this.email = email;
+    this.userDao = new UserDa(); // or however you initialize it
+    System.out.println("Email received: " + email);
+}
+
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -142,15 +149,28 @@ public JButton getContinueButton() {
     return continueButton;
 }
 
-    private void continueButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_continueButtonActionPerformed
-        // TODO add your handling code here:
-        if (security1.getText().isEmpty() || security2.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null,"Please enter all the field");
-        }else{
-            JOptionPane.showMessageDialog(null,"Saved Successfully");
- 
+    private void continueButtonActionPerformed(java.awt.event.ActionEvent evt) {                                               
+    String answer1 = security1.getText().trim();
+    String answer2 = security2.getText().trim();
+
+    if (answer1.isEmpty() || answer2.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Please enter all the fields");
+    } else {
+        boolean saved = userDao.saveSecurityAnswersByEmail(email, answer1, answer2);  // use email here
+        if (saved) {
+            // ✅ Fix: Use controller to open login page properly
+    loginPage2 loginView = new loginPage2();
+    loginpagedao loginDao = new loginpagedao();
+    Controller.loginpageController loginController = new Controller.loginpageController(loginView, loginDao);
+    loginController.open();
+
+    this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "Failed to save security answers");
         }
-    }//GEN-LAST:event_continueButtonActionPerformed
+    }   
+    
+    }
 
     private void security2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_security2ActionPerformed
         // TODO add your handling code here:
@@ -184,10 +204,11 @@ public JButton getContinueButton() {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Security().setVisible(true);
-            }
+          javax.swing.SwingUtilities.invokeLater(() -> {
+            JOptionPane.showMessageDialog(null,
+                "No email provided. Please open Security window with an email parameter.",
+                "Error",
+                JOptionPane.ERROR_MESSAGE);
         });
     }
 

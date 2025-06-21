@@ -1,8 +1,12 @@
+package Model;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Model;
+
+
+import java.security.Security;
 
 /**
  *
@@ -13,12 +17,15 @@ public class SignUp1 {
     private String username;
     private String email;
     private String password;
+   
+
     
     public SignUp1(String username,String email,String password){
         this.username =username;
         this.email =email;
         this.password = password;
     }
+
     
     public int getUserId() {
         return id;
@@ -50,4 +57,14 @@ public class SignUp1 {
     public void setUserPassword(String password){
         this.password = password;
     }
+
+private Security_SignUp securityAnswers;
+
+public void setSecurityAnswers(Security_SignUp securityAnswers) {
+    this.securityAnswers = securityAnswers;
+}
+
+public Security_SignUp getSecurityAnswers() {
+    return securityAnswers;
+}
 }

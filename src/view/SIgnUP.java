@@ -40,9 +40,9 @@ public class SIgnUP extends javax.swing.JFrame {
         email = new javax.swing.JTextField();
         password = new javax.swing.JPasswordField();
         cPassword = new javax.swing.JPasswordField();
-        jButton1 = new javax.swing.JButton();
+        signUpBtn = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
+        Login_Btn = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -127,16 +127,16 @@ public class SIgnUP extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setBackground(new java.awt.Color(118, 86, 74));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Sign up");
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+        signUpBtn.setBackground(new java.awt.Color(118, 86, 74));
+        signUpBtn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        signUpBtn.setForeground(new java.awt.Color(255, 255, 255));
+        signUpBtn.setText("Sign up");
+        signUpBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton1MouseClicked(evt);
             }
         });
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        signUpBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
@@ -145,10 +145,15 @@ public class SIgnUP extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel6.setText("Already have an account?");
 
-        jButton2.setBackground(new java.awt.Color(118, 86, 74));
-        jButton2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("login");
+        Login_Btn.setBackground(new java.awt.Color(118, 86, 74));
+        Login_Btn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        Login_Btn.setForeground(new java.awt.Color(255, 255, 255));
+        Login_Btn.setText("login");
+        Login_Btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Login_BtnActionPerformed(evt);
+            }
+        });
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/logo.jpg"))); // NOI18N
 
@@ -185,8 +190,8 @@ public class SIgnUP extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(255, 255, 255)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1)))
+                            .addComponent(Login_Btn, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(signUpBtn)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(214, 214, 214)
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -219,11 +224,11 @@ public class SIgnUP extends javax.swing.JFrame {
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29)
-                .addComponent(jButton1)
+                .addComponent(signUpBtn)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel6)
                 .addGap(15, 15, 15)
-                .addComponent(jButton2)
+                .addComponent(Login_Btn)
                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
@@ -258,37 +263,41 @@ public class SIgnUP extends javax.swing.JFrame {
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
-        new Security().setVisible(true);
-        this.dispose();
         
     }//GEN-LAST:event_jButton1MouseClicked
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // TODO add your handling code here:
         UserDa dao = new UserDa();
-        
-        
-        String emailText = email.getText();
-        String nameText = username.getText();
-        String passwordText = new String(password.getPassword());
-        String retypeText = new String(cPassword.getPassword());
 
-        if (emailText.isEmpty() || nameText.isEmpty() ||passwordText.isEmpty() || retypeText.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Please fill all the fields");
-        } else if (!passwordText.equals(retypeText)) {
-            JOptionPane.showMessageDialog(null, "Passwords do not match");
-        } else if (dao.emailExists(emailText)) {
-            JOptionPane.showMessageDialog(null, "This email is already registered.");
+
+    String emailText = email.getText();
+    String nameText = username.getText();
+    String passwordText = new String(password.getPassword());
+    String retypeText = new String(cPassword.getPassword());
+
+    if (emailText.isEmpty() || nameText.isEmpty() || passwordText.isEmpty() || retypeText.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Please fill all the fields");
+    } else if (!passwordText.equals(retypeText)) {
+        JOptionPane.showMessageDialog(null, "Passwords do not match");
+    } else if (dao.emailExists(emailText)) {
+        JOptionPane.showMessageDialog(null, "This email is already registered.");
+    } else {
+        SignUp1 newUser = new SignUp1(nameText, emailText, passwordText);
+        boolean success = dao.signUp(newUser);
+        if (success) {
+            JOptionPane.showMessageDialog(null, "Account created successfully");
+
+            // Open the Security page and close this one
+           new Security(email.getText()).setVisible(true);
+
+        this.dispose(); 
+
         } else {
-            SignUp1 newUser = new SignUp1(emailText, nameText, passwordText);
-            boolean success = dao.signUp(newUser);
-            if (success) {
-                JOptionPane.showMessageDialog(null, "Account created successfully");
-            } else {
-                JOptionPane.showMessageDialog(null, "Failed to create account. Please try again.");
-       }
+            JOptionPane.showMessageDialog(null, "Failed to create account. Please try again.");
+        }
+    }
 }
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void usernameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_usernameFocusGained
         // TODO add your handling code here:
@@ -357,6 +366,12 @@ public class SIgnUP extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cPasswordFocusLost
 
+    private void Login_BtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Login_BtnActionPerformed
+         new loginPage2().setVisible(true);
+    this.dispose();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Login_BtnActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -394,10 +409,9 @@ public class SIgnUP extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Login_Btn;
     private javax.swing.JPasswordField cPassword;
     private javax.swing.JTextField email;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -407,6 +421,7 @@ public class SIgnUP extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPasswordField password;
+    private javax.swing.JButton signUpBtn;
     private javax.swing.JTextField username;
     // End of variables declaration//GEN-END:variables
 }
