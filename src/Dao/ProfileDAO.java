@@ -18,7 +18,7 @@ public class ProfileDAO {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
             // Connect to your DB: replace with your DB URL, username, password
-            String url = "jdbc:mysql://localhost:3306/edit_profile?useSSL=false&serverTimezone=UTC";
+            String url = "jdbc:mysql://localhost:3306/edit_profile?allowPublicKeyRetrieval=true&useSSL=false";
             String user = "root";
             String password = "N9neplusone";  
 
