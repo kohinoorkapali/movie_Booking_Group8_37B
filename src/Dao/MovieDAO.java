@@ -126,6 +126,87 @@ public void deleteMovie(int id) {
     return movies;
 }
 
+public void addToFavorites(String movieId) {
+    String query = "INSERT INTO favorites (movie_id) VALUES (?)";
+    Connection conn = null;
+    try {
+        conn = mySqlConnection.openConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, movieId);
+            pstmt.executeUpdate();
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    } finally {
+        mySqlConnection.closeConnection(conn);
+    }
+}
+
+public void removeFromFavorites(String movieId) {
+    String query = "DELETE FROM favorites WHERE movie_id = ?";
+    Connection conn = null;
+    try {
+        conn = mySqlConnection.openConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, movieId);
+            pstmt.executeUpdate();
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    } finally {
+        mySqlConnection.closeConnection(conn);
+    }
+}
+
+public boolean isFavorite(String movieId) {
+    boolean favorite = false;
+    String query = "SELECT * FROM favorites WHERE movie_id = ?";
+    Connection conn = null;
+    try {
+        conn = mySqlConnection.openConnection();
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, movieId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    favorite = true;
+                }
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    } finally {
+        mySqlConnection.closeConnection(conn);
+    }
+    return favorite;
+}
+
+public List<Movie_add> getFavoriteMovies() {
+    List<Movie_add> favoriteMovies = new ArrayList<>();
+    String query = "SELECT id, title, genre, synopsis, duration, show_date, image_path, price FROM movies WHERE id IN (SELECT movie_id FROM favorites)";
+
+    try (Connection conn = mySqlConnection.openConnection();
+         PreparedStatement pstmt = conn.prepareStatement(query);
+         ResultSet rs = pstmt.executeQuery()) {
+
+        while (rs.next()) {
+            String id = rs.getString("id");
+            String title = rs.getString("title");
+            String genre = rs.getString("genre");
+            String duration = rs.getString("duration");
+            String showDate = rs.getString("show_date");
+            String imagePath = rs.getString("image_path");
+            String synopsis = rs.getString("synopsis");
+            double price = rs.getDouble("price");
+            Movie_add movie = new Movie_add(id, title, genre, synopsis, duration, showDate, imagePath, price);
+            favoriteMovies.add(movie);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return favoriteMovies;
+}
+
+
 
     
 }

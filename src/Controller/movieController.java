@@ -32,4 +32,8 @@ movieDAO.addMovie(movie);
     public List<Movie_add> getAllMovies() {
         return movieDAO.getAllMovies(); // Fetch all movies from the DAO
     }
+
+    public List<Movie_add> getFavoriteMovies() {
+    return movieDAO.getFavoriteMovies();
+}
 }

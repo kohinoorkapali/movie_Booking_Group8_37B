@@ -4,6 +4,7 @@
  */
 package view;
 
+import Dao.MovieDAO;
 import Model.Movie_add;
 import java.io.File;
 import javax.swing.ImageIcon;
@@ -13,7 +14,8 @@ import javax.swing.ImageIcon;
  * @author Kohinoor
  */
 public class Movie_Detail extends javax.swing.JFrame {
-
+private Movie_add currentMovie;
+    private MovieDAO movieDAO = new MovieDAO();
     /**
      * Creates new form Movie_Detail
      */
@@ -43,6 +45,13 @@ public class Movie_Detail extends javax.swing.JFrame {
             Image.setText("No Image");
             Image.setIcon(null);
         }
+        
+        MovieDAO movieDAO = new MovieDAO();
+
+boolean isFav = movieDAO.isFavorite(movie.getId());
+FavButton.setSelected(isFav);
+
+this.currentMovie = movie;
     }
 
     /**
@@ -71,6 +80,7 @@ public class Movie_Detail extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         Show_DateLabel = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
+        FavButton = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -128,6 +138,16 @@ public class Movie_Detail extends javax.swing.JFrame {
         jButton3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jButton3.setText("Review");
 
+        FavButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/heart_empty.png"))); // NOI18N
+        FavButton.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
+        FavButton.setFocusPainted(false);
+        FavButton.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/images/heart_filled.png"))); // NOI18N
+        FavButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FavButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -164,7 +184,10 @@ public class Movie_Detail extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(Show_DateLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3))
+                    .addComponent(jButton3)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(123, 123, 123)
+                        .addComponent(FavButton, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(23, 23, 23))
         );
         jPanel1Layout.setVerticalGroup(
@@ -173,13 +196,7 @@ public class Movie_Detail extends javax.swing.JFrame {
                 .addGap(37, 37, 37)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(1, 1, 1)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(Show_DateLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel5)))
-                            .addComponent(TitleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(TitleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(30, 30, 30)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -195,7 +212,14 @@ public class Movie_Detail extends javax.swing.JFrame {
                             .addComponent(PriceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addComponent(jLabel4))
-                    .addComponent(Image, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Image, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Show_DateLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
+                        .addGap(18, 18, 18)
+                        .addComponent(FavButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
@@ -225,6 +249,15 @@ public class Movie_Detail extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void FavButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FavButtonActionPerformed
+    MovieDAO movieDAO = new MovieDAO(); // create DAO instance (or make it a class field)
+if (FavButton.isSelected()) {
+    movieDAO.addToFavorites(currentMovie.getId());
+} else {
+    movieDAO.removeFromFavorites(currentMovie.getId());
+}   // TODO add your handling code here:
+    }//GEN-LAST:event_FavButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -263,6 +296,7 @@ public class Movie_Detail extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Duration;
+    private javax.swing.JToggleButton FavButton;
     private javax.swing.JLabel GenreLabel;
     private javax.swing.JLabel Image;
     private javax.swing.JLabel PriceLabel;

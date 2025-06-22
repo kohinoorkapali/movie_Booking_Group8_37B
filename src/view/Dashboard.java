@@ -48,9 +48,9 @@ public class Dashboard extends javax.swing.JFrame {
         userMoviePanel = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        Homes = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        Fav = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         searchtext = new javax.swing.JTextField();
@@ -93,20 +93,30 @@ public class Dashboard extends javax.swing.JFrame {
         jLabel1.setText("Dashboard");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(349, 34, -1, -1));
 
-        jButton1.setBackground(new java.awt.Color(122, 118, 132));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton1.setText("Home");
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(157, 128, 132, -1));
+        Homes.setBackground(new java.awt.Color(122, 118, 132));
+        Homes.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        Homes.setText("Home");
+        Homes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                HomesActionPerformed(evt);
+            }
+        });
+        jPanel1.add(Homes, new org.netbeans.lib.awtextra.AbsoluteConstraints(157, 128, 132, -1));
 
         jButton2.setBackground(new java.awt.Color(122, 115, 128));
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton2.setText("Movies");
         jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(315, 128, 116, -1));
 
-        jButton3.setBackground(new java.awt.Color(122, 114, 132));
-        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton3.setText("Favourite");
-        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 300, 131, -1));
+        Fav.setBackground(new java.awt.Color(122, 114, 132));
+        Fav.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        Fav.setText("Favourite");
+        Fav.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FavActionPerformed(evt);
+            }
+        });
+        jPanel1.add(Fav, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 300, 131, -1));
 
         jButton4.setBackground(new java.awt.Color(122, 114, 132));
         jButton4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -185,6 +195,14 @@ public class Dashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_categoriescomboboxActionPerformed
 
+    private void FavActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FavActionPerformed
+          displayFavoriteMoviesInUserPanel();
+    }//GEN-LAST:event_FavActionPerformed
+
+    private void HomesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HomesActionPerformed
+        displayMoviesInUserPanel();
+    }//GEN-LAST:event_HomesActionPerformed
+
     public void displayMoviesInUserPanel() {
     try {
         movieController dao = new movieController();
@@ -243,6 +261,26 @@ private JPanel createMovieCard(Movie_add movie) {
 
     return card;
 }
+public void displayFavoriteMoviesInUserPanel() {
+    try {
+        movieController dao = new movieController();
+        List<Movie_add> favoriteMovies = dao.getFavoriteMovies(); // <- Use your DAO method
+
+        UserMovie_Panel.removeAll();
+        UserMovie_Panel.setLayout(new GridLayout(0, 2, 10, 10));
+
+        for (Movie_add movie : favoriteMovies) {
+            JPanel movieCard = createMovieCard(movie);
+            UserMovie_Panel.add(movieCard);
+        }
+
+        UserMovie_Panel.revalidate();
+        UserMovie_Panel.repaint();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+
 
 
 
@@ -286,13 +324,13 @@ private JPanel createMovieCard(Movie_add movie) {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Fav;
+    private javax.swing.JButton Homes;
     private javax.swing.JScrollPane MovieScroll;
     private javax.swing.JPanel UserMovie_Panel;
     private javax.swing.JComboBox<String> categoriescombobox;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
