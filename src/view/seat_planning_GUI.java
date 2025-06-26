@@ -4,23 +4,31 @@
  */
 package view;
 
+import javax.swing.JButton;
+
 public class seat_planning_GUI extends javax.swing.JFrame {
 
     public seat_planning_GUI() {
         initComponents();
     }
 
-    // Correct getters with return
-    public javax.swing.JButton getJButton1() { return jButton1; }
-    public javax.swing.JButton getJButton2() { return jButton2; }
-    public javax.swing.JButton getJButton3() { return jButton3; }
-    public javax.swing.JButton getJButton4() { return jButton4; }
-    public javax.swing.JButton getJButton5() { return jButton5; }
-    public javax.swing.JButton getJButton6() { return jButton6; }
-    public javax.swing.JButton getJButton7() { return jButton7; }
-    public javax.swing.JButton getJButton8() { return jButton8; }
-    public javax.swing.JButton getJButton9() { return jButton9; }
-    
+    // === Public Getters for Seat Buttons ===
+    public JButton getJButton1() { return jButton1; }  // VIP 1
+    public JButton getJButton2() { return jButton2; }  // SEAT 4
+    public JButton getJButton3() { return jButton3; }  // SEAT 7
+    public JButton getJButton4() { return jButton4; }  // VIP 2
+    public JButton getJButton5() { return jButton5; }  // SEAT 5
+    public JButton getJButton6() { return jButton6; }  // SEAT 8
+    public JButton getJButton7() { return jButton7; }  // SEAT 3
+    public JButton getJButton8() { return jButton8; }  // SEAT 6
+    public JButton getJButton9() { return jButton9; }  // SEAT 9
+    public JButton getJButton10() { return jButton10; } // SEAT 10
+    public JButton getJButton11() { return jButton11; } // SEAT 11
+    public JButton getJButton12() { return jButton12; } // SEAT 12
+
+    public javax.swing.JTextField getJTextField1() {
+        return jTextField1;
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -36,6 +44,9 @@ public class seat_planning_GUI extends javax.swing.JFrame {
         jButton7 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
+        jButton10 = new javax.swing.JButton();
+        jButton11 = new javax.swing.JButton();
+        jButton12 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -68,7 +79,7 @@ public class seat_planning_GUI extends javax.swing.JFrame {
         jButton5.setText("SEAT 5");
 
         jButton6.setBackground(new java.awt.Color(255, 255, 0));
-        jButton6.setText("SEAT 7");
+        jButton6.setText("SEAT 8");
 
         jButton7.setBackground(new java.awt.Color(255, 255, 0));
         jButton7.setText("SEAT 3");
@@ -77,7 +88,16 @@ public class seat_planning_GUI extends javax.swing.JFrame {
         jButton8.setText("SEAT 6");
 
         jButton9.setBackground(new java.awt.Color(255, 255, 0));
-        jButton9.setText("SEAT 8");
+        jButton9.setText("SEAT 9");
+
+        jButton10.setBackground(new java.awt.Color(255, 255, 0));
+        jButton10.setText("SEAT 10");
+
+        jButton11.setBackground(new java.awt.Color(255, 255, 0));
+        jButton11.setText("SEAT 11");
+
+        jButton12.setBackground(new java.awt.Color(255, 255, 0));
+        jButton12.setText("SEAT 12");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -85,21 +105,29 @@ public class seat_planning_GUI extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jTextField1)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(35, 35, 35)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26))
         );
 
@@ -124,7 +152,12 @@ public class seat_planning_GUI extends javax.swing.JFrame {
                     .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 27, Short.MAX_VALUE))
+                .addGap(27, 27, 27)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 25, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -147,16 +180,20 @@ public class seat_planning_GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
-   public static void main(String[] args) {
-    javax.swing.SwingUtilities.invokeLater(() -> {
-        seat_planning_GUI gui = new seat_planning_GUI();
-        gui.setVisible(true);
-        Controller.seat_controller controller = new Controller.seat_controller(gui, new Dao.seat_dao());
-    });
-}
+  // === Main Method to Run GUI ===
+    public static void main(String[] args) {
+        javax.swing.SwingUtilities.invokeLater(() -> {
+            seat_planning_GUI gui = new seat_planning_GUI();
+            gui.setVisible(true);
+            Controller.seat_controller controller = new Controller.seat_controller(gui, new Dao.seat_dao());
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton11;
+    private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
