@@ -315,7 +315,35 @@ public List<Movie_add> searchMoviesByTitle(String keyword) {
     return matchedMovies;
 }
 
+public List<Movie_add> getMoviesByGenre(String genre) {
+    List<Movie_add> movies = new ArrayList<>();
+    String query = "SELECT id, title, genre, synopsis, duration, show_date, image_path, price FROM movies WHERE genre = ?";
 
+    try (Connection conn = mySqlConnection.openConnection();
+         PreparedStatement pstmt = conn.prepareStatement(query)) {
+        
+        pstmt.setString(1, genre);
+        try (ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                String id = rs.getString("id");
+                String title = rs.getString("title");
+                String genreValue = rs.getString("genre");
+                String synopsis = rs.getString("synopsis");
+                String duration = rs.getString("duration");
+                String showDate = rs.getString("show_date");
+                String imagePath = rs.getString("image_path");
+                double price = rs.getDouble("price");
+
+                Movie_add movie = new Movie_add(id, title, genreValue, synopsis, duration, showDate, imagePath, price);
+                movies.add(movie);
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return movies;
+}
 
     
 }

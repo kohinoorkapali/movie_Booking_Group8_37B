@@ -49,5 +49,8 @@ public List<Movie_add> searchMovies(String keyword) {
     return new MovieDAO().searchMoviesByTitle(keyword);
 }
 
+public List<Movie_add> getMoviesByGenre(String genre) {
+    return movieDAO.getMoviesByGenre(genre);
+}
 
 }

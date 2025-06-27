@@ -207,7 +207,14 @@ public class Dashboard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void categoriescomboboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoriescomboboxActionPerformed
-        // TODO add your handling code here:
+ String selectedGenre = (String) categoriescombobox.getSelectedItem();
+
+    // Ignore the default option "Categories"
+    if (!"Categories".equals(selectedGenre)) {
+        displayMoviesByGenre(selectedGenre); // Calls your method to show movies of that genre
+    } else {
+        displayMoviesInUserPanel(); // Show all movies if "Categories" is selected
+    }        // TODO add your handling code here:
     }//GEN-LAST:event_categoriescomboboxActionPerformed
 
     private void FavActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FavActionPerformed
@@ -330,6 +337,26 @@ public void searchMoviesByTitle(String title) {
         UserMovie_Panel.setLayout(new GridLayout(0, 2, 10, 10));
 
         for (Movie_add movie : result) {
+            JPanel movieCard = createMovieCard(movie);
+            UserMovie_Panel.add(movieCard);
+        }
+
+        UserMovie_Panel.revalidate();
+        UserMovie_Panel.repaint();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+
+public void displayMoviesByGenre(String genre) {
+    try {
+        movieController dao = new movieController();
+        List<Movie_add> genreMovies = dao.getMoviesByGenre(genre); // Your DAO method
+
+        UserMovie_Panel.removeAll();
+        UserMovie_Panel.setLayout(new GridLayout(0, 2, 10, 10));
+
+        for (Movie_add movie : genreMovies) {
             JPanel movieCard = createMovieCard(movie);
             UserMovie_Panel.add(movieCard);
         }
