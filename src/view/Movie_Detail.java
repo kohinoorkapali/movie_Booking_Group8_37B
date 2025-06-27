@@ -51,6 +51,9 @@ private Movie_add currentMovie;
 boolean isFav = movieDAO.isFavorite(movie.getId());
 FavButton.setSelected(isFav);
 
+boolean isInWatchlist = movieDAO.isInWatchlist(movie.getId());
+WatchlistBtn.setSelected(isInWatchlist);
+
 this.currentMovie = movie;
     }
 
@@ -81,6 +84,7 @@ this.currentMovie = movie;
         Show_DateLabel = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
         FavButton = new javax.swing.JToggleButton();
+        WatchlistBtn = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -148,6 +152,15 @@ this.currentMovie = movie;
             }
         });
 
+        WatchlistBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/plus.png"))); // NOI18N
+        WatchlistBtn.setBorderPainted(false);
+        WatchlistBtn.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/images/check.png"))); // NOI18N
+        WatchlistBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                WatchlistBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -186,7 +199,8 @@ this.currentMovie = movie;
                     .addComponent(Show_DateLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(123, 123, 123)
+                        .addComponent(WatchlistBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(FavButton, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(23, 23, 23))
         );
@@ -219,7 +233,9 @@ this.currentMovie = movie;
                             .addComponent(Show_DateLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5))
                         .addGap(18, 18, 18)
-                        .addComponent(FavButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(FavButton, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                            .addComponent(WatchlistBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
@@ -258,6 +274,14 @@ if (FavButton.isSelected()) {
     movieDAO.removeFromFavorites(currentMovie.getId());
 }   // TODO add your handling code here:
     }//GEN-LAST:event_FavButtonActionPerformed
+
+    private void WatchlistBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_WatchlistBtnActionPerformed
+         if (WatchlistBtn.isSelected()) {
+        movieDAO.addToWatchlist(currentMovie.getId());
+    } else {
+        movieDAO.removeFromWatchlist(currentMovie.getId());
+    }
+    }//GEN-LAST:event_WatchlistBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -303,6 +327,7 @@ if (FavButton.isSelected()) {
     private javax.swing.JLabel Show_DateLabel;
     private javax.swing.JTextArea Synposis;
     private javax.swing.JLabel TitleLabel;
+    private javax.swing.JToggleButton WatchlistBtn;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;

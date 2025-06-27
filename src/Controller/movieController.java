@@ -36,4 +36,13 @@ movieDAO.addMovie(movie);
     public List<Movie_add> getFavoriteMovies() {
     return movieDAO.getFavoriteMovies();
 }
+
+public void addToWatchlist(Movie_add movie) {
+    movieDAO.addToWatchlist(movie.getId()); // Pass movieId as String
+}
+
+public List<Movie_add> getWatchlistMovies() {
+    return movieDAO.getWatchlistMovies(); // No problem here
+}
+
 }
