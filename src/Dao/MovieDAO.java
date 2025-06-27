@@ -285,6 +285,37 @@ public List<Movie_add> getWatchlistMovies() {
     return watchlistMovies;
 }
 
+public List<Movie_add> searchMoviesByTitle(String keyword) {
+    List<Movie_add> matchedMovies = new ArrayList<>();
+    String query = "SELECT id, title, genre, synopsis, duration, show_date, image_path, price FROM movies WHERE title LIKE ?";
+
+    try (Connection conn = mySqlConnection.openConnection();
+         PreparedStatement pstmt = conn.prepareStatement(query)) {
+        
+        pstmt.setString(1, "%" + keyword + "%");  // Case-insensitive partial match
+        try (ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                String id = rs.getString("id");
+                String title = rs.getString("title");
+                String genre = rs.getString("genre");
+                String duration = rs.getString("duration");
+                String showDate = rs.getString("show_date");
+                String imagePath = rs.getString("image_path");
+                String synopsis = rs.getString("synopsis");
+                double price = rs.getDouble("price");
+
+                Movie_add movie = new Movie_add(id, title, genre, synopsis, duration, showDate, imagePath, price);
+                matchedMovies.add(movie);
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return matchedMovies;
+}
+
+
 
     
 }

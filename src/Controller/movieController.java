@@ -45,4 +45,9 @@ public List<Movie_add> getWatchlistMovies() {
     return movieDAO.getWatchlistMovies(); // No problem here
 }
 
+public List<Movie_add> searchMovies(String keyword) {
+    return new MovieDAO().searchMoviesByTitle(keyword);
+}
+
+
 }
