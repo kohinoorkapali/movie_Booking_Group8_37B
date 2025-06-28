@@ -16,10 +16,11 @@ import javax.swing.ImageIcon;
 public class Movie_Detail extends javax.swing.JFrame {
 private Movie_add currentMovie;
     private MovieDAO movieDAO = new MovieDAO();
+    private int currentUserId;
     /**
      * Creates new form Movie_Detail
      */
-    public Movie_Detail(Movie_add movie) {
+    public Movie_Detail(Movie_add movie, int userId) {
         initComponents();
         
         System.out.println("Synopsis" +movie.getSynopsis());
@@ -48,13 +49,15 @@ private Movie_add currentMovie;
         
         MovieDAO movieDAO = new MovieDAO();
 
-boolean isFav = movieDAO.isFavorite(movie.getId());
+
+boolean isFav = movieDAO.isFavorite(currentUserId, movie.getId());
 FavButton.setSelected(isFav);
 
-boolean isInWatchlist = movieDAO.isInWatchlist(movie.getId());
+       boolean isInWatchlist = movieDAO.isInWatchlist(currentUserId, movie.getId());
 WatchlistBtn.setSelected(isInWatchlist);
 
-this.currentMovie = movie;
+        this.currentMovie = movie;
+        this.currentUserId = userId; 
     }
 
     /**
@@ -269,34 +272,39 @@ this.currentMovie = movie;
         );
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }
 
-    private void FavButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FavButtonActionPerformed
-    MovieDAO movieDAO = new MovieDAO(); // create DAO instance (or make it a class field)
-if (FavButton.isSelected()) {
-    movieDAO.addToFavorites(currentMovie.getId());
-} else {
-    movieDAO.removeFromFavorites(currentMovie.getId());
-}   // TODO add your handling code here:
-    }//GEN-LAST:event_FavButtonActionPerformed
-
-    private void WatchlistBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_WatchlistBtnActionPerformed
-         if (WatchlistBtn.isSelected()) {
-        movieDAO.addToWatchlist(currentMovie.getId());
+    private void FavButtonActionPerformed(java.awt.event.ActionEvent evt) {
+    MovieDAO movieDAO = new MovieDAO(); // create DAO instance
+    if (FavButton.isSelected()) {
+        movieDAO.addToFavorites(currentUserId, currentMovie.getId()); // Pass userId
     } else {
-        movieDAO.removeFromWatchlist(currentMovie.getId());
+        movieDAO.removeFromFavorites(currentUserId, currentMovie.getId()); // Pass userId
+    }
+    }
+
+    private void WatchlistBtnActionPerformed(java.awt.event.ActionEvent evt) {
+         MovieDAO movieDAO = new MovieDAO(); // create DAO instance
+    if (WatchlistBtn.isSelected()) {
+        movieDAO.addToWatchlist(currentUserId, currentMovie.getId()); // Pass userId
+    } else {
+        movieDAO.removeFromWatchlist(currentUserId, currentMovie.getId()); // Pass userId
     }
     }//GEN-LAST:event_WatchlistBtnActionPerformed
 
     private void BookingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BookingActionPerformed
-int movieId = Integer.parseInt(currentMovie.getId());
+int movieId = Integer.parseInt(currentMovie.getId());  // no parseInt needed
+    int userId = currentUserId;
 
-    view.seat_planning_GUI seatGui = new view.seat_planning_GUI();
+    // Create GUI by passing movieId and userId
+    view.seat_planning_GUI seatGui = new view.seat_planning_GUI(movieId, userId);
     Dao.seat_dao seatDao = new Dao.seat_dao();
-    Controller.seat_controller seatController = new Controller.seat_controller(seatGui, seatDao, movieId);
+    Controller.seat_controller seatController = new Controller.seat_controller(
+        seatGui, seatDao, movieId, userId 
+    );
 
     seatGui.setVisible(true);
-    this.dispose();         // TODO add your handling code here:
+    this.dispose();   // TODO add your handling code here:
     }//GEN-LAST:event_BookingActionPerformed
 
     /**

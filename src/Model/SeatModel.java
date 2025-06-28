@@ -3,9 +3,10 @@ package Model;
 public class SeatModel {
     private int movieId;
     private String seatNumber;
-    private String bookedByUsername; // can be null if not booked
+    private Integer bookedByUserId; // Using Integer to allow null if unbooked
+    private String bookedForName; 
 
-    public SeatModel(int movieId, String seatNumber, String bookedByUsername) {
+    public SeatModel(int movieId, String seatNumber, Integer bookedByUserId, String bookedForName) {
         if (movieId <= 0) {
             throw new IllegalArgumentException("Movie ID must be positive.");
         }
@@ -14,12 +15,13 @@ public class SeatModel {
         }
         this.movieId = movieId;
         this.seatNumber = seatNumber;
-        this.bookedByUsername = bookedByUsername;
+        this.bookedByUserId = bookedByUserId;
+        this.bookedForName = bookedForName;
     }
 
     // Overloaded constructor for unbooked seats
     public SeatModel(int movieId, String seatNumber) {
-        this(movieId, seatNumber, null);
+        this(movieId, seatNumber, null, null);
     }
 
     public int getMovieId() {
@@ -30,12 +32,16 @@ public class SeatModel {
         return seatNumber;
     }
 
-    public String getBookedByUsername() {
-        return bookedByUsername;
+    public Integer getBookedByUserId() {
+        return bookedByUserId;
+    }
+
+    public String getBookedForName() {
+        return bookedForName;
     }
 
     public boolean isBooked() {
-        return bookedByUsername != null && !bookedByUsername.isEmpty();
+        return bookedByUserId != null;
     }
 
     @Override
@@ -43,7 +49,8 @@ public class SeatModel {
         return "Seat{" +
                 "movieId=" + movieId +
                 ", seatNumber='" + seatNumber + '\'' +
-                ", bookedByUsername='" + bookedByUsername + '\'' +
+                ", bookedByUserId=" + bookedByUserId +
+                ", bookedForName='" + bookedForName + '\'' +
                 '}';
     }
 }

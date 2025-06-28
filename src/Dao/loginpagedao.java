@@ -1,37 +1,30 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import Database.*;
+import Database.MySqlConnection;
 import Model.loginpage;
 
-
 public class loginpagedao {
-    
+
     MySqlConnection connection = new MySqlConnection();
 
-
-
-   public boolean login(loginpage user) {
-    boolean isValid = false;
+    // Return user_id instead of just true/false
+    public Integer loginAndGetUserId(loginpage user) {
+    Integer userId = null;
     Connection conn = connection.openConnection();
 
-    String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
+    String sql = "SELECT user_id FROM users WHERE username = ? AND password = ?";
 
     try (PreparedStatement stmt = conn.prepareStatement(sql)) {
         stmt.setString(1, user.getUsername().trim());
-stmt.setString(2, user.getPassword().trim());
+        stmt.setString(2, user.getPassword().trim());
 
         ResultSet rs = stmt.executeQuery();
 
-        // Check if a record exists
         if (rs.next()) {
-            isValid = true;
+            userId = rs.getInt("user_id");
         }
 
         rs.close();
@@ -39,9 +32,7 @@ stmt.setString(2, user.getPassword().trim());
         e.printStackTrace();
     }
 
-    return isValid;
+    return userId;
 }
 
 }
-
-   

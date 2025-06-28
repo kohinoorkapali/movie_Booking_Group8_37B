@@ -32,18 +32,18 @@ movieDAO.addMovie(movie);
     public List<Movie_add> getAllMovies() {
         return movieDAO.getAllMovies(); // Fetch all movies from the DAO
     }
-
-    public List<Movie_add> getFavoriteMovies() {
-    return movieDAO.getFavoriteMovies();
+public List<Movie_add> getFavoriteMovies(int userId) {
+    return movieDAO.getFavoriteMovies(userId);
 }
 
-public void addToWatchlist(Movie_add movie) {
-    movieDAO.addToWatchlist(movie.getId()); // Pass movieId as String
+public void addToWatchlist(int userId, Movie_add movie) {
+    movieDAO.addToWatchlist(userId, movie.getId());
 }
 
-public List<Movie_add> getWatchlistMovies() {
-    return movieDAO.getWatchlistMovies(); // No problem here
+public List<Movie_add> getWatchlistMovies(int userId) {
+    return movieDAO.getWatchlistMovies(userId);
 }
+
 
 public List<Movie_add> searchMovies(String keyword) {
     return new MovieDAO().searchMoviesByTitle(keyword);

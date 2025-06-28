@@ -8,7 +8,12 @@ import javax.swing.JButton;
 
 public class seat_planning_GUI extends javax.swing.JFrame {
 
-    public seat_planning_GUI() {
+     private int movieId;
+    private int currentUserId;
+
+    public seat_planning_GUI(int movieId, int currentUserId) {
+        this.movieId = movieId;
+        this.currentUserId = currentUserId;
         initComponents();
     }
 
@@ -187,13 +192,14 @@ public class seat_planning_GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
   // === Main Method to Run GUI ===
-    public static void main(String[] args) {
-    javax.swing.SwingUtilities.invokeLater(() -> {
-        seat_planning_GUI gui = new seat_planning_GUI();
-        gui.setVisible(true);
-        Controller.seat_controller controller = new Controller.seat_controller(gui, new Dao.seat_dao(), 1);
-    });
-}
+//    public static void main(String[] args) {
+//    javax.swing.SwingUtilities.invokeLater(() -> {
+//        seat_planning_GUI gui = new seat_planning_GUI();
+//        gui.setVisible(true);
+//    
+//Controller.seat_controller controller = new Controller.seat_controller(gui, new Dao.seat_dao(), movieId, currentUserId);
+//    });
+//}
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

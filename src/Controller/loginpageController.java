@@ -35,10 +35,15 @@ public class loginpageController {
 
         loginpage user = new loginpage(username, password);
 
-        if (Dao.login(user)) {
+        // 👇 Get user ID instead of just checking boolean
+        Integer userId = Dao.loginAndGetUserId(user);
+
+        if (userId != null) {
             JOptionPane.showMessageDialog(view, "Login Successful!");
-            // Add transition to dashboard here
-            new Dashboard().setVisible(true);
+
+            // 👇 Pass userId to Dashboard
+            new Dashboard(userId).setVisible(true);
+
             view.dispose();
         } else {
             JOptionPane.showMessageDialog(view, "Invalid username or password.");
@@ -46,4 +51,3 @@ public class loginpageController {
     }
 }
 }
-

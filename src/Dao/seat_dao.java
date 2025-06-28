@@ -14,11 +14,11 @@ import Model.SeatModel;
 
 public class seat_dao {
 
-       private MySqlConnection mySqlConnection = new MySqlConnection();
+    private MySqlConnection mySqlConnection = new MySqlConnection();
 
     public Map<String, SeatModel> getAllBookings(int movieId) {
     Map<String, SeatModel> seatMap = new HashMap<>();
-    String sql = "SELECT movie_id, seat_number, booked_by_username FROM seat_details WHERE movie_id = ?";
+    String sql = "SELECT movie_id, seat_number, booked_by_user_id, booked_for_name FROM seat_details WHERE movie_id = ?";
 
     Connection con = mySqlConnection.openConnection();
     if (con == null) return seatMap;
@@ -28,9 +28,10 @@ public class seat_dao {
         try (ResultSet rs = pst.executeQuery()) {
             while (rs.next()) {
                 String seatNumber = rs.getString("seat_number");
-                String username = rs.getString("booked_by_username");
+                Integer bookedByUserId = rs.getObject("booked_by_user_id") != null ? rs.getInt("booked_by_user_id") : null;
+                String bookedFor = rs.getString("booked_for_name");
 
-                SeatModel seat = new SeatModel(movieId, seatNumber, username);
+                SeatModel seat = new SeatModel(movieId, seatNumber, bookedByUserId, bookedFor);
                 seatMap.put(seatNumber, seat);
             }
         }
@@ -43,117 +44,92 @@ public class seat_dao {
     return seatMap;
 }
 
-        public boolean bookSeat(int movieId, String seatNumber, String username) {
-        String sql = "UPDATE seat_details SET booked_by_username = ? WHERE movie_id = ? AND seat_number = ?";
-        Connection con = mySqlConnection.openConnection();
-        if (con == null) return false;
-
-        try (PreparedStatement pst = con.prepareStatement(sql)) {
-            pst.setString(1, username);
-            pst.setInt(2, movieId);
-            pst.setString(3, seatNumber);
-
-            return pst.executeUpdate() > 0;
-
-        } catch (SQLException e) {
-            System.out.println("Failed to book: " + e.getMessage());
-            return false;
-        } finally {
-            mySqlConnection.closeConnection(con);
-        }
-    }
-
-   public boolean cancelSeat(int movieId, String seatNumber) {
-        String sql = "UPDATE seat_details SET booked_by_username = NULL WHERE movie_id = ? AND seat_number = ?";
-        Connection con = mySqlConnection.openConnection();
-        if (con == null) return false;
-
-        try (PreparedStatement pst = con.prepareStatement(sql)) {
-            pst.setInt(1, movieId);
-            pst.setString(2, seatNumber);
-
-            return pst.executeUpdate() > 0;
-
-        } catch (SQLException e) {
-            System.out.println("Failed to cancel: " + e.getMessage());
-            return false;
-        } finally {
-            mySqlConnection.closeConnection(con);
-        }
-    }
-
-public SeatModel getBookingBySeat(int movieId, String seatNumber) {
-        String sql = "SELECT booked_by_username FROM seat_details WHERE movie_id = ? AND seat_number = ?";
-        Connection con = mySqlConnection.openConnection();
-        if (con == null) return null;
-
-        try (PreparedStatement pst = con.prepareStatement(sql)) {
-            pst.setInt(1, movieId);
-            pst.setString(2, seatNumber);
-
-            try (ResultSet rs = pst.executeQuery()) {
-                if (rs.next()) {
-                    String username = rs.getString("booked_by_username");
-                    return new SeatModel(movieId, seatNumber, username);
-                }
-            }
-
-        } catch (SQLException e) {
-            System.out.println("Error getting seat: " + e.getMessage());
-        } finally {
-            mySqlConnection.closeConnection(con);
-        }
-
-        return null;
-    }
-
-    public boolean initializeSeatsForMovie(int movieId, List<String> seatNumbers) {
-    if (seatNumbers == null || seatNumbers.isEmpty()) {
-        System.out.println("No seat numbers provided for initialization.");
-        return false; // or throw an IllegalArgumentException
-    }
-
-    String sql = "INSERT IGNORE INTO seat_details (movie_id, seat_number) VALUES (?, ?)";
+public boolean bookSeat(int movieId, String seatNumber, Integer userId, String bookedForName) {
+    String sql = "UPDATE seat_details SET booked_by_user_id = ?, booked_for_name = ? WHERE movie_id = ? AND seat_number = ?";
     Connection con = mySqlConnection.openConnection();
-    if (con == null) {
-        System.out.println("Failed to open database connection.");
-        return false;
-    }
+    if (con == null) return false;
 
     try (PreparedStatement pst = con.prepareStatement(sql)) {
-        // Disable auto-commit for transaction management
-        con.setAutoCommit(false);
-        
-        for (String seatNum : seatNumbers) {
-            pst.setInt(1, movieId);
-            pst.setString(2, seatNum);
-            pst.addBatch();
+        if (userId != null) {
+            pst.setInt(1, userId);
+        } else {
+            pst.setNull(1, java.sql.Types.INTEGER);
         }
-        
-        int[] results = pst.executeBatch();
-        con.commit(); // Commit the transaction
+        pst.setString(2, bookedForName);
+        pst.setInt(3, movieId);
+        pst.setString(4, seatNumber);
 
-        // Check if any insert failed
-        for (int result : results) {
-            if (result == Statement.EXECUTE_FAILED) {
-                System.out.println("Failed to insert one or more seat numbers.");
-                return false;
-            }
-        }
-        
-        return true; // All inserts were successful
+        return pst.executeUpdate() > 0;
+
     } catch (SQLException e) {
-        System.out.println("Error initializing seats: " + e.getMessage());
-        try {
-            con.rollback(); // Rollback in case of error
-        } catch (SQLException rollbackEx) {
-            System.out.println("Error during rollback: " + rollbackEx.getMessage());
-        }
+        System.out.println("Failed to book: " + e.getMessage());
         return false;
     } finally {
         mySqlConnection.closeConnection(con);
     }
 }
 
+public boolean cancelSeat(int movieId, String seatNumber) {
+    String sql = "UPDATE seat_details SET booked_by_user_id = NULL, booked_for_name = NULL WHERE movie_id = ? AND seat_number = ?";
+    Connection con = mySqlConnection.openConnection();
+    if (con == null) return false;
 
+    try (PreparedStatement pst = con.prepareStatement(sql)) {
+        pst.setInt(1, movieId);
+        pst.setString(2, seatNumber);
+
+        return pst.executeUpdate() > 0;
+
+    } catch (SQLException e) {
+        System.out.println("Failed to cancel: " + e.getMessage());
+        return false;
+    } finally {
+        mySqlConnection.closeConnection(con);
+    }
+}
+
+public SeatModel getBookingBySeat(int movieId, String seatNumber) {
+    String sql = "SELECT booked_by_user_id, booked_for_name FROM seat_details WHERE movie_id = ? AND seat_number = ?";
+    Connection con = mySqlConnection.openConnection();
+    if (con == null) return null;
+
+    try (PreparedStatement pst = con.prepareStatement(sql)) {
+        pst.setInt(1, movieId);
+        pst.setString(2, seatNumber);
+
+        try (ResultSet rs = pst.executeQuery()) {
+            if (rs.next()) {
+                Integer bookedByUserId = rs.getObject("booked_by_user_id") != null ? rs.getInt("booked_by_user_id") : null;
+                String bookedFor = rs.getString("booked_for_name");
+                return new SeatModel(movieId, seatNumber, bookedByUserId, bookedFor);
+            }
+        }
+
+    } catch (SQLException e) {
+        System.out.println("Error getting seat: " + e.getMessage());
+    } finally {
+        mySqlConnection.closeConnection(con);
+    }
+
+    return null;
+}
+
+public void initializeSeatsForMovie(int movieId, List<String> seatNumbers) {
+    String sql = "INSERT IGNORE INTO seat_details (movie_id, seat_number) VALUES (?, ?)";
+    Connection con = mySqlConnection.openConnection();
+    if (con == null) return;
+
+    try (PreparedStatement pst = con.prepareStatement(sql)) {
+        for (String seatNumber : seatNumbers) {
+            pst.setInt(1, movieId);
+            pst.setString(2, seatNumber);
+            pst.addBatch();
+        }
+        pst.executeBatch();
+    } catch (SQLException e) {
+        System.out.println("Failed to initialize seats: " + e.getMessage());
+    } finally {
+        mySqlConnection.closeConnection(con);
+    }
+}
 }

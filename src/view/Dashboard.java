@@ -29,20 +29,21 @@ public class Dashboard extends javax.swing.JFrame {
     /**
      * Creates new form Dashboard
      */
-    public Dashboard() {
-        initComponents();
-        displayMoviesInUserPanel();
-         searchBtn.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            String query = searchtext.getText().trim();
-            if (!query.isEmpty()) {
-                searchMoviesByTitle(query);
-            } else {
-                displayMoviesInUserPanel(); // fallback to all movies
-            }
+    private int userId;
+
+public Dashboard(int userId) {
+    this.userId = userId;
+    initComponents();
+    displayMoviesInUserPanel();
+    searchBtn.addActionListener(evt -> {
+        String query = searchtext.getText().trim();
+        if (!query.isEmpty()) {
+            searchMoviesByTitle(query);
+        } else {
+            displayMoviesInUserPanel();
         }
     });
-    }
+}
 
     
 
@@ -274,7 +275,7 @@ private JPanel createMovieCard(Movie_add movie) {
     // 🎯 Add click event to open MovieDetails
     titleLabel.addMouseListener(new java.awt.event.MouseAdapter() {
         public void mouseClicked(java.awt.event.MouseEvent evt) {
-        new Movie_Detail(movie).setVisible(true); // Open the new frame
+            new Movie_Detail(movie, userId).setVisible(true);
         }
     });
 
@@ -290,7 +291,7 @@ private JPanel createMovieCard(Movie_add movie) {
 public void displayFavoriteMoviesInUserPanel() {
     try {
         movieController dao = new movieController();
-        List<Movie_add> favoriteMovies = dao.getFavoriteMovies(); // <- Use your DAO method
+List<Movie_add> favoriteMovies = dao.getFavoriteMovies(this.userId); // <- Use your DAO method
 
         UserMovie_Panel.removeAll();
         UserMovie_Panel.setLayout(new GridLayout(0, 2, 10, 10));
@@ -309,8 +310,8 @@ public void displayFavoriteMoviesInUserPanel() {
 
 public void displayWatchlistMoviesInUserPanel() {
     try {
-        movieController dao = new movieController();
-        List<Movie_add> watchlistMovies = dao.getWatchlistMovies(); // <- DAO method
+       movieController dao = new movieController();
+List<Movie_add> watchlistMovies = dao.getWatchlistMovies(this.userId); // <- DAO method
 
         UserMovie_Panel.removeAll();
         UserMovie_Panel.setLayout(new GridLayout(0, 2, 10, 10)); // Same 2-column layout
@@ -378,38 +379,38 @@ public void displayMoviesByGenre(String genre) {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Dashboard().setVisible(true);
-            }
-        });
-    }
+//    public static void main(String args[]) {
+//        
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new Dashboard().setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Fav;

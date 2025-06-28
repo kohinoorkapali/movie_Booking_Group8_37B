@@ -21,21 +21,23 @@ public class seat_controller {
     private final seat_planning_GUI view;
     private final seat_dao dao;
     private final Map<JButton, String> seatButtonMap = new HashMap<>();
-    private final int movieId; 
+    private final int movieId;
+    private final int currentUserId;
 
-     public seat_controller(seat_planning_GUI view, seat_dao dao, int movieId) {
+    public seat_controller(seat_planning_GUI view, seat_dao dao, int movieId, int currentUserId) {
         this.view = view;
         this.dao = dao;
         this.movieId = movieId;
+        this.currentUserId = currentUserId;
         initController();
     }
 
     private void initController() {
-        mapButtonsToSeats();
-        addListeners();
-        loadSeatsStatus();
-         initializeSeatsInDatabase();
-    }
+    mapButtonsToSeats();
+    addListeners();
+    loadSeatsStatus();
+    initializeSeatsInDatabase();
+}
 
     private void mapButtonsToSeats() {
         seatButtonMap.put(view.getJButton1(), "VIP1");
@@ -75,66 +77,58 @@ public class seat_controller {
             return;
         }
 
+        // For VIP seats
         if (seatNumber.startsWith("VIP")) {
-            if (seat.getBookedByUsername() != null) {
-                JOptionPane.showMessageDialog(view, "This is booked by " + seat.getBookedByUsername());
+            if (seat.isBooked()) {
+                JOptionPane.showMessageDialog(view, "This seat is booked by user ID: " + seat.getBookedByUserId() +
+                        (seat.getBookedForName() != null ? " for " + seat.getBookedForName() : ""));
             } else {
                 JOptionPane.showMessageDialog(view, "VIP seat is not booked.");
             }
             return;
         }
-
-        if (seat.getBookedByUsername() != null && !seat.getBookedByUsername().isEmpty()) {
-            int confirm = JOptionPane.showConfirmDialog(view, "Seat is booked by " + seat.getBookedByUsername() + ". Cancel booking?", "Cancel", JOptionPane.YES_NO_OPTION);
-            if (confirm == JOptionPane.YES_OPTION) {
-                if (dao.cancelSeat(movieId, seatNumber)) {
-                    button.setBackground(java.awt.Color.YELLOW);
-                    JOptionPane.showMessageDialog(view, "Booking canceled.");
-                } else {
-                    JOptionPane.showMessageDialog(view, "Failed to cancel booking.");
-                }
-            }
+ // For regular seats
+    if (seat.isBooked()) {
+        // Just show booked message; no cancel or info dialog
+        JOptionPane.showMessageDialog(view, "This seat is already booked.");
+        return;
         } else {
-            String name = JOptionPane.showInputDialog(view, "Enter your name to book this seat:");
+            String name = JOptionPane.showInputDialog(view, "Enter name for whom you're booking this seat:");
             if (name != null && !name.trim().isEmpty()) {
-                if (dao.bookSeat(movieId, seatNumber, name)) {
+                if (dao.bookSeat(movieId, seatNumber, currentUserId, name)) {
                     button.setBackground(java.awt.Color.BLUE);
-                    JOptionPane.showMessageDialog(view, "Seat booked successfully.");
+                    JOptionPane.showMessageDialog(view, "Seat booked successfully for " + name);
                 } else {
                     JOptionPane.showMessageDialog(view, "Failed to book seat.");
                 }
             }
         }
     }
-
+    
     private void loadSeatsStatus() {
-     Map<String, SeatModel> seatMap = dao.getAllBookings(movieId); // seatNumber -> seat_model for this movie
+        Map<String, SeatModel> seatMap = dao.getAllBookings(movieId);
 
-    for (Map.Entry<JButton, String> entry : seatButtonMap.entrySet()) {
-        JButton button = entry.getKey();
-        String seatNumber = entry.getValue();
+        for (Map.Entry<JButton, String> entry : seatButtonMap.entrySet()) {
+            JButton button = entry.getKey();
+            String seatNumber = entry.getValue();
 
-        SeatModel seat = seatMap.get(seatNumber);
-        if (seat != null && seat.getBookedByUsername() != null && !seat.getBookedByUsername().isEmpty()) {
-            if (seatNumber.startsWith("VIP")) {
-                button.setBackground(java.awt.Color.RED);
+            SeatModel seat = seatMap.get(seatNumber);
+            if (seat != null && seat.isBooked()) {
+                if (seatNumber.startsWith("VIP")) {
+                    button.setBackground(java.awt.Color.RED);
+                } else {
+                    button.setBackground(java.awt.Color.BLUE);
+                }
             } else {
-                button.setBackground(java.awt.Color.BLUE);
-            }
-        } else {
-            if (!seatNumber.startsWith("VIP")) {
-                button.setBackground(java.awt.Color.YELLOW);
+                if (!seatNumber.startsWith("VIP")) {
+                    button.setBackground(java.awt.Color.YELLOW);
+                }
             }
         }
     }
 
-}
-private void initializeSeatsInDatabase() {
-        // Get all seat numbers from the button mapping
-        List<String> allSeatNumbers = seatButtonMap.values()
-                .stream()
-                .collect(Collectors.toList());
-        // Initialize all seats at once
+    private void initializeSeatsInDatabase() {
+        List<String> allSeatNumbers = seatButtonMap.values().stream().collect(Collectors.toList());
         dao.initializeSeatsForMovie(movieId, allSeatNumbers);
         System.out.println("Initialized seats: " + allSeatNumbers);
     }

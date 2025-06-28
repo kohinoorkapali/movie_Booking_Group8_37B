@@ -126,79 +126,68 @@ public void deleteMovie(int id) {
     return movies;
 }
 
-public void addToFavorites(String movieId) {
-    String query = "INSERT INTO favorites (movie_id) VALUES (?)";
-    Connection conn = null;
-    try {
-        conn = mySqlConnection.openConnection();
-        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
-            pstmt.setString(1, movieId);
-            pstmt.executeUpdate();
-        }
+public void addToFavorites(int userId, String movieId) {
+    String query = "INSERT INTO favorites (user_id, movie_id) VALUES (?, ?)";
+    try (Connection conn = mySqlConnection.openConnection();
+         PreparedStatement pstmt = conn.prepareStatement(query)) {
+        pstmt.setInt(1, userId);
+        pstmt.setString(2, movieId);
+        pstmt.executeUpdate();
     } catch (SQLException e) {
         e.printStackTrace();
-    } finally {
-        mySqlConnection.closeConnection(conn);
     }
 }
 
-public void removeFromFavorites(String movieId) {
-    String query = "DELETE FROM favorites WHERE movie_id = ?";
-    Connection conn = null;
-    try {
-        conn = mySqlConnection.openConnection();
-        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
-            pstmt.setString(1, movieId);
-            pstmt.executeUpdate();
-        }
+public void removeFromFavorites(int userId, String movieId) {
+    String query = "DELETE FROM favorites WHERE user_id = ? AND movie_id = ?";
+    try (Connection conn = mySqlConnection.openConnection();
+         PreparedStatement pstmt = conn.prepareStatement(query)) {
+        pstmt.setInt(1, userId);
+        pstmt.setString(2, movieId);
+        pstmt.executeUpdate();
     } catch (SQLException e) {
         e.printStackTrace();
-    } finally {
-        mySqlConnection.closeConnection(conn);
     }
 }
 
-public boolean isFavorite(String movieId) {
+public boolean isFavorite(int userId, String movieId) {
     boolean favorite = false;
-    String query = "SELECT * FROM favorites WHERE movie_id = ?";
-    Connection conn = null;
-    try {
-        conn = mySqlConnection.openConnection();
-        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
-            pstmt.setString(1, movieId);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) {
-                    favorite = true;
-                }
+    String query = "SELECT * FROM favorites WHERE user_id = ? AND movie_id = ?";
+    try (Connection conn = mySqlConnection.openConnection();
+         PreparedStatement pstmt = conn.prepareStatement(query)) {
+        pstmt.setInt(1, userId);
+        pstmt.setString(2, movieId);
+        try (ResultSet rs = pstmt.executeQuery()) {
+            if (rs.next()) {
+                favorite = true;
             }
         }
     } catch (SQLException e) {
         e.printStackTrace();
-    } finally {
-        mySqlConnection.closeConnection(conn);
     }
     return favorite;
 }
 
-public List<Movie_add> getFavoriteMovies() {
+public List<Movie_add> getFavoriteMovies(int userId) {
     List<Movie_add> favoriteMovies = new ArrayList<>();
-    String query = "SELECT id, title, genre, synopsis, duration, show_date, image_path, price FROM movies WHERE id IN (SELECT movie_id FROM favorites)";
-
+    String query = "SELECT m.* FROM movies m JOIN favorites f ON m.id = f.movie_id WHERE f.user_id = ?";
     try (Connection conn = mySqlConnection.openConnection();
-         PreparedStatement pstmt = conn.prepareStatement(query);
-         ResultSet rs = pstmt.executeQuery()) {
-
-        while (rs.next()) {
-            String id = rs.getString("id");
-            String title = rs.getString("title");
-            String genre = rs.getString("genre");
-            String duration = rs.getString("duration");
-            String showDate = rs.getString("show_date");
-            String imagePath = rs.getString("image_path");
-            String synopsis = rs.getString("synopsis");
-            double price = rs.getDouble("price");
-            Movie_add movie = new Movie_add(id, title, genre, synopsis, duration, showDate, imagePath, price);
-            favoriteMovies.add(movie);
+         PreparedStatement pstmt = conn.prepareStatement(query)) {
+        pstmt.setInt(1, userId);
+        try (ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                // map rs to Movie_add and add to favoriteMovies
+                favoriteMovies.add(new Movie_add(
+                    rs.getString("id"),
+                    rs.getString("title"),
+                    rs.getString("genre"),
+                    rs.getString("synopsis"),
+                    rs.getString("duration"),
+                    rs.getString("show_date"),
+                    rs.getString("image_path"),
+                    rs.getDouble("price")
+                ));
+            }
         }
     } catch (SQLException e) {
         e.printStackTrace();
@@ -206,84 +195,74 @@ public List<Movie_add> getFavoriteMovies() {
     return favoriteMovies;
 }
 
-public void addToWatchlist(String movieId) {
-    String query = "INSERT INTO watchlist (movie_id) VALUES (?)";
-    Connection conn = null;
-    try {
-        conn = mySqlConnection.openConnection();
-        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
-            pstmt.setString(1, movieId);
-            pstmt.executeUpdate();
-        }
+public void addToWatchlist(int userId, String movieId) {
+    String query = "INSERT INTO watchlist (user_id, movie_id) VALUES (?, ?)";
+    try (Connection conn = mySqlConnection.openConnection();
+         PreparedStatement pstmt = conn.prepareStatement(query)) {
+        pstmt.setInt(1, userId);
+        pstmt.setString(2, movieId);
+        pstmt.executeUpdate();
     } catch (SQLException e) {
         e.printStackTrace();
-    } finally {
-        mySqlConnection.closeConnection(conn);
-    }
-}
-public void removeFromWatchlist(String movieId) {
-    String query = "DELETE FROM watchlist WHERE movie_id = ?";
-    Connection conn = null;
-    try {
-        conn = mySqlConnection.openConnection();
-        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
-            pstmt.setString(1, movieId);
-            pstmt.executeUpdate();
-        }
-    } catch (SQLException e) {
-        e.printStackTrace();
-    } finally {
-        mySqlConnection.closeConnection(conn);
     }
 }
 
-public boolean isInWatchlist(String movieId) {
+public void removeFromWatchlist(int userId, String movieId) {
+    String query = "DELETE FROM watchlist WHERE user_id = ? AND movie_id = ?";
+    try (Connection conn = mySqlConnection.openConnection();
+         PreparedStatement pstmt = conn.prepareStatement(query)) {
+        pstmt.setInt(1, userId);
+        pstmt.setString(2, movieId);
+        pstmt.executeUpdate();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+}
+
+public boolean isInWatchlist(int userId, String movieId) {
     boolean inWatchlist = false;
-    String query = "SELECT * FROM watchlist WHERE movie_id = ?";
-    Connection conn = null;
-    try {
-        conn = mySqlConnection.openConnection();
-        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
-            pstmt.setString(1, movieId);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) {
-                    inWatchlist = true;
-                }
+    String query = "SELECT * FROM watchlist WHERE user_id = ? AND movie_id = ?";
+    try (Connection conn = mySqlConnection.openConnection();
+         PreparedStatement pstmt = conn.prepareStatement(query)) {
+        pstmt.setInt(1, userId);
+        pstmt.setString(2, movieId);
+        try (ResultSet rs = pstmt.executeQuery()) {
+            if (rs.next()) {
+                inWatchlist = true;
             }
         }
     } catch (SQLException e) {
         e.printStackTrace();
-    } finally {
-        mySqlConnection.closeConnection(conn);
     }
     return inWatchlist;
 }
 
-public List<Movie_add> getWatchlistMovies() {
+public List<Movie_add> getWatchlistMovies(int userId) {
     List<Movie_add> watchlistMovies = new ArrayList<>();
-    String query = "SELECT id, title, genre, synopsis, duration, show_date, image_path, price FROM movies WHERE id IN (SELECT movie_id FROM watchlist)";
-
+    String query = "SELECT m.* FROM movies m JOIN watchlist w ON m.id = w.movie_id WHERE w.user_id = ?";
     try (Connection conn = mySqlConnection.openConnection();
-         PreparedStatement pstmt = conn.prepareStatement(query);
-         ResultSet rs = pstmt.executeQuery()) {
-
-        while (rs.next()) {
-            String id = rs.getString("id");
-            String title = rs.getString("title");
-            String genre = rs.getString("genre");
-            String duration = rs.getString("duration");
-            String showDate = rs.getString("show_date");
-            String imagePath = rs.getString("image_path");
-            String synopsis = rs.getString("synopsis");
-            double price = rs.getDouble("price");
-            Movie_add movie = new Movie_add(id, title, genre, synopsis, duration, showDate, imagePath, price);
-            watchlistMovies.add(movie);
+         PreparedStatement pstmt = conn.prepareStatement(query)) {
+        pstmt.setInt(1, userId);
+        try (ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                watchlistMovies.add(new Movie_add(
+                    rs.getString("id"),
+                    rs.getString("title"),
+                    rs.getString("genre"),
+                    rs.getString("synopsis"),
+                    rs.getString("duration"),
+                    rs.getString("show_date"),
+                    rs.getString("image_path"),
+                    rs.getDouble("price")
+                ));
+            }
         }
     } catch (SQLException e) {
         e.printStackTrace();
     }
     return watchlistMovies;
 }
+
 
 public List<Movie_add> searchMoviesByTitle(String keyword) {
     List<Movie_add> matchedMovies = new ArrayList<>();
