@@ -94,7 +94,6 @@ public class ChangePassword extends javax.swing.JFrame {
         jLabel4.setText("Confirm password");
 
         userEmail.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        userEmail.setText("Enter your new password");
         userEmail.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 userEmailFocusGained(evt);
