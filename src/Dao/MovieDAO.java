@@ -4,16 +4,17 @@
  */
 package Dao;
 import Database.MySqlConnection;
+
 import Model.Movie_add;
 import java.text.SimpleDateFormat;
-import java.text.ParseException;
+
 import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.List;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Connection;
-import java.sql.DriverManager;
+
 import java.sql.SQLException;
 
 /**

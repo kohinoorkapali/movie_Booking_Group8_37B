@@ -73,7 +73,7 @@ public Dashboard(int userId) {
         jLabel5 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         searchBtn = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
+        ProfileBtn = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
         MovieScroll = new javax.swing.JScrollPane();
         UserMovie_Panel = new javax.swing.JPanel();
@@ -175,10 +175,15 @@ public Dashboard(int userId) {
         searchBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/loupe1.png"))); // NOI18N
         jPanel1.add(searchBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(825, 128, 41, 43));
 
-        jButton9.setBackground(new java.awt.Color(122, 106, 106));
-        jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/user1.png"))); // NOI18N
-        jButton9.setBorderPainted(false);
-        jPanel1.add(jButton9, new org.netbeans.lib.awtextra.AbsoluteConstraints(802, 19, 64, 65));
+        ProfileBtn.setBackground(new java.awt.Color(122, 106, 106));
+        ProfileBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/user1.png"))); // NOI18N
+        ProfileBtn.setBorderPainted(false);
+        ProfileBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ProfileBtnActionPerformed(evt);
+            }
+        });
+        jPanel1.add(ProfileBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(802, 19, 64, 65));
 
         jButton10.setBackground(new java.awt.Color(122, 114, 132));
         jButton10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -229,6 +234,12 @@ public Dashboard(int userId) {
     private void WatchlistActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_WatchlistActionPerformed
 displayWatchlistMoviesInUserPanel();        // TODO add your handling code here:
     }//GEN-LAST:event_WatchlistActionPerformed
+
+    private void ProfileBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProfileBtnActionPerformed
+      Profile profilePage = new Profile(userId); // Assuming you have a ProfilePage JFrame class
+    profilePage.setVisible(true);
+    this.dispose();   // TODO add your handling code here:
+    }//GEN-LAST:event_ProfileBtnActionPerformed
 
     public void displayMoviesInUserPanel() {
     try {
@@ -416,6 +427,7 @@ public void displayMoviesByGenre(String genre) {
     private javax.swing.JButton Fav;
     private javax.swing.JButton Homes;
     private javax.swing.JScrollPane MovieScroll;
+    private javax.swing.JButton ProfileBtn;
     private javax.swing.JPanel UserMovie_Panel;
     private javax.swing.JButton Watchlist;
     private javax.swing.JComboBox<String> categoriescombobox;
@@ -423,7 +435,6 @@ public void displayMoviesByGenre(String genre) {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

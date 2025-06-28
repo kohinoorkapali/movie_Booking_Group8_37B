@@ -14,7 +14,7 @@ import Model.Movie_add;
  * @author Kohinoor
  */
 public class movieController {
-    private MovieDAO movieDAO;
+    private final MovieDAO movieDAO;
     public movieController() {
         this.movieDAO = new MovieDAO();
     }
