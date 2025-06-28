@@ -69,7 +69,7 @@ this.currentMovie = movie;
         jPanel1 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         Duration = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        Booking = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         Image = new javax.swing.JLabel();
         PriceLabel = new javax.swing.JLabel();
@@ -97,8 +97,13 @@ this.currentMovie = movie;
         Duration.setForeground(new java.awt.Color(255, 255, 255));
         Duration.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton1.setText("Booking");
+        Booking.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        Booking.setText("Booking");
+        Booking.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BookingActionPerformed(evt);
+            }
+        });
 
         jButton2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jButton2.setText("Cancel Booking");
@@ -190,7 +195,7 @@ this.currentMovie = movie;
                             .addComponent(jLabel4)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jButton1)
+                                    .addComponent(Booking)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jButton2))
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -240,7 +245,7 @@ this.currentMovie = movie;
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
+                    .addComponent(Booking)
                     .addComponent(jButton2)
                     .addComponent(jButton3))
                 .addGap(25, 25, 25))
@@ -283,6 +288,17 @@ if (FavButton.isSelected()) {
     }
     }//GEN-LAST:event_WatchlistBtnActionPerformed
 
+    private void BookingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BookingActionPerformed
+int movieId = Integer.parseInt(currentMovie.getId());
+
+    view.seat_planning_GUI seatGui = new view.seat_planning_GUI();
+    Dao.seat_dao seatDao = new Dao.seat_dao();
+    Controller.seat_controller seatController = new Controller.seat_controller(seatGui, seatDao, movieId);
+
+    seatGui.setVisible(true);
+    this.dispose();         // TODO add your handling code here:
+    }//GEN-LAST:event_BookingActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -319,6 +335,7 @@ if (FavButton.isSelected()) {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Booking;
     private javax.swing.JLabel Duration;
     private javax.swing.JToggleButton FavButton;
     private javax.swing.JLabel GenreLabel;
@@ -328,7 +345,6 @@ if (FavButton.isSelected()) {
     private javax.swing.JTextArea Synposis;
     private javax.swing.JLabel TitleLabel;
     private javax.swing.JToggleButton WatchlistBtn;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
