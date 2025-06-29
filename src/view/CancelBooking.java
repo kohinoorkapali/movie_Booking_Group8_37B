@@ -4,6 +4,8 @@
  */
 package view;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author LOQ
@@ -31,7 +33,7 @@ public class CancelBooking extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        yesCancel = new javax.swing.JButton();
 
         jLabel1.setText("jLabel1");
 
@@ -53,10 +55,15 @@ public class CancelBooking extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("✅ Yes, Cancel Booking");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        yesCancel.setText("✅ Yes, Cancel Booking");
+        yesCancel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                yesCancelMouseClicked(evt);
+            }
+        });
+        yesCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                yesCancelActionPerformed(evt);
             }
         });
 
@@ -74,7 +81,7 @@ public class CancelBooking extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2))
+                        .addComponent(yesCancel))
                     .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(47, 47, 47))
         );
@@ -88,7 +95,7 @@ public class CancelBooking extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(yesCancel))
                 .addGap(95, 95, 95))
         );
 
@@ -110,9 +117,13 @@ public class CancelBooking extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void yesCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yesCancelActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_yesCancelActionPerformed
+
+    private void yesCancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_yesCancelMouseClicked
+        JOptionPane.showMessageDialog(rootPane, "Cancellation Successful \n Refund has been sucessfull. Please check your account");
+    }//GEN-LAST:event_yesCancelMouseClicked
 
     /**
      * @param args the command line arguments
@@ -151,10 +162,10 @@ public class CancelBooking extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JButton yesCancel;
     // End of variables declaration//GEN-END:variables
 }
