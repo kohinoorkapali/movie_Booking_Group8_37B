@@ -235,8 +235,11 @@
         </Component>
         <Component class="javax.swing.JButton" name="Continue">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Conntinue"/>
+            <Property name="text" type="java.lang.String" value="Continue to Payment"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ContinueActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

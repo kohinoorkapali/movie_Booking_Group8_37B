@@ -132,4 +132,75 @@ public void initializeSeatsForMovie(int movieId, List<String> seatNumbers) {
         mySqlConnection.closeConnection(con);
     }
 }
+
+public boolean bookMultipleSeats(int movieId, Map<String, String> seatBookings, int userId) {
+    String sql = "UPDATE seat_details SET booked_by_user_id = ?, booked_for_name = ? WHERE movie_id = ? AND seat_number = ?";
+    Connection con = mySqlConnection.openConnection();
+    if (con == null) return false;
+
+    try (PreparedStatement pst = con.prepareStatement(sql)) {
+        for (Map.Entry<String, String> entry : seatBookings.entrySet()) {
+            pst.setInt(1, userId);
+            pst.setString(2, entry.getValue());
+            pst.setInt(3, movieId);
+            pst.setString(4, entry.getKey());
+            pst.addBatch();
+        }
+        pst.executeBatch();
+        return true;
+    } catch (SQLException e) {
+        System.out.println("Failed to book multiple seats: " + e.getMessage());
+        return false;
+    } finally {
+        mySqlConnection.closeConnection(con);
+    }
+}
+
+
+public double getPricePerSeat(int movieId) {
+    double price = 0.0;
+    String sql = "SELECT price FROM movies WHERE id = ?";
+
+    Connection con = mySqlConnection.openConnection();
+    if (con == null) return price;
+
+    try (PreparedStatement pst = con.prepareStatement(sql)) {
+        pst.setInt(1, movieId);
+        try (ResultSet rs = pst.executeQuery()) {
+            if (rs.next()) {
+                price = rs.getDouble("price");
+            }
+        }
+    } catch (SQLException e) {
+        System.out.println("Error fetching price for movieId " + movieId + ": " + e.getMessage());
+    } finally {
+        mySqlConnection.closeConnection(con);
+    }
+
+    return price;
+}
+
+public String getMovieTitle(int movieId) {
+    String title = "";
+    String sql = "SELECT title FROM movies WHERE id = ?";
+
+    Connection con = mySqlConnection.openConnection();
+    if (con == null) return title;
+
+    try (PreparedStatement pst = con.prepareStatement(sql)) {
+        pst.setInt(1, movieId);
+        try (ResultSet rs = pst.executeQuery()) {
+            if (rs.next()) {
+                title = rs.getString("title");
+            }
+        }
+    } catch (SQLException e) {
+        System.out.println("Error fetching title for movieId " + movieId + ": " + e.getMessage());
+    } finally {
+        mySqlConnection.closeConnection(con);
+    }
+
+    return title;
+}
+
 }

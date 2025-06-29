@@ -6,6 +6,7 @@ package Controller;
 
 import Dao.seat_dao;
 import Model.SeatModel;
+import view.Payment;
 import view.seat_planning_GUI;
 
 import javax.swing.*;
@@ -13,11 +14,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class seat_controller {
+    private final Set<String> selectedSeats = new HashSet<>();
+private final Map<String, String> bookingNames = new HashMap<>();  
     private final seat_planning_GUI view;
     private final seat_dao dao;
     private final Map<JButton, String> seatButtonMap = new HashMap<>();
@@ -72,37 +77,32 @@ public class seat_controller {
     private void handleSeatClick(String seatNumber, JButton button) {
         SeatModel seat = dao.getBookingBySeat(movieId, seatNumber);
 
-        if (seat == null) {
-            JOptionPane.showMessageDialog(view, "Seat not found.");
-            return;
-        }
+    if (seat == null) {
+        JOptionPane.showMessageDialog(view, "Seat not found.");
+        return;
+    }
 
-        // For VIP seats
-        if (seatNumber.startsWith("VIP")) {
-            if (seat.isBooked()) {
-                JOptionPane.showMessageDialog(view, "This seat is booked by user ID: " + seat.getBookedByUserId() +
-                        (seat.getBookedForName() != null ? " for " + seat.getBookedForName() : ""));
-            } else {
-                JOptionPane.showMessageDialog(view, "VIP seat is not booked.");
-            }
-            return;
-        }
- // For regular seats
     if (seat.isBooked()) {
-        // Just show booked message; no cancel or info dialog
         JOptionPane.showMessageDialog(view, "This seat is already booked.");
         return;
-        } else {
-            String name = JOptionPane.showInputDialog(view, "Enter name for whom you're booking this seat:");
-            if (name != null && !name.trim().isEmpty()) {
-                if (dao.bookSeat(movieId, seatNumber, currentUserId, name)) {
-                    button.setBackground(java.awt.Color.BLUE);
-                    JOptionPane.showMessageDialog(view, "Seat booked successfully for " + name);
-                } else {
-                    JOptionPane.showMessageDialog(view, "Failed to book seat.");
-                }
-            }
+    }
+
+    // Toggle selection in memory
+    if (selectedSeats.contains(seatNumber)) {
+        // Deselect
+        selectedSeats.remove(seatNumber);
+        bookingNames.remove(seatNumber);
+        button.setBackground(java.awt.Color.YELLOW);
+    } else {
+        // Select
+        String name = JOptionPane.showInputDialog(view, "Enter name for whom you're booking this seat:");
+        if (name != null && !name.trim().isEmpty()) {
+            selectedSeats.add(seatNumber);
+            bookingNames.put(seatNumber, name.trim());
+            button.setBackground(java.awt.Color.BLUE);
         }
+    }
+
     }
     
     private void loadSeatsStatus() {
@@ -132,4 +132,24 @@ public class seat_controller {
         dao.initializeSeatsForMovie(movieId, allSeatNumbers);
         System.out.println("Initialized seats: " + allSeatNumbers);
     }
+
+    public void onContinueClicked() {
+     if (selectedSeats.isEmpty()) {
+        JOptionPane.showMessageDialog(view, "Please select at least one seat.");
+        return;
+    }
+
+    double pricePerSeat = dao.getPricePerSeat(movieId);
+    double totalPrice = pricePerSeat * selectedSeats.size();
+
+    String seatsString = String.join(", ", selectedSeats);
+    String movieTitle = dao.getMovieTitle(movieId);
+Payment paymentPage = new Payment(movieTitle, seatsString, (int) totalPrice, currentUserId, bookingNames);
+paymentPage.setBookingNames(bookingNames); // set booking map here
+PaymentController paymentController = new PaymentController(paymentPage, movieId, currentUserId);
+paymentPage.setController(paymentController);
+paymentPage.setVisible(true);
+view.dispose();
+}
+
 }

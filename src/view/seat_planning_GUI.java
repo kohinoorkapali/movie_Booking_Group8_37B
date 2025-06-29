@@ -5,17 +5,22 @@
 package view;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 public class seat_planning_GUI extends javax.swing.JFrame {
+private String movieTitle;
+private int pricePerSeat;
+private int currentUserId;
+private int movieId;
+private Controller.seat_controller controller;
 
-     private int movieId;
-    private int currentUserId;
-
-    public seat_planning_GUI(int movieId, int currentUserId) {
-        this.movieId = movieId;
-        this.currentUserId = currentUserId;
-        initComponents();
-    }
+public seat_planning_GUI(int movieId, int currentUserId, String movieTitle, int pricePerSeat) {
+    this.movieId = movieId;
+    this.currentUserId = currentUserId;
+    this.movieTitle = movieTitle;
+    this.pricePerSeat = pricePerSeat;
+    initComponents();
+}
 
     // === Public Getters for Seat Buttons ===
     public JButton getJButton1() { return jButton1; }  // VIP 1
@@ -105,7 +110,12 @@ public class seat_planning_GUI extends javax.swing.JFrame {
         jButton12.setBackground(new java.awt.Color(255, 255, 0));
         jButton12.setText("SEAT 12");
 
-        Continue.setText("Conntinue");
+        Continue.setText("Continue to Payment");
+        Continue.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ContinueActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -190,6 +200,18 @@ public class seat_planning_GUI extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    public void setController(Controller.seat_controller controller) {
+    this.controller = controller;
+}
+
+    private void ContinueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ContinueActionPerformed
+          if (controller != null) {
+        controller.onContinueClicked();
+    } else {
+        JOptionPane.showMessageDialog(this, "Controller not set!");
+    }
+    }//GEN-LAST:event_ContinueActionPerformed
 
   // === Main Method to Run GUI ===
 //    public static void main(String[] args) {
