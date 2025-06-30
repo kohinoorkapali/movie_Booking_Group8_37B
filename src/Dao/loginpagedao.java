@@ -10,29 +10,45 @@ public class loginpagedao {
 
     MySqlConnection connection = new MySqlConnection();
 
-    // Return user_id instead of just true/false
-    public Integer loginAndGetUserId(loginpage user) {
-    Integer userId = null;
-    Connection conn = connection.openConnection();
+     // Helper class to hold login result
+    public static class LoginResult {
+        private Integer userId;
+        private String role;
 
-    String sql = "SELECT user_id FROM users WHERE username = ? AND password = ?";
-
-    try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-        stmt.setString(1, user.getUsername().trim());
-        stmt.setString(2, user.getPassword().trim());
-
-        ResultSet rs = stmt.executeQuery();
-
-        if (rs.next()) {
-            userId = rs.getInt("user_id");
+        public LoginResult(Integer userId, String role) {
+            this.userId = userId;
+            this.role = role;
         }
-
-        rs.close();
-    } catch (Exception e) {
-        e.printStackTrace();
+        public Integer getUserId() {
+            return userId;
+        }
+        public String getRole() {
+            return role;
+        }
     }
 
-    return userId;
-}
+    // Returns LoginResult if credentials match, else null
+    public LoginResult loginAndGetUserRole(loginpage user) {
+        LoginResult loginResult = null;
 
+        String sql = "SELECT user_id, role FROM users WHERE username = ? AND password = ?";
+        try (Connection conn = connection.openConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, user.getUsername().trim());
+            stmt.setString(2, user.getPassword().trim());
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    Integer userId = rs.getInt("user_id");
+                    String role = rs.getString("role");
+                    loginResult = new LoginResult(userId, role);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return loginResult;
+    }
 }

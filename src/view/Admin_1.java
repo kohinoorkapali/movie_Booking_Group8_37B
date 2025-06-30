@@ -31,12 +31,15 @@ import java.awt.Component;
 public class Admin_1 extends javax.swing.JFrame {
 
     private movieController movieController = new movieController();
-     private File selectedImageFile; 
+     private File selectedImageFile; ;
+    private Integer userId; 
     /**
      * Creates new form Admin_1
      */
     public Admin_1() {
          initComponents();
+
+         
 SpinnerDateModel dateModel = new SpinnerDateModel();
         DateSpinner.setModel(dateModel);
         JSpinner.DateEditor editor = new JSpinner.DateEditor(DateSpinner, "MMM dd, yyyy");
@@ -48,6 +51,13 @@ SpinnerDateModel dateModel = new SpinnerDateModel();
         Movie_Table.getColumnModel().getColumn(5).setCellRenderer(new ImageRenderer());
 
     }
+
+    
+public Admin_1(Integer userId) {
+    this();            // calls the existing no-arg constructor
+    this.userId = userId;
+    // you can add code here if you want to do something with userId
+}
 
     /**
      * This method is called from within the constructor to initialize the form.

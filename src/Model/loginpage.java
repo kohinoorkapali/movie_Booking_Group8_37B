@@ -23,16 +23,15 @@ public class loginpage {
     public String getUsername(){
     return this.username;
     }
-    public void setUsername(){
+   public void setUsername(String username){
     this.username = username;
-    }
+}
     
     //getter and setter for password
     public String getPassword(){
     return this.password;
     }
-    public void setPassword(){
+public void setPassword(String password){
     this.password = password;
-    }
-    
+}
 }

@@ -128,6 +128,9 @@ public void deleteMovie(int id) {
 }
 
 public void addToFavorites(int userId, String movieId) {
+    if (isFavorite(userId, movieId)) {
+        return; // Already exists, don't insert duplicate
+    }
     String query = "INSERT INTO favorites (user_id, movie_id) VALUES (?, ?)";
     try (Connection conn = mySqlConnection.openConnection();
          PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -197,6 +200,9 @@ public List<Movie_add> getFavoriteMovies(int userId) {
 }
 
 public void addToWatchlist(int userId, String movieId) {
+    if (isInWatchlist(userId, movieId)) {
+        return; // Already exists
+    }
     String query = "INSERT INTO watchlist (user_id, movie_id) VALUES (?, ?)";
     try (Connection conn = mySqlConnection.openConnection();
          PreparedStatement pstmt = conn.prepareStatement(query)) {

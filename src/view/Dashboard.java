@@ -60,7 +60,6 @@ public Dashboard(int userId) {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         Homes = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         Fav = new javax.swing.JButton();
         Watchlist = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
@@ -94,7 +93,7 @@ public Dashboard(int userId) {
         setMinimumSize(new java.awt.Dimension(940, 720));
         setResizable(false);
 
-        jPanel1.setBackground(new java.awt.Color(122, 106, 106));
+        jPanel1.setBackground(new java.awt.Color(154, 138, 138));
         jPanel1.setAutoscrolls(true);
         jPanel1.setMinimumSize(new java.awt.Dimension(940, 720));
         jPanel1.setPreferredSize(new java.awt.Dimension(940, 720));
@@ -112,12 +111,7 @@ public Dashboard(int userId) {
                 HomesActionPerformed(evt);
             }
         });
-        jPanel1.add(Homes, new org.netbeans.lib.awtextra.AbsoluteConstraints(157, 128, 132, -1));
-
-        jButton2.setBackground(new java.awt.Color(122, 115, 128));
-        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton2.setText("Movies");
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(315, 128, 116, -1));
+        jPanel1.add(Homes, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, 132, -1));
 
         Fav.setBackground(new java.awt.Color(122, 114, 132));
         Fav.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -127,7 +121,7 @@ public Dashboard(int userId) {
                 FavActionPerformed(evt);
             }
         });
-        jPanel1.add(Fav, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 300, 131, -1));
+        jPanel1.add(Fav, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, 131, -1));
 
         Watchlist.setBackground(new java.awt.Color(122, 114, 132));
         Watchlist.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -137,16 +131,29 @@ public Dashboard(int userId) {
                 WatchlistActionPerformed(evt);
             }
         });
-        jPanel1.add(Watchlist, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 345, 131, -1));
+        jPanel1.add(Watchlist, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, 131, -1));
 
         jButton5.setBackground(new java.awt.Color(122, 114, 132));
         jButton5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton5.setText("History");
-        jPanel1.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 390, 131, -1));
+        jPanel1.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 360, 131, -1));
 
         searchtext.setBackground(new java.awt.Color(225, 221, 214));
-        searchtext.setText("for search");
-        jPanel1.add(searchtext, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 150, 207, -1));
+        searchtext.setText("Search");
+        searchtext.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                searchtextFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                searchtextFocusLost(evt);
+            }
+        });
+        searchtext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchtextActionPerformed(evt);
+            }
+        });
+        jPanel1.add(searchtext, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 60, 207, -1));
 
         categoriescombobox.setBackground(new java.awt.Color(122, 114, 132));
         categoriescombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Categories", "Action", "Comedy", "Drama", "Horror", "Fantasy", "Romance", "Thriller", "Sci-Fi", "Animation" }));
@@ -155,7 +162,7 @@ public Dashboard(int userId) {
                 categoriescomboboxActionPerformed(evt);
             }
         });
-        jPanel1.add(categoriescombobox, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 246, 131, -1));
+        jPanel1.add(categoriescombobox, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 210, 131, -1));
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(933, 449, 182, -1));
 
         jButton6.setBackground(new java.awt.Color(122, 114, 132));
@@ -171,19 +178,21 @@ public Dashboard(int userId) {
         jLabel7.setPreferredSize(new java.awt.Dimension(128, 113));
         jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 19, -1, -1));
 
-        searchBtn.setBackground(new java.awt.Color(122, 106, 106));
+        searchBtn.setBackground(new java.awt.Color(154, 138, 138));
         searchBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/loupe1.png"))); // NOI18N
-        jPanel1.add(searchBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(825, 128, 41, 43));
+        searchBtn.setBorder(null);
+        jPanel1.add(searchBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 50, 30, 30));
 
-        ProfileBtn.setBackground(new java.awt.Color(122, 106, 106));
+        ProfileBtn.setBackground(new java.awt.Color(154, 138, 138));
         ProfileBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/user1.png"))); // NOI18N
+        ProfileBtn.setBorder(null);
         ProfileBtn.setBorderPainted(false);
         ProfileBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ProfileBtnActionPerformed(evt);
             }
         });
-        jPanel1.add(ProfileBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(802, 19, 64, 65));
+        jPanel1.add(ProfileBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 30, 64, 65));
 
         jButton10.setBackground(new java.awt.Color(122, 114, 132));
         jButton10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -191,20 +200,22 @@ public Dashboard(int userId) {
         jButton10.setText("Log out");
         jPanel1.add(jButton10, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 570, 123, 38));
 
+        UserMovie_Panel.setBackground(new java.awt.Color(154, 138, 138));
+
         javax.swing.GroupLayout UserMovie_PanelLayout = new javax.swing.GroupLayout(UserMovie_Panel);
         UserMovie_Panel.setLayout(UserMovie_PanelLayout);
         UserMovie_PanelLayout.setHorizontalGroup(
             UserMovie_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 698, Short.MAX_VALUE)
+            .addGap(0, 738, Short.MAX_VALUE)
         );
         UserMovie_PanelLayout.setVerticalGroup(
             UserMovie_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 458, Short.MAX_VALUE)
+            .addGap(0, 568, Short.MAX_VALUE)
         );
 
         MovieScroll.setViewportView(UserMovie_Panel);
 
-        jPanel1.add(MovieScroll, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 230, 700, 460));
+        jPanel1.add(MovieScroll, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 150, 740, 570));
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_END);
 
@@ -241,6 +252,22 @@ displayWatchlistMoviesInUserPanel();        // TODO add your handling code here:
     this.dispose();   // TODO add your handling code here:
     }//GEN-LAST:event_ProfileBtnActionPerformed
 
+    private void searchtextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchtextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchtextActionPerformed
+
+    private void searchtextFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_searchtextFocusGained
+if(searchtext.getText().equals("Search")){
+            searchtext.setText("");
+}// TODO add your handling code here:
+    }//GEN-LAST:event_searchtextFocusGained
+
+    private void searchtextFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_searchtextFocusLost
+ if(searchtext.getText().equals("")){
+            searchtext.setText("Search");
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_searchtextFocusLost
+
     public void displayMoviesInUserPanel() {
     try {
         movieController dao = new movieController();
@@ -262,7 +289,8 @@ displayWatchlistMoviesInUserPanel();        // TODO add your handling code here:
 }
 
 private JPanel createMovieCard(Movie_add movie) {
-    JPanel card = new JPanel();
+     JPanel card = new JPanel();
+    card.setOpaque(false);  // This makes the background transparent
     card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
     card.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
@@ -286,7 +314,8 @@ private JPanel createMovieCard(Movie_add movie) {
     // 🎯 Add click event to open MovieDetails
     titleLabel.addMouseListener(new java.awt.event.MouseAdapter() {
         public void mouseClicked(java.awt.event.MouseEvent evt) {
-            new Movie_Detail(movie, userId).setVisible(true);
+            new Movie_Detail1(movie, userId).setVisible(true);
+            Dashboard.this.dispose(); 
         }
     });
 
@@ -432,7 +461,6 @@ public void displayMoviesByGenre(String genre) {
     private javax.swing.JButton Watchlist;
     private javax.swing.JComboBox<String> categoriescombobox;
     private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
