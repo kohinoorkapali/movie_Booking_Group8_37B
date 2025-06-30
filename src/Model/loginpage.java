@@ -9,14 +9,23 @@ package Model;
  * @author nitan
  */
 public class loginpage {
+    private int user_id;
     private String username;
     private String password;
+    
     
     public loginpage() {}//so we can use username and password in login method in  controller.
     
     public  loginpage(String username, String password){
     this.username = username;
     this.password = password;
+    }
+    
+    public int getUserId(){
+    return this.user_id;
+    }
+    public void setUserId(int user_id){
+    this.user_id = user_id;
     }
     
     //getter and setter for username
