@@ -41,7 +41,8 @@ public class ReviewController {
 //        }
 //    }
     
-    public void submitRatingAndComment( int userId, int selectedRating,String comment, Review view) {
+    public void submitRatingAndComment(int userId, int movieId, int selectedRating, String comment, Review view) {
+
          
         
         System.out.println("User ID: " + userId);
@@ -53,7 +54,8 @@ public class ReviewController {
 //                JOptionPane.showMessageDialog(view, "You have already rated this guide.");
 //                return;
 //            }
-            boolean success = dao.submitRating(userId, selectedRating, comment );
+            boolean success = dao.submitRating(userId, movieId, selectedRating, comment);
+
 
             if (success) {
                 JOptionPane.showMessageDialog(view, "Thanks for rating!");

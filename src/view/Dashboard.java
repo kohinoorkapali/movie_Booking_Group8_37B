@@ -18,6 +18,8 @@ import java.io.File;
 import java.awt.Font;
 import Controller.movieController;
 import Model.Movie_add;
+import Dao.loginpagedao;
+import Controller.loginpageController;
 
 
 /**
@@ -73,7 +75,7 @@ public Dashboard(int userId) {
         jLabel7 = new javax.swing.JLabel();
         searchBtn = new javax.swing.JButton();
         ProfileBtn = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
+        LogOutBtn = new javax.swing.JButton();
         MovieScroll = new javax.swing.JScrollPane();
         UserMovie_Panel = new javax.swing.JPanel();
 
@@ -194,11 +196,16 @@ public Dashboard(int userId) {
         });
         jPanel1.add(ProfileBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 30, 64, 65));
 
-        jButton10.setBackground(new java.awt.Color(122, 114, 132));
-        jButton10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/1828479.png"))); // NOI18N
-        jButton10.setText("Log out");
-        jPanel1.add(jButton10, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 570, 123, 38));
+        LogOutBtn.setBackground(new java.awt.Color(122, 114, 132));
+        LogOutBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        LogOutBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/1828479.png"))); // NOI18N
+        LogOutBtn.setText("Log out");
+        LogOutBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LogOutBtnActionPerformed(evt);
+            }
+        });
+        jPanel1.add(LogOutBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 570, 123, 38));
 
         UserMovie_Panel.setBackground(new java.awt.Color(154, 138, 138));
 
@@ -267,6 +274,16 @@ if(searchtext.getText().equals("Search")){
             searchtext.setText("Search");
         }        // TODO add your handling code here:
     }//GEN-LAST:event_searchtextFocusLost
+
+    private void LogOutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogOutBtnActionPerformed
+  loginPage2 view = new loginPage2();
+    loginpagedao dao = new loginpagedao();
+    loginpageController controller = new loginpageController(view, dao);
+    controller.open();
+    
+    view.setVisible(true);
+    dispose();       // TODO add your handling code here:
+    }//GEN-LAST:event_LogOutBtnActionPerformed
 
     public void displayMoviesInUserPanel() {
     try {
@@ -455,12 +472,12 @@ public void displayMoviesByGenre(String genre) {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Fav;
     private javax.swing.JButton Homes;
+    private javax.swing.JButton LogOutBtn;
     private javax.swing.JScrollPane MovieScroll;
     private javax.swing.JButton ProfileBtn;
     private javax.swing.JPanel UserMovie_Panel;
     private javax.swing.JButton Watchlist;
     private javax.swing.JComboBox<String> categoriescombobox;
-    private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;

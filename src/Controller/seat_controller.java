@@ -12,6 +12,7 @@ import view.seat_planning_GUI;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -28,12 +29,15 @@ private final Map<String, String> bookingNames = new HashMap<>();
     private final Map<JButton, String> seatButtonMap = new HashMap<>();
     private final int movieId;
     private final int currentUserId;
+    private final LocalDateTime showtime;
 
-    public seat_controller(seat_planning_GUI view, seat_dao dao, int movieId, int currentUserId) {
+   public seat_controller(seat_planning_GUI view, seat_dao dao, int movieId, int currentUserId, LocalDateTime showtime) {
         this.view = view;
         this.dao = dao;
         this.movieId = movieId;
         this.currentUserId = currentUserId;
+        this.showtime = showtime;  // new
+        initController();
         initController();
     }
 
@@ -139,17 +143,24 @@ private final Map<String, String> bookingNames = new HashMap<>();
         return;
     }
 
+    // Add this check here before proceeding:
+    if (showtime.isBefore(LocalDateTime.now())) {
+        JOptionPane.showMessageDialog(view, "Cannot book tickets. The movie showtime has already passed.", "Booking Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
     double pricePerSeat = dao.getPricePerSeat(movieId);
     double totalPrice = pricePerSeat * selectedSeats.size();
 
     String seatsString = String.join(", ", selectedSeats);
     String movieTitle = dao.getMovieTitle(movieId);
-Payment paymentPage = new Payment(movieTitle, seatsString, (int) totalPrice, currentUserId, bookingNames);
-paymentPage.setBookingNames(bookingNames); // set booking map here
-PaymentController paymentController = new PaymentController(paymentPage, movieId, currentUserId);
-paymentPage.setController(paymentController);
-paymentPage.setVisible(true);
-view.dispose();
+
+    Payment paymentPage = new Payment(movieTitle, seatsString, (int) totalPrice, currentUserId, bookingNames);
+    paymentPage.setBookingNames(bookingNames); // set booking map here
+    PaymentController paymentController = new PaymentController(paymentPage, movieId, currentUserId);
+    paymentPage.setController(paymentController);
+    paymentPage.setVisible(true);
+    view.dispose();
 }
 
 }
