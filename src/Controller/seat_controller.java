@@ -38,7 +38,7 @@ private final Map<String, String> bookingNames = new HashMap<>();
         this.currentUserId = currentUserId;
         this.showtime = showtime;  // new
         initController();
-        initController();
+
     }
 
     private void initController() {

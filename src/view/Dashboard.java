@@ -64,7 +64,7 @@ public Dashboard(int userId) {
         Homes = new javax.swing.JButton();
         Fav = new javax.swing.JButton();
         Watchlist = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        HistoryBtn = new javax.swing.JButton();
         searchtext = new javax.swing.JTextField();
         categoriescombobox = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
@@ -135,10 +135,15 @@ public Dashboard(int userId) {
         });
         jPanel1.add(Watchlist, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, 131, -1));
 
-        jButton5.setBackground(new java.awt.Color(122, 114, 132));
-        jButton5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton5.setText("History");
-        jPanel1.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 360, 131, -1));
+        HistoryBtn.setBackground(new java.awt.Color(122, 114, 132));
+        HistoryBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        HistoryBtn.setText("History");
+        HistoryBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                HistoryBtnActionPerformed(evt);
+            }
+        });
+        jPanel1.add(HistoryBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 360, 131, -1));
 
         searchtext.setBackground(new java.awt.Color(225, 221, 214));
         searchtext.setText("Search");
@@ -284,6 +289,12 @@ if(searchtext.getText().equals("Search")){
     view.setVisible(true);
     dispose();       // TODO add your handling code here:
     }//GEN-LAST:event_LogOutBtnActionPerformed
+
+    private void HistoryBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HistoryBtnActionPerformed
+        BookingHistory historyPage = new BookingHistory(userId); // ✅ userId is already stored
+    historyPage.setVisible(true);
+    this.dispose();
+    }//GEN-LAST:event_HistoryBtnActionPerformed
 
     public void displayMoviesInUserPanel() {
     try {
@@ -471,6 +482,7 @@ public void displayMoviesByGenre(String genre) {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Fav;
+    private javax.swing.JButton HistoryBtn;
     private javax.swing.JButton Homes;
     private javax.swing.JButton LogOutBtn;
     private javax.swing.JScrollPane MovieScroll;
@@ -478,7 +490,6 @@ public void displayMoviesByGenre(String genre) {
     private javax.swing.JPanel UserMovie_Panel;
     private javax.swing.JButton Watchlist;
     private javax.swing.JComboBox<String> categoriescombobox;
-    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

@@ -19,7 +19,7 @@ private final LocalDateTime showtime;
 private Controller.seat_controller controller;
 public seat_planning_GUI(int movieId, int userId, String movieTitle, int pricePerSeat, LocalDateTime showtime) {
     this.movieId = movieId;
-    this.currentUserId = currentUserId;
+    this.currentUserId = userId;
     this.movieTitle = movieTitle;
     this.pricePerSeat = pricePerSeat;
     this.showtime = showtime;
