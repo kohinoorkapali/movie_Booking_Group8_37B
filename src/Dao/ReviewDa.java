@@ -17,15 +17,16 @@ import java.sql.SQLException;
  */
 public class ReviewDa {
     MySqlConnection mysql = new MySqlConnection();
-    public boolean submitRating( int userId, int rating, String comment) {
+    public boolean submitRating(int userId, int movieId, int rating, String comment) {
         Connection conn = mysql.openConnection();
-        String sql = "INSERT INTO reviews (user_id, rating,comment) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO reviews (user_id, movie_id, rating, comment) VALUES (?, ?, ?, ?)";
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
-            pstmt.setInt(1, userId);
-            pstmt.setInt(2, rating);
-            pstmt.setString(3, comment);
+            pstmt.setInt(1, userId);    // Set userId
+        pstmt.setInt(2, movieId);   // Set movieId (this was missing)
+        pstmt.setInt(3, rating);     // Set rating
+        pstmt.setString(4, comment); // Set comment
             
             return pstmt.executeUpdate() > 0;
         } catch (SQLException e) {

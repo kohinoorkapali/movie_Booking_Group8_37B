@@ -8,6 +8,12 @@ import Dao.MovieDAO;
 import Dao.PaymentDAO;
 import Model.Movie_add;
 import java.io.File;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
+
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import view.Cancel_Booking;
@@ -27,54 +33,57 @@ public class Movie_Detail1 extends javax.swing.JFrame {
      * Creates new form Movie_Detail1
      */
     public Movie_Detail1(Movie_add movie, int userId) {
-        initComponents();
-        System.out.println("Synopsis" +movie.getSynopsis());
-        TitleLabel.setText(movie.getTitle());
-        GenreLabel.setText(movie.getGenre());
-        Duration.setText(movie.getDuration());
-        PriceLabel.setText(String.format("Rs. %.2f", movie.getPrice()));
-        Show_DateLabel.setText(movie.getShowDate().toString());
-        Synposis.setText(movie.getSynopsis());
-        
-        Synposis.setEditable(false);
+    initComponents();
+    TitleLabel.setText(movie.getTitle());
+    GenreLabel.setText(movie.getGenre());
+    Duration.setText(movie.getDuration());
+    PriceLabel.setText(String.format("Rs. %.2f", movie.getPrice()));
+    Show_DateLabel.setText(movie.getShowDate());
+    Synposis.setText(movie.getSynopsis());
+    Synposis.setEditable(false);
 
-        // Load image from disk if exists
-        String imagePath = "src/images/" + movie.getImagePath();
-        File imgFile = new File(imagePath);
-        if (imgFile.exists()) {
-            ImageIcon icon = new ImageIcon(imagePath);
-            java.awt.Image scaledImage = icon.getImage().getScaledInstance(
-                Image.getWidth(), Image.getHeight(), java.awt.Image.SCALE_SMOOTH);
-            Image.setIcon(new ImageIcon(scaledImage));
-            Image.setText("");
-        } else {
-            Image.setText("No Image");
-            Image.setIcon(null);
-        }
-        
-        MovieDAO movieDAO = new MovieDAO();
-
-        //for favourite and watchllist
-        this.currentMovie = movie;
-        this.currentUserId = userId; 
-
-        boolean isFav = movieDAO.isFavorite(currentUserId, currentMovie.getId());
-        FavButton.setSelected(isFav);
-
-        boolean isInWatchlist = movieDAO.isInWatchlist(currentUserId, currentMovie.getId());
-        WatchlistBtn.setSelected(isInWatchlist);
-
-
-        PaymentDAO paymentDAO = new PaymentDAO(); // create DAO object
-
-boolean hasBooking = paymentDAO.hasBooking(currentUserId, currentMovie.getTitle());
-CancelBook.setEnabled(hasBooking);
-
-if (hasBooking) {
-    bookedSeats = paymentDAO.getBookedSeats(currentUserId, currentMovie.getTitle());
-    bookingPrice = paymentDAO.getBookingPrice(currentUserId, currentMovie.getTitle());
-}
+    String imagePath = "src/images/" + movie.getImagePath();
+    File imgFile = new File(imagePath);
+    if (imgFile.exists()) {
+        ImageIcon icon = new ImageIcon(imagePath);
+        java.awt.Image scaledImage = icon.getImage().getScaledInstance(Image.getWidth(), Image.getHeight(), java.awt.Image.SCALE_SMOOTH);
+        Image.setIcon(new ImageIcon(scaledImage));
+        Image.setText("");
+    } else {
+        Image.setText("No Image");
+        Image.setIcon(null);
     }
+
+    this.currentMovie = movie;
+    this.currentUserId = userId;
+
+    MovieDAO movieDAO = new MovieDAO();
+    FavButton.setSelected(movieDAO.isFavorite(currentUserId, currentMovie.getId()));
+    WatchlistBtn.setSelected(movieDAO.isInWatchlist(currentUserId, currentMovie.getId()));
+
+    PaymentDAO paymentDAO = new PaymentDAO();
+    boolean hasBooking = paymentDAO.hasBooking(currentUserId, currentMovie.getTitle());
+    boolean canCancel = false;
+
+    if (hasBooking) {
+        bookedSeats = paymentDAO.getBookedSeats(currentUserId, currentMovie.getTitle());
+        bookingPrice = paymentDAO.getBookingPrice(currentUserId, currentMovie.getTitle());
+        String showDateStr = currentMovie.getShowDate();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        try {
+            LocalDate showDate = LocalDate.parse(showDateStr, formatter);
+            LocalDate today = LocalDate.now();
+            long daysBetween = ChronoUnit.DAYS.between(today, showDate);
+            canCancel = daysBetween >= 2;
+        } catch (Exception e) {
+            e.printStackTrace();
+            canCancel = false;
+        }
+    }
+    CancelBook.setEnabled(hasBooking && canCancel);
+}
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -101,7 +110,7 @@ if (hasBooking) {
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         Show_DateLabel = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        Review = new javax.swing.JButton();
         FavButton = new javax.swing.JToggleButton();
         WatchlistBtn = new javax.swing.JToggleButton();
         BackBtn = new javax.swing.JButton();
@@ -169,8 +178,13 @@ if (hasBooking) {
         Show_DateLabel.setForeground(new java.awt.Color(255, 255, 255));
         Show_DateLabel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
 
-        jButton3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton3.setText("Review");
+        Review.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        Review.setText("Review");
+        Review.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ReviewActionPerformed(evt);
+            }
+        });
 
         FavButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/heart_empty.png"))); // NOI18N
         FavButton.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
@@ -232,7 +246,7 @@ if (hasBooking) {
                             .addComponent(jLabel4))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton3)
+                            .addComponent(Review)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addGap(64, 64, 64)
                                 .addComponent(WatchlistBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -288,7 +302,7 @@ if (hasBooking) {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Booking)
                     .addComponent(CancelBook)
-                    .addComponent(jButton3))
+                    .addComponent(Review))
                 .addGap(25, 25, 25))
         );
 
@@ -310,20 +324,45 @@ if (hasBooking) {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void BookingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BookingActionPerformed
-        int movieId = Integer.parseInt(currentMovie.getId());  // no parseInt needed
-        int userId = currentUserId;
-        String movieTitle = currentMovie.getTitle();  // Make sure this method exists
-        int pricePerSeat = (int)currentMovie.getPrice();   // Make sure this method exists
+    private void BookingActionPerformed(java.awt.event.ActionEvent evt) {
+    int movieId = Integer.parseInt(currentMovie.getId());
+    int userId = currentUserId;
+    String movieTitle = currentMovie.getTitle();
+    int pricePerSeat = (int) currentMovie.getPrice();
 
-        // Create GUI by passing movieId and userId
-        view.seat_planning_GUI seatGui = new view.seat_planning_GUI(movieId, userId, movieTitle, pricePerSeat);
-        Dao.seat_dao seatDao = new Dao.seat_dao();
-        Controller.seat_controller seatController = new Controller.seat_controller(seatGui, seatDao, movieId, userId);
+    String showDateStr = currentMovie.getShowDate(); // e.g., "2025-06-20"
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        seatGui.setController(seatController); // ← this line ensures "Continue" button works
-        seatGui.setVisible(true);
-        this.dispose();   // TODO add your handling code here:
+    LocalDateTime showtime;
+    try {
+        LocalDate showDate = LocalDate.parse(showDateStr, formatter);
+        LocalDate today = LocalDate.now();
+
+        // ⛔ Prevent booking if the show date is before today
+        if (showDate.isBefore(today)) {
+            JOptionPane.showMessageDialog(this, "This show's booking date has already passed.");
+            return;
+        }
+
+        showtime = showDate.atStartOfDay(); // Convert to LocalDateTime if needed
+    } catch (DateTimeParseException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Invalid show date format: " + showDateStr);
+        return;
+    }
+
+    // Proceed with booking
+    view.seat_planning_GUI seatGui = new view.seat_planning_GUI(
+        movieId, userId, movieTitle, pricePerSeat, showtime
+    );
+    Dao.seat_dao seatDao = new Dao.seat_dao();
+    Controller.seat_controller seatController = new Controller.seat_controller(
+        seatGui, seatDao, movieId, userId, showtime
+    );
+
+    seatGui.setController(seatController);
+    seatGui.setVisible(true);
+    this.dispose();
     }//GEN-LAST:event_BookingActionPerformed
 
     private void FavButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FavButtonActionPerformed
@@ -345,13 +384,19 @@ if (hasBooking) {
     }//GEN-LAST:event_WatchlistBtnActionPerformed
 
     private void CancelBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelBookActionPerformed
-        if (bookedSeats.isEmpty()) {
+         if (!CancelBook.isEnabled()) {
+        JOptionPane.showMessageDialog(this, "Cancellation is only allowed until 2 days before the showtime.");
+        return;
+    }
+    
+    if (bookedSeats.isEmpty()) {
         JOptionPane.showMessageDialog(this, "No booking found to cancel.");
         return;
     }
+
     Cancel_Booking cancelBookingPage = new Cancel_Booking(currentUserId, currentMovie.getTitle(), bookedSeats, bookingPrice);
     cancelBookingPage.setVisible(true);
-    this.dispose();                            // TODO add your handling code here:
+    this.dispose();
     }//GEN-LAST:event_CancelBookActionPerformed
 
     private void BackBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackBtnActionPerformed
@@ -359,6 +404,16 @@ Dashboard dashboard = new Dashboard(currentUserId);
         dashboard.setVisible(true);
         this.dispose();      // TODO add your handling code here:
     }//GEN-LAST:event_BackBtnActionPerformed
+
+    private void ReviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReviewActionPerformed
+         int userId = this.currentUserId;
+    int movieId = Integer.parseInt(currentMovie.getId());  // assuming getId() returns String, parse to int
+    
+    // Assuming your Review JFrame has a constructor that accepts userId and movieId
+    Review reviewForm = new Review(userId, movieId);
+    reviewForm.setVisible(true);
+    this.dispose();
+    }//GEN-LAST:event_ReviewActionPerformed
 
     /**
      * @param args the command line arguments
@@ -405,11 +460,11 @@ Dashboard dashboard = new Dashboard(currentUserId);
     private javax.swing.JLabel GenreLabel;
     private javax.swing.JLabel Image;
     private javax.swing.JLabel PriceLabel;
+    private javax.swing.JButton Review;
     private javax.swing.JLabel Show_DateLabel;
     private javax.swing.JTextArea Synposis;
     private javax.swing.JLabel TitleLabel;
     private javax.swing.JToggleButton WatchlistBtn;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

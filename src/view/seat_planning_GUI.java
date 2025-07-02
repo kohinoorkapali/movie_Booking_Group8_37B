@@ -4,6 +4,8 @@
  */
 package view;
 
+import java.time.LocalDateTime;
+
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
@@ -12,13 +14,15 @@ private String movieTitle;
 private int pricePerSeat;
 private int currentUserId;
 private int movieId;
-private Controller.seat_controller controller;
+private final LocalDateTime showtime;
 
-public seat_planning_GUI(int movieId, int currentUserId, String movieTitle, int pricePerSeat) {
+private Controller.seat_controller controller;
+public seat_planning_GUI(int movieId, int userId, String movieTitle, int pricePerSeat, LocalDateTime showtime) {
     this.movieId = movieId;
     this.currentUserId = currentUserId;
     this.movieTitle = movieTitle;
     this.pricePerSeat = pricePerSeat;
+    this.showtime = showtime;
     initComponents();
 }
 
